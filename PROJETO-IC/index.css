@@ -1,0 +1,81 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+body{
+    color: black;
+    background-color: #f1f6fc31;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+header{
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+
+}
+section{
+    padding-left: 8px;
+}
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+nav ul a{
+    color: rgb(255, 255, 255);
+    margin: 0 25px;
+    text-transform: uppercase;
+}
+a{
+    color: rgb(0, 117, 250);
+    text-decoration: none;
+}
+.logo{
+    width: 15rem;
+    height: 5rem;
+    margin-left: 78rem;
+}
+
+header img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+.foto{
+    text-align: start;
+    margin-top: 0rem;
+    padding-left: 8px;
+}
+h1{
+    color: rgb(53, 57, 235);
+    margin-top: 1rem;
+    padding-left: 8px;
+}
+h3{
+    color: rgb(0, 119, 255);
+}
+p{
+    color: rgb(255, 255, 255);
+    font-size: 20px
+}
+footer img{
+    width: 5rem;
+    height: 4rem;
+    margin-left: 2rem;
+}
+footer{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+footer a{
+    margin: 40px;
+}
+footer p{
+    margin-left: 3rem;
+    justify-content: center;
+}
