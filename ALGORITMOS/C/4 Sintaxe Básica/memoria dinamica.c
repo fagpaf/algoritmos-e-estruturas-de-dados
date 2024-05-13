@@ -45,7 +45,29 @@ int main() {
 
     // 3º  Defina o ponteiro para NULLdepois de liberar memória para que você não possa continuar a usá-lo acidentalmente
 
-    FALTA O REALLOC
+    // REALLOC:
+    
+    // int *ptr2 = realloc(ptr1, size); tem dois parâmetros o ponteiro para memória redimensionada e o novo tamanho a ser alocado
 
+    // *** Se não for possível redimensionar a memória no endereço atual, ele alocará memória em um endereço diferente e retornará o novo endereço. ***
+
+    /*Nota: Quando realloc()retorna um endereço de memória diferente, a memória no endereço original não está mais reservada e não é segura para uso.
+    Quando a realocação for feita é bom atribuir o novo ponteiro à variável anterior para que o ponteiro antigo não possa ser usado acidentalmente. 
+    */
+    
+    int *ptr5, *ptr6, size;
+
+    // Allocate memory for four integers
+    size = 4 * sizeof(*ptr1);
+    ptr5 = malloc(size);
+
+    printf("%d bytes allocated at address %p \n", size, ptr5);
+
+    // Resize the memory to hold six integers
+    size = 6 * sizeof(*ptr5);
+    ptr6 = realloc(ptr5, size);
+
+    printf("%d bytes reallocated at address %p \n", size, ptr6);
+        
     return 0;
 }
