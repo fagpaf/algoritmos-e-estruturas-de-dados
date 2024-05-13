@@ -1,0 +1,52 @@
+numero_de_celebridades = int(input())
+pessoa_non_grata = ''
+pique = False
+kanye = False
+chris = False
+taylor = False
+katy = False
+ariana = False
+beyonce = False
+shakira = False
+candidatos_mtv = ''
+for i in range(1, numero_de_celebridades+1) :
+    nome_celebridade = input()
+    if nome_celebridade == "Gerard Piqué":
+        pique = True
+    if nome_celebridade == "Kanye West" :
+        kanye = True
+    if nome_celebridade == "Chris Martin" :
+        chris = True
+    print(f"Apresentador: Contamos com a ilustre presença de {nome_celebridade}, uma salva de palmas!")
+
+while candidatos_mtv != "Início da Premiação" :
+    candidatos_mtv = input()
+    if candidatos_mtv == "Taylor Swift" :
+        taylor = True
+    if candidatos_mtv == "Katy Perry" :
+        katy = True
+    if candidatos_mtv == "Ariana Grande" :
+        ariana = True
+    if candidatos_mtv == "Beyoncé" :
+        beyonce = True
+    if candidatos_mtv == "Shakira" :
+        shakira = True
+
+print("Apresentador: Vamos deixar de enrolação e ir para a premiação!")
+print("Apresentador: E a artista do ano do MTV Video Music Awards 2023 é...")
+if taylor :
+    print("TAYLOR SWIFT")
+    if kanye :
+        print("Kanye West: Eu vou te deixar terminar. Estou feliz por você, mas Beyoncé fez um dos melhores vídeos de todos os tempos.")
+elif not taylor and katy:
+    print("KATY PERRY")
+elif not taylor and not katy and ariana :
+    print("ARIANA GRANDE")
+elif not taylor and not katy and not ariana and beyonce :
+    print ("BEYONCÉ")
+    if chris :
+        print("Chris Martin: Minha heroína, minha irmã, meu tudo. Você merece!")
+elif not taylor and not katy and not ariana and not beyonce and shakira : 
+    print("SHAKIRA")
+    if pique :
+        print("Gerard Piqué: Meu amor me perdoa, volta pra mim...")
