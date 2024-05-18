@@ -9,7 +9,7 @@ void Merge(int A[], int l, int r);
 
 typedef struct {
     
-    char nome[30];
+    char *nome;
     int nota;
     int idade;
 } Candidatos;
@@ -31,8 +31,9 @@ int main() {
     
         for (int i = 0; i < qtd_inscritos; i++){
 
+            inscritos[i].nome = (char *) malloc(sizeof(char));
             //fgets(inscritos[i].nome, 30, stdin);
-            scanf("%s", inscritos[i].nome);
+            //scanf("%s", inscritos[i].nome);
             scanf("%d %d", &inscritos[i].nota, &inscritos[i].idade);
         }    
         
