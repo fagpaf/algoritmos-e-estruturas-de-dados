@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct Node{
     
@@ -33,7 +34,7 @@ int main() {
     int idx = 0;
     char comando[6];
     char loop[4] = "BLA";
-    while(loop != "end"){
+    while(loop != "end"){ // COMPARAR STRING'S
         
         scanf("%s", &comando);
         
