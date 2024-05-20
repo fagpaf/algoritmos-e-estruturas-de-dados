@@ -46,7 +46,12 @@ int main() {
             idx++;
         }
         else if(comando == "print"){
-            printf("%d")
+            
+            Node* first = q -> front;
+            
+            while(first != NULL){
+                printf("%d ", first);
+            }
         }
         else if(comando == "stats"){
             int v = length(q);
