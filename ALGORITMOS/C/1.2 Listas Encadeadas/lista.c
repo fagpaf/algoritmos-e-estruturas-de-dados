@@ -1,22 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Node* initial_node(int num, Node* next_val); // Função q retorna um ponteiro para a struct "Node"
-
+Node* initial_node(Node* next_val, int num); // Função q retorna um ponteiro para a struct "Node"
 Node* create_next_node(Node* next_val); // Um ponteiro para o próximo nó na lista encadeada
+List* creat_list();
 
-typedef struct{
+// Operações:
+void insert(List* l, int num);
+void move_to_start(List* l);
+void move_to_end(List* l);
+void append(List* l, int num);
+void prev(List* l);
+int  remove(List* l);
+void clear(List* l);
+
+
+typedef struct Node{ // Assim deixa mais explícito o nome da struct
 
     int element; // O elemento armazenado no nó
     struct Node* next; // Ponteiro para o próximo nó
 
 } Node;
 
-typedef struct{
+typedef struct List{ 
 
-    Node head;
-    Node tail;
-    Node curr;
+    Node* head;
+    Node* tail;
+    Node* curr;
     int count;          // list size
 
 } List;
@@ -28,9 +38,9 @@ int main() {
     return 0;
 }
 
-Node* intial_node(int num, Node* next_val){ 
+Node* initial_node(Node* next_val, int num){ 
     
-    Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro do nó "new_node"
+    Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
     
     // Usando o operador "->": 
 
@@ -56,11 +66,127 @@ List* creat_list(){
     
     List* l = (List*) malloc(sizeof(List));
 
-    l -> curr = NULL;
-    l -> tail = NULL;
-    l -> head = NULL;
+    l -> curr = NULL; // Inicializa o 'curr' como NULL
+    l -> tail = NULL; // Inicializa a 'tail' como NULL
+    l -> head = NULL; // Inicializa o 'head' como NULL
 
-    l -> count = 0;
+    l -> count = 0;   // Inicializa o contador de nós como 0
 
-    return l;        
+    return l;
+}
+
+void insert(List* l, int num){ // Com o pointer "List* l" a função terá acesso a lista original e ñ uma cópia, assim inserindo o novo valor na linked list
+
+    Node* l_curr_next = initial_node(num, l_curr_next); // Criar um novo nó e atribui ao seu próximo o ponteiro do próximo link do nó atual
+
+    if (l -> tail == l -> curr){ // Se a "cauda" for igual a posição do cursor, então a cauda recebe a nova posição do cursor   
+        
+        l -> tail = l_curr_next;
+    }
+    l -> count++; // Aumenta o tamanho da lista em +1
+    
+    //if (l_curr_next -> next != NULL){
+    //    free(l_curr_next);
+    //}
+}
+
+void move_to_start(List* l){
+
+    l -> curr = l -> head; // Move o cursor para o início  da lista
+}
+
+void move_to_end(List* l){
+
+    l -> curr = l ->tail; // Move o cursor para o final da lista
+}
+
+// TESTAR COM CUIDADO
+void append(List* l, int num){ // Adiciona um novo nó ao final da lista, como em .py
+    
+    move_to_end(l);
+    insert(l, num);
+}
+
+void prev(List* l){
+
+    if (l -> curr == l -> head){
+        return; // Em "void" você pode usar "return;" vazio para interromper a função prematuramente  
+    }
+    
+    Node* temp = l -> head;
+
+    while(temp -> next != l -> curr);
+        temp = temp -> next;
+    
+    l -> curr = temp;
+}
+
+void next(List* l){
+
+    if (l -> curr != l -> tail){
+
+        l -> curr = l -> curr -> next;
+    } 
+}
+
+// PRECISO LER COMO ISSO FUNCIONA
+
+// verificar se realmente remove
+int remove(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro ou referência para o tipo incompleto 'struct Node' não é permitida" 
+
+    if (l -> curr -> next == NULL){
+        return -1; // Porque função "int" ñ permite retornar "NULL", pq ele é usado para funções de retorno para ponteiros, '-1' indica um erro 
+    }
+    
+    int num = l -> curr -> next -> element;
+
+    if (l -> tail == l -> curr -> next){
+
+        l -> curr -> next = l -> curr -> next -> next;
+        
+        l -> count--;
+    }
+    return num;
+}
+
+
+
+
+int curr_pos(List* l){
+
+
+}
+
+int length(List* l){
+
+    Node* current = l -> head;
+    int size = 0;
+    
+    if (current != NULL){
+        size++;
+        current = current -> next;
+    }
+    return size;
+}
+
+void clear(List* l){
+    
+    Node* current = l -> head;
+    Node* next;
+        while (current != NULL){
+            next = current -> next;
+            free(current);
+            current = current -> next;
+        }
+    free(l);
+}
+
+void printlist(List* l){
+    
+    Node* next; // Ao adicionar o nó "next" fica desnecessário colocar:  'current = current -> next'
+    Node* current = l -> head;
+    while(current != NULL){
+        printf("%d\n", current);
+        current = next;
+    }
 }
