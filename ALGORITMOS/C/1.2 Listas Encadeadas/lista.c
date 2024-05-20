@@ -40,8 +40,16 @@ int main() {
     
     List* l = creat_list();
     x = length(l);
-    printf("%d", x);
+    printf("%d\n", x);
     
+    insert(l, 1);
+    insert(l, 2);
+    insert(l, 4);
+    x = length(l);
+    printf("%d\n", x);
+    printlist(l);
+
+    clear(l);
     return 0;
 }
 
@@ -183,7 +191,7 @@ void printlist(List* l){
     Node* current = l -> head;
 
     while(current != NULL){
-        printf("%p\n", current);
+        printf("%d\n", current -> element);
         current = current -> next;
     }
 }
