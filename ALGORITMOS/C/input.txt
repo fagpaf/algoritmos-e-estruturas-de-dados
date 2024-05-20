@@ -17,3 +17,16 @@ Q2:
 
 5 2
 1 5 3 4 2
+
+EP2:
+
+add 123
+add 333
+add 4000
+solve
+print
+stats
+add 541
+stats
+print
+end
