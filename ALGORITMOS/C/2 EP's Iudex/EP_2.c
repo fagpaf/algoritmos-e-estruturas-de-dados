@@ -50,7 +50,9 @@ int main() {
             Node* first = q -> front;
             
             while(first != NULL){
+                
                 printf("%d ", first);
+                first = first -> next;
             }
         }
         else if(comando == "stats"){
@@ -59,9 +61,6 @@ int main() {
         }
     }
 
-
-
-    
     return 0;
 }
 
