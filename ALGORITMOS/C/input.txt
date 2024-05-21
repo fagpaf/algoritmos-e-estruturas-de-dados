@@ -30,3 +30,12 @@ add 541
 stats
 print
 end
+
+
+add 123
+solve
+print
+add 333
+stats
+print
+end

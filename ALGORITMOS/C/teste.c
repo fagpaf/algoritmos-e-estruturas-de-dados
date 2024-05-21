@@ -1,24 +1,4 @@
 #include <stdio.h>
-
-int main() {
-
-    
-    
-    return 0;
-}
-
-// char *vnome;
-    
-//     // Alocando espaço suficiente para armazenar a string
-//     vnome = (char *) malloc(30 * sizeof(char)); // Supondo que a string tenha no máximo 30 caracteres
-
-//     fgets(vnome, 30, stdin); // "sizeof" é o tamanho máximo do buffer, "stdin" indica entrada padrão
-//     printf("%s", vnome);
-//     free(vnome);
-//     printf("%s", vnome);
-
-
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -62,20 +42,42 @@ int main() {
         
         if (strcmp(command, fim) == 0) {
             loop = 0;
-        } else {
+        } 
+        else {
+            
             if (strcmp(command, add) == 0) {
                 scanf("%d", &id);
                 enqueue(q, id);
+            
             } else if (strcmp(command, solve) == 0) {
-                dequeue(q);
-                idx++;
+                if(q->size > 0){
+                    dequeue(q);
+                    idx++;
+                }  
+            
             } else if (strcmp(command, print) == 0) {
-                Node* current = q->front;
-                while (current != NULL) {
-                    printf("%d ", current->element);
-                    current = current->next;
+                
+                if(q->size > 0){
+                    int temp = q->size;
+                    Node* current = q->front;
+                    while (current != NULL) {
+                        if(temp == 1){
+                            printf("%d", current->element);
+                            current = current->next;
+                            temp--;
+                        }
+                        else{
+                            printf("%d ", current->element);
+                            current = current->next;
+                            temp--;
+                        }
+                    }
+                    printf("\n");
                 }
-                printf("\n");
+                else{
+                    printf("x\n");
+                }
+            
             } else if (strcmp(command, stats) == 0) {
                 printf("%d %d\n", idx, q->size);
             }

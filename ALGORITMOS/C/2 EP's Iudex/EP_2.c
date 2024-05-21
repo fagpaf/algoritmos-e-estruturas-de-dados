@@ -3,17 +3,14 @@
 #include <string.h>
 
 typedef struct Node{
-    
     int element;
     struct Node* next;
 } Node;
 
 typedef struct Queue{
-
     Node* front;
     Node* rear;
     int size;
-
 } Queue;
 
 // Funções
@@ -30,41 +27,52 @@ int main() {
 
     Queue* q = create_queue();
 
-    int id;
+    int id = 0;
     int idx = 0;
-    char comando[6];
-    char loop[4] = "BLA";
-    while(loop != "end"){ // COMPARAR STRING'S
-        
-        scanf("%s", &comando);
-        
-        if (comando == "add"){
-            scanf("%d", &id);
-            enqueue(q, id);
+    int loop = -1;
+    
+    char command[6];
+    char fim[4] = "end";
+
+    // Strings para comparar a função a ser executada
+    char add[4] = "add";
+    char solve[6] = "solve";
+    char print[6] = "print";
+    char stats[6] = "stats";
+
+    while(loop != 0){ // COMPARAR STRING'S
+
+        scanf("%6[^\n]", command); // Usa-se %6[^\n] para ler até 6 caracteres ou até encontrar uma nova linha
+    
+        if (strcmp(command, fim) == 0){
+            loop = 0;
         }
-        else if(comando == "solve"){
-            dequeue(q);
-            idx++;
-        }
-        else if(comando == "print"){
-            
-            Node* first = q -> front;
-            
-            while(first != NULL){
+        else{
+            if (strcmp(command, add) == 0){
+                scanf("%d", &id);
+                enqueue(q, id);
+            }
+            else if(strcmp(command, solve) == 0){
+                dequeue(q);
+                idx++;
+            }
+            else if(strcmp(command, print) == 0){
                 
-                printf("%d ", first);
-                first = first -> next;
+                Node* first = q -> front;
+
+                while(first != NULL){   
+                    printf("%d ", first -> element);
+                    first = first -> next;
+                }
+            }
+            else if(strcmp(command, stats) == 0){
+                printf("%d %d", idx, q -> size);
             }
         }
-        else if(comando == "stats"){
-            int v = length(q);
-            printf("%d %d", idx, v);
-        }
-    }
-
+    }  
+    clear(q);
     return 0;
 }
-
 
 Node* create_node(Node* next_val, int num){
 
@@ -135,7 +143,7 @@ void clear(Queue* q){
 
 int front_value(Queue* q){
 
-    int num = q -> front -> next -> element;
+    int num = q -> front -> element;
     return num; 
 }
 
