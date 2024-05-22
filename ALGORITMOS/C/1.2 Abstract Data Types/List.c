@@ -2,21 +2,18 @@
 #include <stdlib.h>
 
 typedef struct Node{ // Assim deixa mais explícito o nome da struct
-
     int element; // O elemento armazenado no nó
     struct Node* next; // Ponteiro para o próximo nó
-
 } Node;
 
 typedef struct List{ 
-
     Node* head;
     Node* tail;
     Node* curr;
     int count;          // list size
-
 } List;
 
+// Ponteiros:
 Node* create_node(Node* next_val, int num); // Função q retorna um ponteiro para a struct "Node"
 Node* create_next_node(Node* next_val); // Um ponteiro para o próximo nó na lista encadeada
 List* creat_list();
@@ -159,8 +156,6 @@ int del(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro o
     }
     return num;
 }
-
-
 //int curr_pos(List* l){}
 
 int length(List* l){
