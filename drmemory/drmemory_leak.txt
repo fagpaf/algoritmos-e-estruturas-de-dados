@@ -1,5 +1,5 @@
 // Diretório do arquivo
-C:\Users\flavi\OneDrive\Documentos\GitHub\CIN\ALGORITMOS\C>
+C:\Users\flavi\OneDrive\Documentos\GitHub\ALGORITMOS\C
 
 // Argumentos para compilação
 gcc -static-libgcc -static-libstdc++ -ggdb -o +(nome do arquivo.exe) +(nome do arquivo a ser compilado)
