@@ -53,37 +53,28 @@ int main() {
 Node* create_node(Node* next_val, int num){ 
     
     Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
-    
     // Usando o operador "->": 
-
     // Atribui o valor 'num' ao campo 'element' da struct "Node"
     
     new_node -> element = num; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
-    
     new_node -> next = next_val; // Atribui o ponteiro 'next_val' ao campo 'next' do Node
-
     return new_node;
 }
 
 Node* create_next_node(Node* next_val){
 
     Node* next_node = (Node*) malloc(sizeof(Node));
-
     next_node -> next = next_val;
-
     return next_node;
 }
 
 List* creat_list(){
     
     List* l = (List*) malloc(sizeof(List));
-
     l -> curr = NULL; // Inicializa o 'curr' como NULL
     l -> tail = NULL; // Inicializa a 'tail' como NULL
     l -> head = NULL; // Inicializa o 'head' como NULL
-
     l -> count = 0;   // Inicializa o contador de nós como 0
-
     return l;
 }
 
@@ -92,50 +83,38 @@ void insert(List* l, int num){ // Com o pointer "List* l" a função terá acess
     l -> curr -> next = create_node(l -> curr -> next, num); // Criar um novo nó e atribui ao seu próximo o ponteiro do próximo link do nó atual
 
     if (l -> tail == l -> curr){ // Se a "cauda" for igual a posição do cursor, então a cauda recebe a nova posição do cursor   
-        
         l -> tail = l -> curr -> next;
     }
     l -> count++; // Aumenta o tamanho da lista em +1
 }
 
 void move_to_start(List* l){
-
     l -> curr = l -> head; // Move o cursor para o início  da lista
 }
 
 void move_to_end(List* l){
-
     l -> curr = l ->tail; // Move o cursor para o final da lista
 }
 
 // TESTAR COM CUIDADO
 void append(List* l, int num){ // Adiciona um novo nó ao final da lista, como em .py
-    
     move_to_end(l);
     insert(l, num);
 }
 
 void prev(List* l){
-
     if (l -> curr == l -> head){
         return; // Em "void" você pode usar "return;" vazio para interromper a função prematuramente  
     }
-    
     Node* temp = l -> head;
-
     while(temp -> next != l -> curr){
-
         temp = temp -> next;
     }
-        
-    
     l -> curr = temp;
 }
 
 void next(List* l){
-
     if (l -> curr != l -> tail){
-
         l -> curr = l -> curr -> next;
     } 
 }
@@ -147,11 +126,9 @@ int del(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro o
     }
     
     int num = l -> curr -> next -> element;
-
+    
     if (l -> tail == l -> curr -> next){
-
-        l -> curr -> next = l -> curr -> next -> next;
-        
+        l -> curr -> next = l -> curr -> next -> next;        
         l -> count--;
     }
     return num;
@@ -159,7 +136,6 @@ int del(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro o
 //int curr_pos(List* l){}
 
 int length(List* l){
-
     Node* current = l -> head;
     int size = 0;
     
@@ -171,7 +147,6 @@ int length(List* l){
 }
 
 void clear(List* l){
-    
     Node* current = l -> head;
     
     while (current != NULL){
@@ -182,7 +157,6 @@ void clear(List* l){
 }
 
 void printlist(List* l){
-    
     Node* current = l -> head;
 
     while(current != NULL){

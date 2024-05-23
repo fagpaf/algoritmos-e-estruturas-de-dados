@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Node{ // Assim deixa mais explícito o nome da struct
     int element; // O elemento armazenado no nó
@@ -10,41 +11,20 @@ typedef struct Stack{
     int size;
 } Stack;
 
-Node* create_node(int num);
-Stack* create_s();
-
 // Funções:
+Stack* create_s();
 void clear(Stack* s);
 void push(Stack* s, int num);
 void print_stack(Stack* s);
 int pop(Stack* s);
 int top_value(Stack* s);
 int length(Stack* s);
-
+int is_empyt(Stack* s);
 
 int main() {
 
-    Stack* s = create_s();
-    int x = 2;
-    int y = 5;
-    int z = 7;
-    
-    push(s, z);
-    push(s, y);
-    print_stack(s);
-    push(s, x);
-    print_stack(s);
-    pop(s);
-    print_stack(s);
-    
-    return 0;
-}
 
-Node* create_node(int num){
-    Node* n = (Node*) malloc(sizeof(Node));
-    n->element = num;
-    n->next = NULL;
-    return n;
+    return 0;
 }
 
 Stack* create_s(){
@@ -55,7 +35,11 @@ Stack* create_s(){
 }
 
 void push(Stack* s, int num){
-    s->top = create_node(num);
+    Node* n = (Node*) malloc(sizeof(Node));
+
+    n->element = num;
+    n->next = s->top;
+    s->top = n;
     s->size++;
 }
 
@@ -64,13 +48,18 @@ int pop(Stack* s){
         return -1;
     }
     
+    Node* temp = s->top;
     int num = s->top->element;
     s->top = s->top->next;
+    free(temp);
     s->size--;
     return num;
 }
 
 int top_value(Stack* s){
+    if(s->top == NULL){
+        return -1;
+    }
     int num = s->top->element;
     return num;
 }
@@ -85,13 +74,24 @@ void clear(Stack* s){
         s->top = s->top->next;
         free(temp);
     }
+    s->size = 0;
 }
 
 void print_stack(Stack* s){
-    while(s->top != NULL){
-        int num = s->top->element;
-        printf("%d", num);
-        s->top = s->top->next;
+    if (s->top == NULL){
+        printf("-1\n");
+    }
+    Node* current = s->top;
+    while(current != NULL){
+        printf("%d ", current->element);
+        current = current->next;
     }
     printf("\n");
+}
+
+int is_empyt(Stack* s){
+    if (s->size == 0){
+        return 0; // Falso
+    }
+    return 1; // Verdadeiro se a pilha tiver vazia
 }
