@@ -11,7 +11,7 @@ def sequential_search(arr, target):
 
 # Exemplo de utilização da função
 arr = [5, 3, 8, 6, 2]
-target = 8
+target = int(input())
 result = sequential_search(arr, target)
 if result != -1:
     print(f'O elemento {target} foi encontrado no índice {result}.')
