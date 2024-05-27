@@ -86,6 +86,6 @@ int length(Queue* q) {
 }
 
 int front_value(Queue* q){
-    int num = q->front;
+    int num = q->front->element;
     return num;
 }

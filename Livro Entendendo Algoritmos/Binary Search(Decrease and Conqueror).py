@@ -1,5 +1,4 @@
 def pesquisa_binaria(lista, alvo):
-    
     baixo = 0
     alto = len(lista) - 1
     while baixo <= alto:
@@ -16,5 +15,4 @@ def pesquisa_binaria(lista, alvo):
 minha_lista = [1, 2, 3, 4, 5]
 for j in minha_lista:
     alvo = j + 2
-    
     print(pesquisa_binaria(minha_lista, alvo))

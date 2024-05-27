@@ -83,7 +83,7 @@ int main() {
             }
         }
     }
-    //clear(q);
+    clear(q);
     return 0;
 }
 

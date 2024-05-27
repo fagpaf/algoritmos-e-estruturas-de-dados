@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h> // É a biblioteca das fucionalidades de strings
 
-int main(){
+int main(){  // "\n" é um array de sting e '\n' é o caracter de nova linha
 
     //STRINGS:
 

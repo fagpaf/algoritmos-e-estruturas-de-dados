@@ -20,54 +20,52 @@ int dequeue(Queue* q);
 void clear(Queue* q);
 int length(Queue* q);
 int front_value(Queue* q);
-void printqueue(Queue* q);
+void print_queue(Queue* q);
+void process_input(Queue* q, int test, int num_stud);
 
 int main(){
     Queue* time_lim = create_queue();
     int test, num_stud;
     scanf("%d", &test);
     scanf("%d", &num_stud);
+    
+    process_input(time_lim, test, num_stud);
+    
+    clear(time_lim);
+    return 0;
+}
+
+void process_input(Queue* q, int test, int num_stud) {
     int li, ri;
     
     for(int i = 0; i < test; i++){
         for(int j = 0; j < num_stud; j++){
             scanf("%d %d", &li, &ri);
-            enqueue(time_lim, ri);
+            enqueue(q, ri);
         }
+        
         int time = 1;
-        int loop = 1;
         int count = 0;
-        while(loop != 0){   
-            if (length(time_lim) == 0){
-                loop = 0;
+        
+        while(count < num_stud){   
+            if (length(q) == 0){
+                break;
             }
-            else{
-                int queue_time = dequeue(time_lim);
-                if(queue_time < time){
-                    if (count == num_stud){
-                        printf("0\n");
-                    }
-                    else{
-                        printf("0 ");
-                        count++;
-                    }
-                }
-                else{
-                    if (count == num_stud){
-                        printf("%d\n", time);
-                        time++;
-                    }
-                    else{
-                        printf("%d ", time);
-                        time++;
-                        count++;
-                    }
-                }
+            
+            int queue_time = dequeue(q);
+            
+            if(queue_time < time){
+                printf("0 ");
+            } else {
+                printf("%d ", time);
+                time++;
             }
+            
+            count++;
         }
+        
+        printf("\n"); // newline after each test case
     }
-    clear(time_lim);
-    return 0;
 }
 
 Node* create_node(int num) {
