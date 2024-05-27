@@ -19,7 +19,6 @@ void enqueue(Queue* q, int num);
 int dequeue(Queue* q);
 void clear(Queue* q);
 int length(Queue* q);
-int front_value(Queue* q);
 void printqueue(Queue* q);
 
 int main(){
@@ -126,11 +125,6 @@ void clear(Queue* q) {
 
 int length(Queue* q) {
     return q->size;
-}
-
-int front_value(Queue* q){
-    int num = q->front->element;
-    return num;
 }
 
 void printqueue(Queue* q){
