@@ -1,45 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node{
-    int element; 
+typedef struct Node {
+    int element;
     struct Node* next;
 } Node;
 
-typedef struct List{ 
+typedef struct List {
     Node* head;
     Node* tail;
     Node* curr;
     int count;
 } List;
 
-Node* create_node(char c);
+Node* create_node(Node* n, char c);
+Node* create_header(Node* nextval);
 List* create_list();
 void insert(List* l, char c);
 void move_to_start(List* l);
 void move_to_end(List* l);
-void movecurr(List* l);
 void printlist(List* l);
 void clear(List* l);
-void home(List* l, char c);
-void end(List* l, char c);
 
-const int MAXLEN = 10000;
+const int MAXLEN = 100001;
 
 int main() {
     char str[MAXLEN];
-
-    while(fgets(str, MAXLEN, stdin) != NULL) {
+    
+    while(scanf(" %s", str) != EOF) { // É bom dar esse espaço no " %s" para evitar problema
         List* l = create_list();
-
+        
         for (int i = 0; str[i] != '\0'; i++) {
             if (str[i] == '[') {
-                home(l, str[i]);
-            }
-            else if(str[i] == ']'){
-                end(l, str[i]);
-            }
-            else{
+                move_to_start(l);
+            } else if (str[i] == ']') {
+                move_to_end(l);
+            } else {
                 insert(l, str[i]);
             }
         }
@@ -49,80 +45,58 @@ int main() {
     return 0;
 }
 
-void end(List* l, char c){
-    move_to_end(l);
-    insert(l, c);
-}
-
-void home(List* l, char c){
-    Node* new_node = create_node(c);
-    if (l->head == NULL) {
-        l->head = l->tail = l->curr = new_node;
-    } else {
-        new_node->next = l->head;
-        l->head = new_node;
-    }
-    move_to_start(l);
-    l->count++;
-}
-Node* create_node(char c){ 
+Node* create_node(Node* n, char c){ 
     Node* new_node = (Node*) malloc(sizeof(Node));
     new_node -> element = c;
-    new_node -> next = NULL;
+    new_node -> next = n;
     return new_node;
+}
+
+Node* create_header(Node* nextval){
+    Node* header = (Node*)malloc(sizeof(Node));
+    header->next = nextval;
+    return header;
 }
 
 List* create_list(){
     List* l = (List*) malloc(sizeof(List));
-    l -> curr = l -> tail = l -> head = NULL;
+    l -> curr = l -> tail = l -> head = create_header(NULL);
     l -> count = 0;
     return l;
 }
-
 void insert(List* l, char c){
-    Node* new_node = create_node(c);
-    if (l->head == NULL) {
-        l->head = l->tail = l->curr = new_node;
+    l->curr->next = create_node(l->curr->next, c);
+    if (l->tail == l->curr){
+        l->tail = l->curr->next;
     }
-    else if (l->curr == l->tail){
-        l->tail->next = new_node;
-        l->tail = new_node;
-    }
-    else{
-        new_node->next = l->curr->next;
-        l -> curr -> next = new_node;
-        l->curr = new_node;
-    }
-    l -> count++;
-}
-
-void move_to_start(List* l){
-    l -> curr = l -> head;
-}
-
-void move_to_end(List* l){
-    l -> curr = l ->tail;
-}
-
-void movecurr(List* l){
     l->curr = l->curr->next;
+    l->count++;
 }
 
-void clear(List* l){
-    Node* current = l -> head;
+void move_to_start(List* l) {
+    l->curr = l->head;
+}
 
-    while (current != NULL){
+void move_to_end(List* l) {
+    l->curr = l->tail;
+}
+
+void clear(List* l) {
+    Node* current = l->head;
+    Node* next;
+    
+    while (current != NULL) {
+        next = current->next;
         free(current);
-        current = current -> next;
+        current = next;
     }
     free(l);
 }
 
 void printlist(List* l){
-    Node* current = l -> head;
-
+    Node* current = l -> head->next;
     while(current != NULL){
-        printf("%d ", current -> element);
+        printf("%c", current -> element);
         current = current -> next;
     }
     printf("\n");

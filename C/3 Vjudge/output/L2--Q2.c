@@ -110,7 +110,6 @@ int dequeue(Queue* q){
     if (q -> front == NULL){
         q -> rear = NULL;
     }
-
     return num;
 }
 

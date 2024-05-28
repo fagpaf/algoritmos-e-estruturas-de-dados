@@ -14,7 +14,8 @@ typedef struct List{
 } List;
 
 // Ponteiros:
-Node* create_node(int num); // Função q retorna um ponteiro para a struct "Node"
+Node* create_node(Node* n, int num); // Função q retorna um ponteiro para a struct "Node"
+Node* create_header(Node* nextval);
 List* create_list();
 
 // Operações:
@@ -55,42 +56,36 @@ int main() {
     return 0;
 }
 
-Node* create_node(int num){ 
-    
+Node* create_node(Node* n, int num){ 
     Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
     // Usando o operador "->": 
     // Atribui o valor 'num' ao campo 'element' da struct "Node"
     
     new_node -> element = num; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
-    new_node -> next = NULL; // Atribui o ponteiro 'next_val' ao campo 'next' do Node
+    new_node -> next = n; // Atribui o ponteiro 'next_val' ao campo 'next' do Node
     return new_node;
 }
 
+Node* create_header(Node* nextval){
+    Node* header = (Node*)malloc(sizeof(Node));
+    header->next = nextval;
+    return header;
+}
+
 List* create_list(){
-    
     List* l = (List*) malloc(sizeof(List));
-    l -> curr = l -> tail = l -> head = NULL; // Inicializa a lista como NULL
+    l -> curr = l -> tail = l -> head = create_header(NULL); // Inicializa a lista como NULL
     l -> count = 0;   // Inicializa o contador de nós como 0
     return l;
 }
 
-void insert(List* l, int num){ // Com o pointer "List* l" a função terá acesso a lista original e ñ uma cópia, assim inserindo o novo valor na linked list
-    
-    Node* new_node = create_node(num);
-    if (l->head == NULL) {  // Se a lista estiver vazia
-        l->head = l->tail = l->curr = new_node;
+void insert(List* l, int num){
+    l->curr->next = create_node(l->curr->next ,num);
+    if (l->tail == l->curr){
+        l->tail = l->curr->next;
     }
-    else if (l->curr == l->tail){ // Se o cursor estiver no final
-        l->tail->next = new_node;
-        l->tail = new_node;
-    }
-    else{
-        new_node->next = l->curr->next; // Criar um novo nó e atribui ao seu próximo o ponteiro do próximo link do nó atual
-        l -> curr -> next = new_node;
-        l->curr = new_node;
-        }
-    
-    l -> count++; // Aumenta o tamanho da lista em +1
+    l->curr = l->curr->next;
+    l->count++;
 }
 
 void move_to_start(List* l){
@@ -159,21 +154,22 @@ int length(List* l){
     return l->count;
 }
 
-void clear(List* l){
-    Node* current = l -> head;
+void clear(List* l) {
+    Node* current = l->head;
+    Node* next;
     
-    while (current != NULL){
+    while (current != NULL) {
+        next = current->next;
         free(current);
-        current = current -> next;
+        current = next;
     }
     free(l);
 }
 
 void printlist(List* l){
-    Node* current = l -> head;
-
+    Node* current = l -> head->next;
     while(current != NULL){
-        printf("%d ", current -> element);
+        printf("%c", current -> element);
         current = current -> next;
     }
     printf("\n");
