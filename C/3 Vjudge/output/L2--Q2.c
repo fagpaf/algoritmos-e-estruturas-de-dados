@@ -27,6 +27,7 @@ int main(){
     
     for(int i = 0; i < test; i++){
         Queue* q = create_queue();
+        Queue* l = create_queue();
         int num_stud;
         scanf("%d", &num_stud);
         
@@ -34,12 +35,17 @@ int main(){
             int li, ri;
             scanf("%d %d", &li, &ri);
             enqueue(q, ri);
+            enqueue(l, li);
         }
         
         int time = 1;
         int count = 0;
         while(length(q) > 0){   
             int queue_time = dequeue(q);
+            int x = dequeue(l);
+            if (x > time){
+                time = x;
+            }
             if(queue_time < time){
                 if (count == num_stud){
                     printf("0\n");
