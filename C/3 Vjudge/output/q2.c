@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Definição das estruturas de nó e fila
 typedef struct Node {
     int element;
     struct Node* next;
@@ -17,66 +18,66 @@ Node* create_node(int num);
 Queue* create_queue();
 void enqueue(Queue* q, int num);
 int dequeue(Queue* q);
-void clear(Queue* q);
-int length(Queue* q);
-int front_value(Queue* q);
+void clear_queue(Queue* q);
+int queue_length(Queue* q);
 void print_queue(Queue* q);
-void process_input(Queue* q, int test, int num_stud);
 
-int main(){
-    Queue* time_lim = create_queue();
-    int test, num_stud;
-    scanf("%d", &test);
-    scanf("%d", &num_stud);
+int main() {
+    Queue* q = create_queue();
+    int test_cases, num_students;
     
-    process_input(time_lim, test, num_stud);
+    if (scanf("%d %d", &test_cases, &num_students) != 2) {
+        fprintf(stderr, "Erro na leitura do número de testes e estudantes.\n");
+        return 1;
+    }
     
-    clear(time_lim);
+    for (int i = 0; i < test_cases; i++) {
+        for (int j = 0; j < num_students; j++) {
+            int li, ri;
+            if (scanf("%d %d", &li, &ri) != 2) {
+                fprintf(stderr, "Erro na leitura dos tempos li e ri.\n");
+                clear_queue(q);
+                return 1;
+            }
+            enqueue(q, ri);
+        }
+
+        int time = 1;
+        int count = 0;
+
+        while (queue_length(q) > 0) {   
+            int queue_time = dequeue(q);
+            if (queue_time < time) {
+                printf("0%c", count == num_students - 1 ? '\n' : ' ');
+            } else {
+                printf("%d%c", time, count == num_students - 1 ? '\n' : ' ');
+                time++;
+            }
+            count++;
+        }
+    }
+    clear_queue(q);
     return 0;
 }
 
-void process_input(Queue* q, int test, int num_stud) {
-    int li, ri;
-    
-    for(int i = 0; i < test; i++){
-        for(int j = 0; j < num_stud; j++){
-            scanf("%d %d", &li, &ri);
-            enqueue(q, ri);
-        }
-        
-        int time = 1;
-        int count = 0;
-        
-        while(count < num_stud){   
-            if (length(q) == 0){
-                break;
-            }
-            
-            int queue_time = dequeue(q);
-            
-            if(queue_time < time){
-                printf("0 ");
-            } else {
-                printf("%d ", time);
-                time++;
-            }
-            
-            count++;
-        }
-        
-        printf("\n"); // newline after each test case
-    }
-}
-
+// Funções auxiliares
 Node* create_node(int num) {
-    Node* n = (Node*)malloc(sizeof(Node));
-    n->element = num;
-    n->next = NULL;
-    return n;
+    Node* new_node = (Node*)malloc(sizeof(Node));
+    if (!new_node) {
+        fprintf(stderr, "Erro ao alocar memória para o nó.\n");
+        exit(EXIT_FAILURE);
+    }
+    new_node->element = num;
+    new_node->next = NULL;
+    return new_node;
 }
 
 Queue* create_queue() {
     Queue* q = (Queue*)malloc(sizeof(Queue));
+    if (!q) {
+        fprintf(stderr, "Erro ao alocar memória para a fila.\n");
+        exit(EXIT_FAILURE);
+    }
     q->front = NULL;
     q->rear = NULL;
     q->size = 0;
@@ -94,26 +95,23 @@ void enqueue(Queue* q, int num) {
     q->size++;
 }
 
-int dequeue(Queue* q){
-
-    if (q -> size == 0){ // Erro
+int dequeue(Queue* q) {
+    if (q->size == 0) {
+        fprintf(stderr, "Tentativa de remover de uma fila vazia.\n");
         return -1;
     }
-    Node* temp = q -> front; // Criando um nó temporário para mostrar qual nó será removido da Fila (Usabilidadde de código e leitura)
-    
-    int num = temp -> element;
-    q -> front = q -> front -> next;
+    Node* temp = q->front;
+    int num = temp->element;
+    q->front = q->front->next;
     free(temp);
-    q -> size--;
-
-    if (q -> front == NULL){
-        q -> rear = NULL;
+    q->size--;
+    if (q->front == NULL) {
+        q->rear = NULL;
     }
-
     return num;
 }
 
-void clear(Queue* q) {
+void clear_queue(Queue* q) {
     while (q->front != NULL) {
         Node* temp = q->front;
         q->front = q->front->next;
@@ -122,16 +120,11 @@ void clear(Queue* q) {
     free(q);
 }
 
-int length(Queue* q) {
+int queue_length(Queue* q) {
     return q->size;
 }
 
-int front_value(Queue* q){
-    int num = q->front->element;
-    return num;
-}
-
-void printqueue(Queue* q){
+void print_queue(Queue* q) {
     Node* current = q->front;
     while (current != NULL) {
         printf("%d\n", current->element);

@@ -22,7 +22,7 @@ int length(Queue* q);
 void printqueue(Queue* q);
 
 int main(){
-    Queue* time_lim = create_queue();
+    Queue* q = create_queue();
     int test, num_stud;
     scanf("%d", &test);
     scanf("%d", &num_stud);
@@ -31,41 +31,38 @@ int main(){
     for(int i = 0; i < test; i++){
         for(int j = 0; j < num_stud; j++){
             scanf("%d %d", &li, &ri);
-            enqueue(time_lim, ri);
+            enqueue(q, ri);
         }
+        
         int time = 1;
-        int loop = 1;
         int count = 0;
-        while(loop != 0){   
-            if (length(time_lim) == 0){
-                loop = 0;
-            }
-            else{
-                int queue_time = dequeue(time_lim);
-                if(queue_time < time){
-                    if (count == num_stud){
-                        printf("0\n");
-                    }
-                    else{
-                        printf("0 ");
-                        count++;
-                    }
+        while(length(q) > 0){   
+            int queue_time = dequeue(q);
+            if(queue_time < time){
+                if (count == num_stud){
+                    printf("0\n");
                 }
                 else{
-                    if (count == num_stud){
-                        printf("%d\n", time);
-                        time++;
-                    }
-                    else{
-                        printf("%d ", time);
-                        time++;
-                        count++;
-                    }
+                    printf("0 ");
+                    count++;
+                }
+            }
+            else{
+                if (count == num_stud){
+                    printf("%d\n", time);
+                    time++;
+                }
+                else{
+                    printf("%d ", time);
+                    printf("\n\n%d\n", count);
+                    time++;
+                    count++;
                 }
             }
         }
+        }
     }
-    clear(time_lim);
+    clear(q);
     return 0;
 }
 
