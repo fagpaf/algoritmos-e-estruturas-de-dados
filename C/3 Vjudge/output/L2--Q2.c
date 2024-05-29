@@ -22,14 +22,16 @@ int length(Queue* q);
 void printqueue(Queue* q);
 
 int main(){
-    Queue* q = create_queue();
-    int test, num_stud;
+    int test;
     scanf("%d", &test);
-    scanf("%d", &num_stud);
-    int li, ri;
     
     for(int i = 0; i < test; i++){
+        Queue* q = create_queue();
+        int num_stud;
+        scanf("%d", &num_stud);
+        
         for(int j = 0; j < num_stud; j++){
+            int li, ri;
             scanf("%d %d", &li, &ri);
             enqueue(q, ri);
         }
@@ -59,8 +61,9 @@ int main(){
                 }
             }
         }
+        clear(q);
     }
-    clear(q);
+    
     return 0;
 }
 
@@ -92,10 +95,10 @@ void enqueue(Queue* q, int num) {
 
 int dequeue(Queue* q){
 
-    if (q -> size == 0){ // Erro
+    if (q -> size == 0){
         return -1;
     }
-    Node* temp = q -> front; // Criando um nó temporário para mostrar qual nó será removido da Fila (Usabilidadde de código e leitura)
+    Node* temp = q -> front;
     
     int num = temp -> element;
     q -> front = q -> front -> next;
