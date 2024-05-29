@@ -54,12 +54,10 @@ int main(){
                 }
                 else{
                     printf("%d ", time);
-                    printf("\n\n%d\n", count);
                     time++;
                     count++;
                 }
             }
-        }
         }
     }
     clear(q);
