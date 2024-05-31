@@ -25,7 +25,7 @@ int main(){
     int test;
     scanf("%d", &test);
     
-    for(int i = 0; i < test; i++){
+    while(test-- >= 0){
         Queue* q = create_queue();
         Queue* l = create_queue();
         int num_stud;
@@ -69,7 +69,6 @@ int main(){
         }
         clear(q);
     }
-    
     return 0;
 }
 
