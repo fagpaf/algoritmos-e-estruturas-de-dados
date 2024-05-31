@@ -27,7 +27,7 @@ int main() {
     int id = 0;
     int idx = 0;
     int loop = -1;
-
+    
     char command[6];
     char fim[4] = "end";
 
