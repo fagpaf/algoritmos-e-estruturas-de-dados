@@ -118,19 +118,14 @@ void next(List* l){
 }
 
 int del(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro ou referência para o tipo incompleto 'struct Node' não é permitida" 
-
     if (l -> curr -> next == NULL){
         return -1; // Porque função "int" ñ permite retornar "NULL", pq ele é usado para funções de retorno para ponteiros, '-1' indica um erro 
     }
-    
     Node* temp = l->curr->next;
-
     int num = temp -> element;
-    
     if (l -> tail == temp){
         l->tail = l->curr;
     }
-
     l -> curr -> next = temp -> next;
     free(temp);   
     l -> count--;
@@ -157,7 +152,6 @@ int length(List* l){
 void clear(List* l) {
     Node* current = l->head;
     Node* next;
-    
     while (current != NULL) {
         next = current->next;
         free(current);
@@ -169,7 +163,7 @@ void clear(List* l) {
 void printlist(List* l){
     Node* current = l -> head->next;
     while(current != NULL){
-        printf("%c", current -> element);
+        printf("%d", current -> element);
         current = current -> next;
     }
     printf("\n");

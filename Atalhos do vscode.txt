@@ -2,5 +2,7 @@ modo zen = ctrl + kz
 apagar linha = ctrl + k
 mover linha = alt + seta pra cima ou baixo
 selecionar várias linhas = ctrl + shift + alt
+abrir barra lateral "das extensões" = ctrl + q
+abrir o explorador de arquivos = ctrl + shift + e
 
 VER TODOS OS ATALHOS = ctrl + k ctrl + s
