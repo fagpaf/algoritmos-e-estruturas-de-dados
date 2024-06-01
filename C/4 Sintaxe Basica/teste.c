@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h> // Para implementar booleanos precisa adicionar a biblioteca "stdbool.h"
 
+// Comando "puts" já faz a quebra de linha sem precisar do "\n"
 
 int main(){
 

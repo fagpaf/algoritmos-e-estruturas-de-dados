@@ -1,62 +1,23 @@
+#ifndef LIST_H
+#define LIST_H
+
 #include <stdio.h>
 #include <stdlib.h>
-// #include "List.h"
-
-typedef struct Node{ // Assim deixa mais explícito o nome da struct
-    int element; // O elemento armazenado no nó
-    struct Node* next; // Ponteiro para o próximo nó
+// Definição do nó da linked list
+typedef struct Node {
+    int element;
+    struct Node* next;
 } Node;
 
-typedef struct List{ 
+// Definição da estrutura da lista ligada
+typedef struct List {
     Node* head;
     Node* tail;
     Node* curr;
-    int count;          // list size
+    int count;          // tamanho da lista
 } List;
 
-// Ponteiros:
-Node* create_node(Node* n, int num); // Função q retorna um ponteiro para a struct "Node"
-Node* create_header(Node* nextval);
-List* create_list();
-
-// Operações:
-void insert(List* l, int num);
-void move_to_start(List* l);
-void move_to_end(List* l);
-void movecurr(List* l);
-void prev(List* l);
-void next(List* l);
-void printlist(List* l);
-void clear(List* l);
-int  del(List* l);
-int  length(List* l);
-int  curr_pos(List* l);
-
-int main() {
-    int x = 0;
-    List* l = create_list();
-    
-    insert(l, 10);
-    insert(l, 20);
-    printlist(l);
-    
-    move_to_start(l);
-    x = curr_pos(l);
-    printf("%d\n", x);
-    
-    insert(l, 30); // Inserir 30 após a posição do cursor (que está no início)
-    insert(l, 40); // Inserir 40 após a posição do cursor (que agora está após 30)
-    
-    move_to_end(l);
-    insert(l, 50); // Inserir 50 no final da lista
-    
-    printf("Lista: ");
-    printlist(l); // Deveria imprimir: 10 30 40 20 50
-    
-    clear(l);
-    return 0;
-}
-
+// Declarações das funções
 Node* create_node(Node* n, int num){ 
     Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
     // Usando o operador "->": 
@@ -169,3 +130,5 @@ void printlist(List* l){
     }
     printf("\n");
 }
+
+#endif // List_h

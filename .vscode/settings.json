@@ -9,7 +9,6 @@
     "breadcrumbs.enabled": false,
     "editor.minimap.enabled": false,
     "workbench.activityBar.location": "hidden",
-    "editor.scrollbar.vertical": "hidden",
     "workbench.statusBar.visible": false,
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Regular", 
@@ -27,5 +26,9 @@
     },
     "apc.listRow": {
       "height": 24
+    },
+    "files.associations": {
+      "stdio.h": "c",
+      "list.h": "c"
     },
 }
