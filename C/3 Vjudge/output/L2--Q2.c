@@ -19,36 +19,22 @@ int main(){
         }
         
         int time = 1;
-        int count = 0;
         while(length(q) > 0){   
             int queue_time = dequeue(q);
             int x = dequeue(l);
             if (x > time){
                 time = x;
             }
-            // PODERIA TER UTILIZADO OPERADOR TERNÁRIO
             if(queue_time < time){
-                if (count == num_stud){
-                    printf("0\n");
-                }
-                else{
-                    printf("0 ");
-                    count++;
-                }
+                printf("0 ");
             }
             else{
-                if (count == num_stud){
-                    printf("%d\n", time);
-                    time++;
-                }
-                else{
-                    printf("%d ", time);
-                    time++;
-                    count++;
-                }
+                printf("%d ", time);
+                time++;
             }
         }
         clear(q);
+        clear(l);
     }
     return 0;
 }
