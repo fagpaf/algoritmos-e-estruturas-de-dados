@@ -29,6 +29,7 @@
     },
     "files.associations": {
       "stdio.h": "c",
-      "list.h": "c"
+      "list.h": "c",
+      "quicksort.h": "c"
     },
 }

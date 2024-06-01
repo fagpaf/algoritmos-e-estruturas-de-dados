@@ -2,16 +2,6 @@
 #include <stdlib.h>
 #include "List.h"
 
-typedef struct Dictionary{
-    int m;                // tamanho da tabela
-    int cnt;              // 
-    struct List* Hash;
-
-} Dictionary;
-
-
-int hashTable(int x, int size);
-
 int main() {
 
     int x = 0;
@@ -38,15 +28,3 @@ int main() {
     
     return 0;
 }
-
-int hashTable(int x, int size){
-    int value = x % size;
-    if(value < 0){
-        value += size;
-    }
-    return value;
-}
-
-// Dictionary* create_dict(int size, int m){
-
-// }

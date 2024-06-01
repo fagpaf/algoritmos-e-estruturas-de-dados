@@ -1,0 +1,1 @@
+gcc B.c -o B.exe ; Get-Content input.txt | ./B.exe
