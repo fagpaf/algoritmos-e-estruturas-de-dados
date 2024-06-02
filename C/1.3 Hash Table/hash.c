@@ -1,42 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "List.h"
+#include <string.h>
+#include <math.h>
+// Fazer a substring para pode ptestar o código
 
-typedef struct Dictionary{
-    int m;                // tamanho da tabela
-    int cnt;              // 
-    struct List* Hash;
-
-} Dictionary;
-
-
+int h(char* key, int m);
 int hashTable(int x, int size);
+int sfold(char* key, int m);
 
 int main() {
 
-    int x = 0;
-    List* l = create_list();
-    
-    insert(l, 10);
-    insert(l, 20);
-    printlist(l);
-    
-    move_to_start(l);
-    x = curr_pos(l);
-    printf("%d\n", x);
-    
-    insert(l, 30); // Inserir 30 após a posição do cursor (que está no início)
-    insert(l, 40); // Inserir 40 após a posição do cursor (que agora está após 30)
-    
-    move_to_end(l);
-    insert(l, 50); // Inserir 50 no final da lista
-    
-    printf("Lista: ");
-    printlist(l); // Deveria imprimir: 10 30 40 20 50
-    
-    clear(l);
-    
-    return 0;
+
+
+
 }
 
 int hashTable(int x, int size){
@@ -47,6 +23,34 @@ int hashTable(int x, int size){
     return value;
 }
 
-// Dictionary* create_dict(int size, int m){
+int h(char* key, int m){
+    int s = strlen(key);
+    int sum = 0;
+    for(int i = 0; i < s-1; i++){
+        sum += sum + key[i];       // A função soma os valores dos caracteres em ASCII
+    }
+    printf("%d\n", sum);
+    return abs(sum)%m;
+}
 
-// }
+int sfold(char* key, int m){ // Hash functions para string
+    int length = strlen(key) / 4;
+    int sum = 0;
+    
+    for(int i = 0; i <= length - 1; i++){
+        char sub[4] = substring(key, i * 4, (i * 4) + 4);
+        int mult = 1;
+        for(int j = 0; j <= 3; j++){
+            sum += sub[j] * mult;
+            mult *= 256;
+        }
+    }
+    char sub[4] = substring(key, length * 4);
+    int mult = 1;
+    int s = strlen(sub);
+    for(int j = 0; j <= s - 1; j++){
+        sum += + sub[j] * mult;
+        mult *= 256;
+    }
+    return abs(sum) % m;
+}

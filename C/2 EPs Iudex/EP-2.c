@@ -12,7 +12,7 @@ typedef struct Queue {
     Node* rear;
     int size;
 } Queue;
-
+// gcc EP-2.c -o EP-2.exe ; Get-Content input.txt | ./EP-2.exe
 // Funções
 Node* create_node(int num);
 Queue* create_queue();
