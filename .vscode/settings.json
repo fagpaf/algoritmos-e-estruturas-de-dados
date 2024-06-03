@@ -48,7 +48,8 @@
       "hashlist.h": "c",
       "streambuf": "c",
       "stdlib.h": "c",
-      "algorithm": "c"
+      "algorithm": "c",
+      "time.h": "c"
     },
     
 }

@@ -1,6 +1,8 @@
-#ifndef HASHLIST_H
-#define HASHLIST_H
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 
+#include <stdio.h>
+#include <stdlib.h>
 // Definição do nó da linked list
 typedef struct Node {
     int element;

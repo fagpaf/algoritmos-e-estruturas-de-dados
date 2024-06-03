@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "libs/HashList.h"
+#include "libs/LinkedList.h"
 
 // Fazer as alterações para o open hash e verificar oq eu alterei hj 
 
@@ -22,7 +20,7 @@ void insertDict(Dictionary* d, int key, int num);
 int hash(int key, int m);
 int size(Dictionary* d);
 void print_list_elements(List* lista);
-// void clearDict(Dictionary* d);
+void clearDict(Dictionary* d);
 
 int main() {
 
@@ -33,7 +31,7 @@ int main() {
         print_list_elements(d->H[i]);
     }
     
-
+    clearDict(d);
     return 0;
 }
 
@@ -107,19 +105,19 @@ void print_list_elements(List* lista){
 
 // }
 
-// void clearDict(Dictionary* d){
-//     for (int i = 0; i <= d->m - 1; i++){ // Itera sobre todas as listas na tabela hash
-//         List* current_list = d->H[i]; // 'current_list' recebe o nó atual da tabela, sendo assim o bucket da lista encadeada
-        
-//         while(current_list!=NULL){
-//             Node* next_node = current_list->head->next; // Próximo nó da lista recebendo o elemento seguinte ao "head" da lista
-//             free(current_list->head);
-//             current_list = next_node; // atualizando o nó atual para o seguinte
-//         }
-//     }
-//     for (int i = 0; i < d->m; i++){
-//         d->H[i] = NULL; // Iterando sobre a tabela e fazendo com q cada slot dela receba 'NULL' para esvaziar a tabela
-//     }
-//     d->cnt = 0;
-//     free(d);
-// }
+void clearDict(Dictionary* d){
+    for (int i = 0; i <= d->m - 1; i++){ // Itera sobre todas as listas na tabela hash
+         
+        Node* node = d->H[i]->head; // ' d->H[i]->head' é a minha lista da tabela e sendo assim o bucket da lista encadeada
+        while(node!=NULL){
+            Node* next_node = node->next; // Próximo nó da lista recebendo o elemento seguinte ao "head" da lista
+            free(node);
+            node = next_node; // atualizando o nó atual para o seguinte
+        }
+    }
+    for (int i = 0; i < d->m; i++){
+        d->H[i] = NULL; // Iterando sobre a tabela e fazendo com q cada slot dela receba 'NULL' para esvaziar a tabela
+    }
+    d->cnt = 0;
+    free(d);
+}
