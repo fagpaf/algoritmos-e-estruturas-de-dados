@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "bibs/Quicksort.h"
-#include "bibs/BinarySearch.h"
+#include "libs/Quicksort.h"
+#include "libs/BinarySearch.h"
 
 int main() {
 

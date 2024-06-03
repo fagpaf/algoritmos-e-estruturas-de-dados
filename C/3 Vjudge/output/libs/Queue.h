@@ -18,7 +18,7 @@ Node* create_node(int num);
 Queue* create_queue();
 void enqueue(Queue* q, int num);
 int dequeue(Queue* q);
-void clear(Queue* q);
+void clearQueue(Queue* q);
 int length(Queue* q);
 int front_value(Queue* q);
 
@@ -68,7 +68,7 @@ int dequeue(Queue* q){
     return num;
 }
 
-void clear(Queue* q) {
+void clearQueue(Queue* q) {
     while (q->front != NULL) {
         Node* temp = q->front;
         q->front = q->front->next;

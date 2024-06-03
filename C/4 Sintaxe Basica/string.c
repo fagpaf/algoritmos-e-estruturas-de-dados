@@ -40,7 +40,7 @@ int main(){  // "\n" é um array de sting e '\n' é o caracter de nova linha
     printf("%d\n", strcmp(str5, str7)); // Retorna um valor != 0, porque as strings não são iguais
     //-------------------------------------------------------------
 
-
+    //memcpy(str, (str1+4), size);
 
 
 

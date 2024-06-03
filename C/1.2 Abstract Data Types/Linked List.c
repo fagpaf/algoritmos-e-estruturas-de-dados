@@ -53,7 +53,7 @@ int main(){
     printf("Lista: ");
     printlist(l); // Deveria imprimir: 10 30 40 20 50
     
-    clear(l);
+    clear_List(l);
     return 0;
 }
 
@@ -150,7 +150,7 @@ int length(List* l){
     return l->count;
 }
 
-void clear(List* l) {
+void clear_List(List* l) {
     Node* current = l->head;
     Node* next;
     while (current != NULL) {

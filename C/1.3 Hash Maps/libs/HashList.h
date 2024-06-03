@@ -1,6 +1,5 @@
-#ifndef LIST_H
-#define LIST_H
-#include <stdlib.h>
+#ifndef HASHLIST_H
+#define HASHLIST_H
 
 // Definição do nó da linked list
 typedef struct Node {
@@ -15,24 +14,6 @@ typedef struct List {
     Node* curr;
     int count;          // tamanho da lista
 } List;
-
-// Ponteiros:
-Node* create_node(Node* n, int num); // Função q retorna um ponteiro para a struct "Node"
-Node* create_header(Node* nextval);
-List* create_list();
-
-// Operações:
-void insert(List* l, int num);
-void move_to_start(List* l);
-void move_to_end(List* l);
-void movecurr(List* l);
-void prev(List* l);
-void next(List* l);
-void printlist(List* l);
-void clear(List* l);
-int  del(List* l);
-int  length(List* l);
-int  curr_pos(List* l);
 
 // Declarações das funções
 Node* create_node(Node* n, int num){ 
@@ -73,6 +54,11 @@ void move_to_start(List* l){
 
 void move_to_end(List* l){
     l -> curr = l ->tail; // Move o cursor para o final da lista
+}
+
+void append(List* l, int num){
+    move_to_end(l);
+    insert(l, num);
 }
 
 void movecurr(List* l){
@@ -128,7 +114,7 @@ int length(List* l){
     return l->count;
 }
 
-void clear(List* l) {
+void clearList(List* l) {
     Node* current = l->head;
     Node* next;
     while (current != NULL) {

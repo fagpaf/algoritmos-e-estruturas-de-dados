@@ -1,0 +1,8 @@
+zen mode = ctrl + kz
+eraser line = ctrl + k
+move line = alt + seta pra cima ou baixo
+select multiple line = ctrl + shift + alt
+open side bar "of extensions" = ctrl + q
+open explorer of file = ctrl + shift + e
+
+VER TODOS OS ATALHOS = ctrl + k ctrl + s

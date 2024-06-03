@@ -1,3 +1,6 @@
+#ifndef STACK_H
+#define STACK_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -20,12 +23,6 @@ int pop(Stack* s);
 int top_value(Stack* s);
 int length(Stack* s);
 int is_empyt(Stack* s);
-
-int main() {
-
-
-    return 0;
-}
 
 Stack* create_s(){
     Stack* s = (Stack*) malloc(sizeof(Stack));
@@ -95,3 +92,4 @@ int is_empyt(Stack* s){
     }
     return 1; // Verdadeiro se a pilha tiver vazia
 }
+#endif

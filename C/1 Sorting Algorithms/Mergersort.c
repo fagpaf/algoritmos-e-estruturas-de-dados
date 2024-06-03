@@ -36,7 +36,7 @@ void Merge(int A[], int l, int r){
 
     int temp[r+1];
     
-//  void *memcpy(void *dest, const void *src, size_t count);
+    //  void *memcpy(void *dest, const void *src, size_t count);
 
     memcpy(temp, A, (r+1) * sizeof(int)); // Precisa da biblbioteca <string.h>
 

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "bibs/Queue.h"
+#include "libs/Queue.h"
 
 int main(){
     int test;
@@ -33,8 +33,8 @@ int main(){
                 time++;
             }
         }
-        clear(q);
-        clear(l);
+        clearQueue(q);
+        clearQueue(l);
     }
     return 0;
 }

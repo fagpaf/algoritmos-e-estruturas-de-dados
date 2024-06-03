@@ -38,7 +38,7 @@ int sfold(char* key, int m){ // Hash functions para string
     int sum = 0;
     
     for(int i = 0; i <= length - 1; i++){
-        char sub[4] = substring(key, i * 4, (i * 4) + 4);
+        char sub[4] = substring(key, i * 4, (i * 4) + 4); // Definir substring
         int mult = 1;
         for(int j = 0; j <= 3; j++){
             sum += sub[j] * mult;

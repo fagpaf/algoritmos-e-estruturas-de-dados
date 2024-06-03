@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "bibs/List.h"
+#include "libs/LinkedList.h"
 
 const int MAXLEN = 100001;
 
@@ -19,7 +18,7 @@ int main() {
             }
         }
         printlist(l);
-        clear(l);
+        clear_List(l);
     }
     return 0;
 }

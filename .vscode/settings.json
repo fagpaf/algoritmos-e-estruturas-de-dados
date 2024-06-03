@@ -34,7 +34,21 @@
       "quicksort.h": "c",
       "string_view": "c",
       "math.h": "c",
-      "string.h": "c"
+      "string.h": "c",
+      "L3--Q1.C": "cpp",
+      "linkedlist.h": "c",
+      "*.tcc": "c",
+      "deque": "c",
+      "string": "c",
+      "unordered_map": "c",
+      "vector": "c",
+      "ostream": "c",
+      "cstdio": "c",
+      "functional": "c",
+      "hashlist.h": "c",
+      "streambuf": "c",
+      "stdlib.h": "c",
+      "algorithm": "c"
     },
     
 }

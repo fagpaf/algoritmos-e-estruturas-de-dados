@@ -1,21 +1,5 @@
-#ifndef LIST_H
-#define LIST_H
+#include "LinkedList.h"
 
-// Definição do nó da linked list
-typedef struct Node {
-    int element;
-    struct Node* next;
-} Node;
-
-// Definição da estrutura da lista ligada
-typedef struct List {
-    Node* head;
-    Node* tail;
-    Node* curr;
-    int count;          // tamanho da lista
-} List;
-
-// Declarações das funções
 Node* create_node(Node* n, int num){ 
     Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
     // Usando o operador "->": 
@@ -109,7 +93,7 @@ int length(List* l){
     return l->count;
 }
 
-void clear(List* l) {
+void clear_List(List* l) {
     Node* current = l->head;
     Node* next;
     while (current != NULL) {
@@ -128,5 +112,3 @@ void printlist(List* l){
     }
     printf("\n");
 }
-
-#endif // List_h

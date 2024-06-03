@@ -9,7 +9,7 @@ int main(){
     printf("O valor de x e: %c\n", x); // Imprime o valor de x
     
     printf("O endereco de memoria de x e: %p\n", &x); // Imprime o endereço de memória de x "%p" é o especificador de formato dos ponteiros
-    //-------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
     // PONTEIROS: Ponteiros devem ser manuseados com cuidado, pois é possível danificar dados armazenados em outros endereços de memória.
     

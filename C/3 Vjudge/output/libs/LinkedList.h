@@ -1,6 +1,8 @@
-#ifndef LIST_H
-#define LIST_H
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 
+#include <stdio.h>
+#include <stdlib.h>
 // Definição do nó da linked list
 typedef struct Node {
     int element;
@@ -56,6 +58,11 @@ void move_to_end(List* l){
     l -> curr = l ->tail; // Move o cursor para o final da lista
 }
 
+void append(List* l, int num){
+    move_to_end(l);
+    insert(l, num);
+}
+
 void movecurr(List* l){
     l->curr = l->curr->next;
 }
@@ -109,7 +116,7 @@ int length(List* l){
     return l->count;
 }
 
-void clear(List* l) {
+void clear_List(List* l) {
     Node* current = l->head;
     Node* next;
     while (current != NULL) {
