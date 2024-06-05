@@ -1,9 +1,10 @@
 #ifndef OPENHASH_H
 #define OPENHASH_H
 
-#include "LinkedList.h"
+#include <string.h>
+#include "Q3LinkedList.h"
 
-typedef int (*HashFunction)(int key, int m); //  podemos usar HashFunction como qualquer outro tipo, como int ou char*
+typedef int (*HashFunction)(char* key); //  podemos usar HashFunction como qualquer outro tipo, como int ou char*
 
 typedef struct Dictionary{
     int m;                // Tamanho da tabela
@@ -13,26 +14,17 @@ typedef struct Dictionary{
     // Cada elemento do array H é um ponteiro para o início de uma lista encadeada.
 } Dictionary;
 
-Dictionary* createDict(int size, int(*hash)(int, int));
-Node* create_entry(Node* n, int num);
-int find(Dictionary* d, int key);
-void insertDict(Dictionary* d, int key, int num);
-int hash(int key, int m);
+Dictionary* createDict(int size, int(*hash)(char*));
+Node* create_entry(Node* n, char* str);
+int find(Dictionary* d, char* key);
+void insertDict(Dictionary* d, char* key, int num);
 int size(Dictionary* d);
 void print_list_elements(List* lista);
 void clearDict(Dictionary* d);
 
-int hash(int key, int m){
-    int value = key % m;
-    if(value < 0){
-        value += m;
-    }
-    return value;
-}
-
 // Ponteiro para função ----> <tipo-de-retorno> ( *<nome-da-variável> ) ( <parâmetros> )
 
-Dictionary* createDict(int size, int(*hash)(int, int)){
+Dictionary* createDict(int size, int(*hash)(char*)){
     Dictionary* d = (Dictionary*)malloc(sizeof(List));
     d->m = size;
     d->cnt = 0;
@@ -46,18 +38,18 @@ Dictionary* createDict(int size, int(*hash)(int, int)){
     return d;
 }
 
-Node* create_entry(Node* n, int num){
-    n->element = num;
+Node* create_entry(Node* n, char* str){
+    n->element = str;
     n->next = NULL; // Define o próximo como NULL, pois este será o último nó já q só será inserido via "append"
     return n; 
 }
 
-int find(Dictionary* d, int key) {
+int find(Dictionary* d, char* key) {
     for (int i = 0; i <= d->m - 1; i++) {
         Node* temp = d->H[i]->head->next;
         for(int j = 0; j < d->H[i]->count; j++){
             if (temp->element == key) {         // Verifica se a 'key' do nó atual (d->H[i]->key) é igual ao valor 'key' que estamos procurando.
-                return i;                          // Retorna o ponteiro se a chave for encontrada, usando o '&' para ter o endereço de memória do bucket
+                return i;                          // Retorna o índice se a chave for encontrada, usando o '&' para ter o endereço de memória do bucket
             }
             temp = temp->next;
         }
@@ -65,12 +57,18 @@ int find(Dictionary* d, int key) {
     return -1; // Retorna NULL se a chave não for encontrada
 }
 
-void insertDict(Dictionary* d, int key, int num){
+void insertDict(Dictionary* d, char* key, int num){
     if (find(d, key) == -1){
-        int pos = d->hashFun(key, d->m);
-        List* l = d->H[pos];
-        Node* entry = create_entry(l->tail, num);
-        append(l, entry->element);
+        for (int j = 1; i < 20; j++){
+            int pos = (d->hashFun(key) + j^2 + 23*j) % 101;
+            if (d->H[pos] == NULL ){
+                int pos = d->hashFun(key);
+                List* l = d->H[pos];
+                Node* entry = create_entry(l->tail, num);
+                append(l, entry->element);
+            }
+            
+        }
     }
 }
 
@@ -79,18 +77,33 @@ int size(Dictionary* d){
 }
 
 void print_list_elements(List* lista){
-    Node* temporario = lista->head->next;
-    while (temporario != NULL)
-    {
-        printf("%d ",temporario->element);
-        temporario = temporario->next;
+    Node* temp = lista->head->next;
+    while (temp != NULL){
+        printf("%s ",temp->element);
+        temp = temp->next;
     }
+    free(temp);
     printf("\n");
+    
 }
 
-// int remove_key(){
-
-// }
+void remove_key(Dictionary* d, char* key){ // mexer aq
+    for (int i = 0; i < 101; i++){
+        if (d->H[i] != NULL){
+            if (strcmp(d->H[i], key) == 0){
+                d->H[i] = NULL;
+                return;
+            }
+            else{
+                for (int j = 0; j < length(H[i]); j++){
+                    if (strcmp(d->H[j], key) == 0{
+                        d->H[j] = NULL;
+                    }
+                }
+            }
+        }
+    }
+}
 
 void clearDict(Dictionary* d){
     for (int i = 0; i <= d->m - 1; i++){ // Itera sobre todas as listas na tabela hash
