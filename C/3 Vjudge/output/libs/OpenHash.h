@@ -89,18 +89,14 @@ void print_list_elements(List* lista){
 
 void remove_key(Dictionary* d, char* key){ // mexer aq
     for (int i = 0; i < 101; i++){
-        if (d->H[i] != NULL){
-            if (strcmp(d->H[i], key) == 0){
-                d->H[i] = NULL;
+        Node* current = d->H[i]->head->next;
+        while(current != NULL){
+            if (strcmp(current->element, key) == 0){
+                current->element = NULL;
+                free(current);
                 return;
             }
-            else{
-                for (int j = 0; j < length(H[i]); j++){
-                    if (strcmp(d->H[j], key) == 0{
-                        d->H[j] = NULL;
-                    }
-                }
-            }
+            current = current->next;
         }
     }
 }
