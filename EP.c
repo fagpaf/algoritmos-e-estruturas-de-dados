@@ -3,79 +3,121 @@
 #include <string.h>
 #include <math.h>
 
-typedef struct Entry
-{
+typedef int(*HashFunction)(int key, int mod);
+
+typedef struct Entry{
     int key;
     int value;
-    int ocupied;
+    int occupied;
 } Entry;
 
-typedef struct Dictionary
-{
+typedef struct Dictionary{
     int m;
     int cnt;
+    int* Perm;
     Entry* H;
+    HashFunction hashFun;
 } Dictionary;
 
 int h(int key, int mod);
-Dictionary* create_dict(int size);
+Entry* create_entry(int key, int value);
+Dictionary* create_dict(int size, int(*hash)(int, int));
+int search(Dictionary* d, int key);
+void insert(Dictionary* d, int key, int value);
 
 int main(){
 
     int m, n;
     scanf("%d", &m);
-    Dictionary* d = create_dict(m);
-    int* perm = (int*)malloc((m - 1) * sizeof(int));    
+    Dictionary* d = create_dict(m, h);
     for(int i = 0; i < m - 1; i++){
-        int  enter;
-        scanf("%d", &enter);
-        perm[i] = enter;
-    }    
+        scanf("%d", &d->Perm[i]);
+    }
 
-    scanf("%d", n);
+    scanf("%d", &n);
     char str[5];
     char add[4] = "add";
     char find[5] = "find";
-    while (n-- > 0){
-        scanf("%s", str);        
-        if(strcmp(str, add) == 0){
-            // insert();
-            
-        }
-        if(strcmp(str, find) == 0){
-            // find()
-            // if
-            // printf(idx)
-            // else
-            // printf(-1)
-        }
-    }
     
-
+    while (n-- > 0){
+        scanf("%s", str);
+        if(strcmp(str, add) == 0){
+            int key, value;
+            scanf("%d %d", &key, &value);
+            insert(d, key, value);
+        }
+        else if(strcmp(str, find) == 0){
+            int key_search;
+            scanf("%d", &key_search);
+            int idx = search(d, key_search);
+            if (idx != -1){
+                printf("%d %d\n", idx, d->H[idx].value);
+            }
+            else{
+                printf("-1\n");
+            }
+        }
+    scanf("%d", &m);
+    }   
+    
     return 0;
-
 }
+
 int h(int key, int mod){
     int temp = (int) floor((((double) key) / ((double) mod)));
     return (key - (mod * temp)); 
     }
 
-Dictionary* create_dict(int size){
+Entry* create_entry(int key, int value){
+    Entry* e = (Entry*)malloc(sizeof(Entry));
+    e->key = key;
+    e->value = value;
+    e->occupied = 1; // terei q adequar o valor disso 
+    return e;
+}
+
+Dictionary* create_dict(int size, int(*hash)(int, int)){
     Dictionary* d = (Dictionary*)malloc(sizeof(Dictionary));
     d->m = size;
     d->cnt = 0;
-    d->H = (Entry*)malloc((size - 1) * sizeof(Entry)); // conferir se isso voga msm
-    for(int i = 0; i < size; i++){
-        d->H[i].ocupied = 0; // Quando tiver ocupado muda para '1'
+    d->H = (Entry*)malloc(size * sizeof(Entry));
+    d->Perm = (int*)malloc((size-1) * sizeof(int));
+    d->hashFun = hash;
+    for(int i = 0; i < size - 1; i++){
+        d->H[i].occupied = 0;
     }
     return d;
 }
 
-void insert(Dictionary* d, int key){
-
-    return 0;
+int search(Dictionary* d, int key){
+    for (int i = 0; i < d->m - 1; i++){
+        if (d->H[i].key == key){ 
+            return i;
+        }
+    }
+    return -1;
 }
 
-void find(){
-
+void insert(Dictionary* d, int key, int value){
+    if (d->cnt < d->m && search(d, key) == -1){
+        int pos = d->hashFun(key, d->m);
+        if (d->H[pos].occupied != 0){ // conferir o valor de 'occupied'
+            int i = 0;
+            int new_pos;
+            do{
+                i = i + 1;
+                int offset = d->Perm[i - 1]; // Gera um número aleatório entre 0 e m-1
+                new_pos = (pos + offset) % d->m;
+                if (new_pos < 0){
+                    new_pos += d->m;
+                }
+            } while(d->H[new_pos].occupied == 1);
+            pos = new_pos;        
+        }
+        Entry* entry = create_entry(key, value);
+        d->H[pos] = *entry;
+        // Como 'entry' é um ponteiro para struct "Entry" é preciso desreferenciar ele, para acessar apenas o valor dele q é do tipo 'struct'
+        d->cnt++;
+    }
 }
+// gcc EP.c -o EP.exe ; Get-Content input.txt | ./EP.exe

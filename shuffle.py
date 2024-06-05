@@ -13,3 +13,16 @@ def shuffle(ary): # adding ary as an argument
         if e == d: # continue if the last number is the same as the random number thrown
             ary[d],ary[e]=ary[e],ary[d]
             return ary
+
+#int* permutation(int size){ // Cria uma permutação baseada no algoritmo de Fischer-Yates
+#    int* perm = (int*)malloc((size-1) * sizeof(int));
+#    // Algoritmo de Fischer-Yates
+#    for(int i = size - 2; i > 0; i--){
+#        int j = rand() % (i+1);   // Gera um índice aleatório 'j' entre 0 e 'i' 
+#        int temp = perm[i];
+#        perm[i] = perm[j];
+#        perm[j] = temp;
+#        // Esse 'for' faz o embaralhamento do array trocando
+#    }
+#    return perm;
+#}

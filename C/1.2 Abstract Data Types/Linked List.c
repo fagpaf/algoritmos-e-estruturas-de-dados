@@ -26,7 +26,7 @@ void movecurr(List* l);
 void prev(List* l);
 void next(List* l);
 void printlist(List* l);
-void clear(List* l);
+void clearList(List* l);
 int  del(List* l);
 int  length(List* l);
 int  curr_pos(List* l);
