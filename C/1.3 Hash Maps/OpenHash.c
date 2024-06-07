@@ -27,7 +27,8 @@ int main() {
     for(int i = 0; i < d->m; i++){
         print_list_elements(d->H[i]);
     }
-    
+    int x = find(d, 0);
+    printf("%d\n", x);
     clearDict(d);
     return 0;
 }

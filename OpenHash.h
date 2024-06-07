@@ -15,46 +15,30 @@ typedef struct Dictionary{
     // Cada keyo do array H é um ponteiro para o início de uma lista encadeada.
 } Dictionary;
 
-Dictionary* createDict(int size, int(*hash)(char*));
-Node* create_entry(Node* n, char* str, int value);
-int find(Dictionary* d, char* key);
-void insertDict(Dictionary* d, char* key, int value);
-int size(Dictionary* d);
-void print_list_keys(List* lista);
-void remove_key(Dictionary* d, char* key);
-void clearDict(Dictionary* d);
-
 // Ponteiro para função ----> <tipo-de-retorno> ( *<nome-da-variável> ) ( <parâmetros> )
 
 Dictionary* createDict(int size, int(*hash)(char*)){
-    Dictionary* d = (Dictionary*)malloc(sizeof(List));
+    Dictionary* d = (Dictionary*)malloc(sizeof(Dictionary));
     d->m = size;
     d->cnt = 0;
     d->H = (List**)malloc(d->m * sizeof(List*)); // 'sizeof(struct List*)' retorna o tamanho em bytes de um ponteiro para struct List
     // Multiplicando esse tamanho por 'd->m', q é o tamanho da tabela temos reservado o tamanho necessário para armazenar nossa tabela
-    
-    for(int i = 0; i <= size - 1; i++){
+    for(int i = 0; i < size - 1; i++){
         d->H[i] = create_list(); // 'H[i]' é um bucket que pode conter uma lista encadeada de nós
     }
     d->hashFun = hash;
     return d;
 }
 
-Node* create_entry(Node* n, char* str, int value){
-    n->key = str;
-    n->value = value;
-    n->next = NULL; // Define o próximo como NULL, pois este será o último nó já q só será inserido via "append"
-    return n; 
-}
-
 int find(Dictionary* d, char* key) {
-    for (int i = 0; i <= d->m - 1; i++) {
-        Node* temp = d->H[i]->head->next;
-        for(int j = 0; j < d->H[i]->count; j++){
-            if (temp->key == key) {         // Verifica se a 'key' do nó atual (d->H[i]->key) é igual ao valor 'key' que estamos procurando.
-                return i;                          // Retorna o índice se a chave for encontrada, usando o '&' para ter o endereço de memória do bucket
+    for(int i = 0; i < d->m-1; i++){
+        Node* current = d->H[i]->head->next;
+        while(current != NULL){
+            if (strcmp(current->key, key) == 0) {
+                free(current);
+                return i;
             }
-            temp = temp->next;
+            current = current->next;
         }
     }
     return -1; // Retorna NULL se a chave não for encontrada
@@ -63,14 +47,13 @@ int find(Dictionary* d, char* key) {
 void insertDict(Dictionary* d, char* key, int value){
     if (find(d, key) == -1){
         for (int j = 1; j < 20; j++){
-            int pos = (int)(d->hashFun(key) + pow(j, 2) + 23*j) % 101; // Type cast para int pq a outra parte é real
-            if (d->H[pos] == NULL ){
-                int pos = d->hashFun(key);
+            int pos = (value + (int)pow(j, 2) + 23*j) % 101; // Type cast para int pq pow() é real
+            if (d->H[pos]->head->next == NULL){ // mt burro
                 List* l = d->H[pos];
-                Node* entry = create_entry(l->tail, key ,value);
-                append(l, entry->key, value);
+                append(l, key, value);
+                d->cnt++;
+                return;
             }
-            
         }
     }
 }
@@ -79,28 +62,11 @@ int size(Dictionary* d){
     return d->cnt;
 }
 
-void print_list_keys(List* l){
-    Node* temp = l->head->next;
-    while (temp != NULL){
-        printf("%d:%s\n", temp->value, temp->key);
-        temp = temp->next;
-    }
-    free(temp);
-    printf("\n");
-    
-}
-
 void remove_key(Dictionary* d, char* key){ // mexer aq
-    for (int i = 0; i < 101; i++){
-        Node* current = d->H[i]->head->next;
-        while(current != NULL){
-            if (strcmp(current->key, key) == 0){
-                current->key = NULL;
-                free(current);
-                return;
-            }
-            current = current->next;
-        }
+    int search = find(d, key);
+    if(search != -1){
+        del(d->H[search]);
+        d->cnt--;
     }
 }
 

@@ -52,7 +52,8 @@
       "algorithm": "c",
       "iostream": "cpp",
       "ostream": "cpp",
-      "time.h": "c"
+      "time.h": "c",
+      "q3linkedlist.h": "c"
     },
     
 }

@@ -5,7 +5,8 @@
 #include <stdlib.h>
 // Definição do nó da linked list
 typedef struct Node {
-    char* element;
+    char* key;
+    int value;
     struct Node* next;
 } Node;
 
@@ -18,13 +19,14 @@ typedef struct List {
 } List;
 
 // Declarações das funções
-Node* create_node(Node* n, char* str){ 
+Node* create_node(Node* n, char* str, int value){ 
     Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
     // Usando o operador "->": 
-    // Atribui o valor 'num' ao campo 'element' da struct "Node"
+    // Atribui o valor 'num' ao campo 'key' da struct "Node"
     
-    new_node -> element = str; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
+    new_node -> key = str; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
     new_node -> next = n; // Atribui o ponteiro 'next_val' ao campo 'next' do Node
+    new_node -> value = value;
     return new_node;
 }
 
@@ -41,8 +43,8 @@ List* create_list(){
     return l;
 }
 
-void insert(List* l, char* str){
-    l->curr->next = create_node(l->curr->next ,str);
+void insert(List* l, char* str, int value){
+    l->curr->next = create_node(l->curr->next ,str, value);
     if (l->tail == l->curr){
         l->tail = l->curr->next;
     }
@@ -58,9 +60,9 @@ void move_to_end(List* l){
     l -> curr = l ->tail; // Move o cursor para o final da lista
 }
 
-void append(List* l, char* str){
+void append(List* l, char* str, int value){
     move_to_end(l);
-    insert(l, str);
+    insert(l, str, value);
 }
 
 void movecurr(List* l){
@@ -84,12 +86,12 @@ void next(List* l){
     } 
 }
 
-int del(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro ou referência para o tipo incompleto 'struct Node' não é permitida" 
+char* del(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro ou referência para o tipo incompleto 'struct Node' não é permitida" 
     if (l -> curr -> next == NULL){
-        return -1; // Porque função "int" ñ permite retornar "NULL", pq ele é usado para funções de retorno para ponteiros, '-1' indica um erro 
+        return NULL; // Porque função "int" ñ permite retornar "NULL", pq ele é usado para funções de retorno para ponteiros, '-1' indica um erro 
     }
     Node* temp = l->curr->next;
-    char* str = temp -> element;
+    char* str = temp -> key;
     if (l -> tail == temp){
         l->tail = l->curr;
     }
@@ -130,7 +132,7 @@ void clear_List(List* l) {
 void printlist(List* l){
     Node* current = l -> head->next;
     while(current != NULL){
-        printf("%s ", current -> element);
+        printf("%s ", current -> key);
         current = current -> next;
     }
     printf("\n");
