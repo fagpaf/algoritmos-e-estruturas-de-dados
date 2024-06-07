@@ -3,7 +3,7 @@
 
 #include <string.h>
 #include <math.h>
-#include "Q3LinkedList.h"
+#include "L3LinkedList.h"
 
 typedef int (*HashFunction)(char* key); //  podemos usar HashFunction como qualquer outro tipo, como int ou char*
 

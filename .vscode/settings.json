@@ -53,7 +53,8 @@
       "iostream": "cpp",
       "ostream": "cpp",
       "time.h": "c",
-      "q3linkedlist.h": "c"
+      "q3linkedlist.h": "c",
+      "openhash.h": "c"
     },
     
 }
