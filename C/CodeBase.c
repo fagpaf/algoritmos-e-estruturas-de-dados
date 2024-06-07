@@ -3,20 +3,20 @@
 #include <string.h>
 
 int main() {
-    int ano;
+    char ano[6];
     char idade[4]; // Array de caracteres para armazenar "ADD"
-    char *s = (char *) malloc(100 * sizeof(char)); // Aloca memória para s
+    char s[20]; // Aloca memória para s
 
     // Copia a string "ADD: 50" para o buffer s
     // strcpy(s, "ADD: 50");
-    s = "ADD: 50";
+    s = "ADD:asdad";
 
     // Usa sscanf para extrair a parte da string e o número
-    sscanf(s, "%3s:%d", idade, &ano);
+    sscanf(s, "%3s:%5s", idade, ano);
 
     // Imprime os valores extraídos
     printf("-> %s\n", s);
-    printf("-> idade: %s, ano: %d\n", idade, ano);
+    printf("-> idade: %s, ano: %s\n", idade, ano);
 
     // Libera a memória alocada
     free(s);

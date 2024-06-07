@@ -30,14 +30,14 @@ int main() {
     int test = 1;
     int n1 = 1;
     
-    char input[11] = "ADD:Polski";
+    char input[20] = "ADD:Polski";
     char command[4];
-    char str[16];
+    char* str = (char*)malloc(16);
     
     for(int i = 0; i < test; i++){
         for(int j = 0; j < n1; j++){
             
-            sscanf(input, "%3s[^:]:%15s", command, str);
+            sscanf(input, "%3s:%15s", command, str);
 
             if (strcmp(command, "ADD") == 0){
                 int h = hash(str);
@@ -57,22 +57,25 @@ int main() {
     
     // char input[20];
     // char command[4];
-    // char str[16];
+    // char* str = (char*)malloc(16);
     
     // for(int i = 0; i < test; i++){
     //     scanf("%d", &n1);
     //     for(int j = 0; j < n1; j++){
     //         scanf("%s", input);
 
-    //         sscanf(input, "%3s[^:]:%15s", command, str);
+    //         sscanf(input, "%3s:%15s", command, str);
 
     //         if (strcmp(command, "ADD") == 0){
     //             int h = hash(str);
     //             insertDict(d, str, h);
+    //             free(str);
     //         }
     //         else if (strcmp(command, "DEL") == 0){
     //             remove_key(d, str);
+    //             free(str);
     //         }
+    //         free(str);
     //     }
     // }
     printf("%d\n", d->cnt);
