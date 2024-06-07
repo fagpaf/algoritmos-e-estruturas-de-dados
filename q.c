@@ -27,17 +27,44 @@ int main() {
     // printf("%d\n", x);
 
     
-    int test = 1;
-    int n1 = 1;
+    // int test = 1;
+    // int n1 = 1;
     
-    char input[20] = "ADD:Polski";
+    // char input[20] = "ADD:Polski";
+    // char command[4];
+    // char* str = (char*)malloc(16);
+    
+    // for(int i = 0; i < test; i++){
+    //     for(int j = 0; j < n1; j++){
+            
+    //         sscanf(input, "%3s:%15s", command, str);
+
+    //         if (strcmp(command, "ADD") == 0){
+    //             int h = hash(str);
+    //             insertDict(d, str, h);
+    //         }
+    //         else if (strcmp(command, "DEL") == 0){
+    //             remove_key(d, str);
+    //         }
+    //     }
+    // }
+
+
+    // -----------------------------------------------------------------------------------------------------------------
+    int test, n1;
+    scanf("%d", &test);
+    
+    
+    char input[20];
     char command[4];
-    char* str = (char*)malloc(16);
+    
     
     for(int i = 0; i < test; i++){
+        scanf("%d", &n1);
         for(int j = 0; j < n1; j++){
-            
-            sscanf(input, "%3s:%15s", command, str);
+            scanf("%s", input);
+            char* str = (char*)malloc(16);
+            sscanf(input, "%3s[^:]:%15s", command, str);
 
             if (strcmp(command, "ADD") == 0){
                 int h = hash(str);
@@ -46,38 +73,9 @@ int main() {
             else if (strcmp(command, "DEL") == 0){
                 remove_key(d, str);
             }
+            free(str);
         }
     }
-
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // int test, n1;
-    // scanf("%d", &test);
-    
-    
-    // char input[20];
-    // char command[4];
-    // char* str = (char*)malloc(16);
-    
-    // for(int i = 0; i < test; i++){
-    //     scanf("%d", &n1);
-    //     for(int j = 0; j < n1; j++){
-    //         scanf("%s", input);
-
-    //         sscanf(input, "%3s:%15s", command, str);
-
-    //         if (strcmp(command, "ADD") == 0){
-    //             int h = hash(str);
-    //             insertDict(d, str, h);
-    //             free(str);
-    //         }
-    //         else if (strcmp(command, "DEL") == 0){
-    //             remove_key(d, str);
-    //             free(str);
-    //         }
-    //         free(str);
-    //     }
-    // }
     printf("%d\n", d->cnt);
     
     for(int i = 0; i < d->m -1; i++){
@@ -98,4 +96,4 @@ int hash(char* key){
     value *= 19; 
     return value % TAM;
 }
-// gcc q.c -o q.exe ; Get-Content inputcopy.txt | ./q.exe
+// gcc q.c -o q.exe ; Get-Content input.txt | ./q.exe

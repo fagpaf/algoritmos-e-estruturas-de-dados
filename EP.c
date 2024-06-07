@@ -120,4 +120,4 @@ void insert(Dictionary* d, int key, int value){
         d->cnt++;
     }
 }
-// gcc EP.c -o EP.exe ; Get-Content input.txt | ./EP.exe
+// gcc EP.c -o EP.exe ; Get-Content inputEP.txt | ./EP.exe
