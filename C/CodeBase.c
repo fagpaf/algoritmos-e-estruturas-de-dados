@@ -24,21 +24,6 @@ int main() {
     return 0;
 }
 
-
-// #include <stdio.h>
-
-// int main() {
-
-//     int ano;
-//     char* idade[5];
-//     char *s = (char *) malloc(100 * sizeof(char));
-//     s = "ADD: 50";
-//     sscanf(s, "%3s %d", idade, &ano);
-//     printf("-> %s\n", s);
-//     printf("-> idade: %s, ano: %d", idade, ano);
-//     return 0;
-// }
-
 // char *vnome;
     
 //     // Alocando espaço suficiente para armazenar a string
