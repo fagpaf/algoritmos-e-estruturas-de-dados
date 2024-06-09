@@ -24,6 +24,9 @@ int removeNode(BST* bst, int k);
 BSTNode* removehelp(BSTNode* root, int k);
 BSTNode* getmin(BSTNode* root);
 BSTNode* deletemin(BSTNode* root);
+void preorder(BSTNode* root);
+void inorder(BSTNode* root);
+void posorder(BSTNode* root);
 
 
 int main(){
@@ -94,6 +97,7 @@ int removeNode(BST* bst, int k){
     return temp;
 }
 
+// ENTENDER COMO ISSO FUNCIONA
 BSTNode* removehelp(BSTNode* root, int k){
     if(root == NULL){
         return NULL;
@@ -152,7 +156,7 @@ void inorder(BSTNode* root){
     }
 }
 
-void preorder(BSTNode* root){
+void posorder(BSTNode* root){
     if(root != NULL){
         posorder(root->left);
         posorder(root->right);
