@@ -1,7 +1,6 @@
 #ifndef OPENHASH_H
 #define OPENHASH_H
 
-#include <string.h>
 #include <math.h>
 #include "L3LinkedList.h"
 
@@ -23,7 +22,7 @@ Dictionary* createDict(int size, int(*hash)(char*)){
     d->cnt = 0;
     d->H = (List**)malloc(d->m * sizeof(List*)); // 'sizeof(struct List*)' retorna o tamanho em bytes de um ponteiro para struct List
     // Multiplicando esse tamanho por 'd->m', q é o tamanho da tabela temos reservado o tamanho necessário para armazenar nossa tabela
-    for(int i = 0; i < size - 1; i++){
+    for(int i = 0; i < size; i++){
         d->H[i] = create_list(); // 'H[i]' é um bucket que pode conter uma lista encadeada de nós
     }
     d->hashFun = hash;
@@ -31,17 +30,16 @@ Dictionary* createDict(int size, int(*hash)(char*)){
 }
 
 int find(Dictionary* d, char* key) {
-    for(int i = 0; i < d->m-1; i++){
+    for(int i = 0; i < d->m; i++){
         Node* current = d->H[i]->head->next;
         while(current != NULL){
             if (strcmp(current->key, key) == 0) {
-                free(current);
                 return i;
             }
             current = current->next;
         }
     }
-    return -1; // Retorna NULL se a chave não for encontrada
+    return -1;
 }
 
 void insertDict(Dictionary* d, char* key, int value){
@@ -71,20 +69,30 @@ void remove_key(Dictionary* d, char* key){ // mexer aq
 }
 
 void clearDict(Dictionary* d){
-    for (int i = 0; i <= d->m - 1; i++){ // Itera sobre todas as listas na tabela hash
-         
+    for (int i = 0; i < d->m; i++){ // Itera sobre todas as listas na tabela hash
         Node* node = d->H[i]->head; // ' d->H[i]->head' é a minha lista da tabela e sendo assim o bucket da lista encadeada
         while(node!=NULL){
             Node* next_node = node->next; // Próximo nó da lista recebendo o keyo seguinte ao "head" da lista
             free(node);
             node = next_node; // atualizando o nó atual para o seguinte
         }
+        free(d->H[i]);
     }
-    for (int i = 0; i < d->m; i++){
-        d->H[i] = NULL; // Iterando sobre a tabela e fazendo com q cada slot dela receba 'NULL' para esvaziar a tabela
-    }
-    d->cnt = 0;
     free(d);
+}
+
+void printDict(Dictionary* d){
+    Node** arr = (Node**)malloc(d->m * sizeof(Node*)); // criando um array de ponteiros para fazer o quicksort nele
+    for(int i = 0; i < d->m; i++){
+        if (d->H[i]->head->next != NULL){
+            Node* current = d->H[i]->head->next;
+            while(current != NULL){
+                arr = current;
+                current = current -> next;
+            }
+        }
+    }
+    // Quicksort para organizar o array e imprimir
 }
 
 #endif

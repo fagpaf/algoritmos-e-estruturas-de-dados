@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct Node {
     char* key;
@@ -62,10 +63,6 @@ char* del(List* l){
     free(temp);   
     l -> count--;
     return str;
-}
-
-int length(List* l){
-    return l->count;
 }
 
 void printlist(List* l){

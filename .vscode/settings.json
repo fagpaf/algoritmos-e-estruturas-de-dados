@@ -54,7 +54,14 @@
       "ostream": "cpp",
       "time.h": "c",
       "q3linkedlist.h": "c",
-      "openhash.h": "c"
+      "openhash.h": "c",
+      "optional": "c",
+      "istream": "c",
+      "system_error": "c",
+      "array": "c",
+      "tuple": "c",
+      "type_traits": "c",
+      "utility": "c"
     },
     
 }

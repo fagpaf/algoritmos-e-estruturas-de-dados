@@ -2,12 +2,11 @@
 
 const int TAM = 101;
 int hash(char* key);
-
 int main() {
 
     Dictionary* d = createDict(TAM, hash);
-    char str[6] = "marsz";
-    char carac[10] = "Dabrowski";
+    char str[10] = "ziemii";
+    char carac[7] = "z";
 
     int h = hash(str);
     printf("%d\n", h);
@@ -22,21 +21,26 @@ int main() {
     int y = find(d, carac);
     printf("%d\n", y);
 
-    remove_key(d, str);
-    x = find(d, str);
-    printf("%d\n", x);
+    // remove_key(d, str);
+    // x = find(d, str);
+    // printf("%d\n", x);
 
     
     // int test = 1;
-    // int n1 = 1;
+    // int n1 = 2;
     
     // char input[20] = "ADD:Polski";
-    // char command[4];
+
     // char* str = (char*)malloc(16);
     
     // for(int i = 0; i < test; i++){
+    //     scanf("%d", &n1);
     //     for(int j = 0; j < n1; j++){
+    //         char* input = (char*)malloc(20);
+    //         scanf("%s", input);
             
+    //         char* command = (char*)malloc(4);
+    //         char* str = (char*)malloc(16);
     //         sscanf(input, "%3s:%15s", command, str);
 
     //         if (strcmp(command, "ADD") == 0){
@@ -46,6 +50,9 @@ int main() {
     //         else if (strcmp(command, "DEL") == 0){
     //             remove_key(d, str);
     //         }
+    //         free(str);
+    //         free(command);
+    //         free(input);
     //     }
     // }
 
@@ -64,7 +71,7 @@ int main() {
     //     for(int j = 0; j < n1; j++){
     //         scanf("%s", input);
     //         char* str = (char*)malloc(16);
-    //         sscanf(input, "%3s[^:]:%15s", command, str);
+    //         sscanf(input, "%3s:%15s", command, str);
 
     //         if (strcmp(command, "ADD") == 0){
     //             int h = hash(str);
@@ -78,11 +85,6 @@ int main() {
     // }
     printf("%d\n", d->cnt);
     
-    for(int i = 0; i < d->m -1; i++){
-        if (d->H[i]->head->next != NULL){
-            printlist(d->H[i]);
-        }
-    }
     //clearDict(d);
     return 0;
 }
@@ -91,9 +93,9 @@ int hash(char* key){
     int value = 0;
     int length = strlen(key);
     for (int i = 0; i < length; i++){
-        value += (key[i] *(i + 1));        
+        value += (key[i] *(i + 1));   
     }
-    value *= 19; 
+    value *= 19;
     return value % TAM;
 }
 // gcc q.c -o q.exe ; Get-Content input.txt | ./q.exe
