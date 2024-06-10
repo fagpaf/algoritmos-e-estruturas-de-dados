@@ -16,7 +16,7 @@ typedef struct Dictionary{
 
 // Ponteiro para função ----> <tipo-de-retorno> ( *<nome-da-variável> ) ( <parâmetros> )
 
-Dictionary* createDict(int size, int(*hash)(char*)){
+Dictionary* createDict(int size, int(*hash)(char*)){ //ok
     Dictionary* d = (Dictionary*)malloc(sizeof(Dictionary));
     d->m = size;
     d->cnt = 0;
@@ -28,7 +28,7 @@ Dictionary* createDict(int size, int(*hash)(char*)){
     return d;
 }
 
-int find(Dictionary* d, char* key) {
+int find(Dictionary* d, char* key) { // ok
     for(int i = 0; i < d->m; i++){
         Node* current = d->H[i]->head->next;
         while(current != NULL){
@@ -41,7 +41,7 @@ int find(Dictionary* d, char* key) {
     return -1;
 }
 
-void insertDict(Dictionary* d, char* key, int value){
+void insertDict(Dictionary* d, char* key, int value){ // ok
     if (find(d, key) == -1){
         for (int j = 1; j < 20; j++){
             int pos = (value + (int)pow(j, 2) + 23*j) % 101; // Type cast para int pq pow() é real
@@ -58,12 +58,12 @@ void insertDict(Dictionary* d, char* key, int value){
 void remove_key(Dictionary* d, char* key){ // mexer aq
     int search = find(d, key);
     if(search != -1){
-        del(d->H[search]);
+        del(d->H[search], key);
         d->cnt--;
     }
 }
 
-void clearDict(Dictionary* d){
+void clearDict(Dictionary* d){ //ok
     for (int i = 0; i < d->m; i++){ // Itera sobre todas as listas na tabela hash
         Node* node = d->H[i]->head; // ' d->H[i]->head' é a minha lista da tabela e sendo assim o bucket da lista encadeada
         while(node!=NULL){

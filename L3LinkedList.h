@@ -42,23 +42,18 @@ List* create_list(){
 void append(List* l, char* str, int value){
     l->curr = l->tail;
     Node* new_node = create_node(NULL,str, value);
-    if (l->head->next == NULL) {
-        l->head->next = new_node;
-        l->tail = new_node;
-    } else {
-        l->tail->next = new_node;
-        l->tail = new_node; 
-    }
+    l->head->next = new_node;
+    l->tail = new_node;
     l->count++;
 }
 
-void del(List* l){
+void del(List* l, char* key){ // mexer aq
     l->curr = l->head;
     Node* temp = l->curr->next;
-    if (l -> tail == temp){
+    if (l->tail == temp){
         l->tail = l->curr;
     }
-    l -> curr -> next = temp -> next;
+    l->curr->next = temp -> next;
     free(temp);   
     l -> count--;
 }
