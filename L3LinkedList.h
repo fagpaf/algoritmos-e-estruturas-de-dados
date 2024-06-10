@@ -52,17 +52,15 @@ void append(List* l, char* str, int value){
     l->count++;
 }
 
-char* del(List* l){
+void del(List* l){
     l->curr = l->head;
     Node* temp = l->curr->next;
-    char* str = temp->key;
     if (l -> tail == temp){
         l->tail = l->curr;
     }
     l -> curr -> next = temp -> next;
     free(temp);   
     l -> count--;
-    return str;
 }
 
 void printlist(List* l){

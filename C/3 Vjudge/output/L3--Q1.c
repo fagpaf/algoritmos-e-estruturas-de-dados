@@ -5,36 +5,44 @@ int hash(char* key);
 
 int main() {
 
-    Dictionary* d = createDict(TAM, hash); // Cria um dicionário com uma tabela hash de tamanho 10
+    Dictionary* d = createDict(TAM, hash);
+    
     int test, n1;
     scanf("%d", &test);
-    scanf("%d", &n1);
     
-    char add[4] = "ADD";
-    char del[4] = "DEL";
-    char command[4];
-    char str[16];
-    
+    char* input = (char*)malloc(20);
+    char* command = (char*)malloc(4);
+    char* str = (char*)malloc(16);
+
     for(int i = 0; i < test; i++){
-        while (n1-- > 0){
-            scanf("%s", command);
-            if (strcmp(command, add) == 0){
-                sscanf(command, "ADD:%s", str);
-                
+        scanf("%d", &n1);
+        for(int j = 0; j < n1; j++){
+            scanf("%s", input);
+            
+            sscanf(input, "%3s:%15s", command, str);
+
+            if (strcmp(command, "ADD") == 0){
                 int h = hash(str);
                 insertDict(d, str, h);
             }
-            else if (strcmp(command, del) == 0){
-                sscanf(command, "DEL:%s", str);
+            else if (strcmp(command, "DEL") == 0){
                 remove_key(d, str);
             }
-            
+            free(str);
+            free(command);
+            free(input);
         }
-    }
-    printf("%d\n", d->cnt);
+        printf("%d\n", d->cnt);
     
-    for(int i = 0; i < d->cnt; i++){
-        print_list_keys(d->H[i]);
+        for(int i = 0; i < TAM; i++){
+            if (d->H[i]->head->next != NULL){
+                Node* current = d->H[i]->head->next;
+                while(current != NULL){
+                    printf("%d:%s\n", current->value, current->key);
+                    current = current -> next;
+                }
+            }
+        }
     }
     clearDict(d);
     return 0;
@@ -42,13 +50,11 @@ int main() {
 
 int hash(char* key){
     int value = 0;
-    for (int i = 19; i > 0; i--){
-        int mod = (key[i] % TAM);
-        if(mod < 0){
-            mod += TAM;
-        }
-        value += i * mod;
-    } 
-    return value;
+    int length = strlen(key);
+    for (int i = 0; i < length; i++){
+        value += (key[i] *(i + 1));        
+    }
+    value *= 19; 
+    return value % TAM;
 }
 // gcc L3--Q1.c -o L3--Q1.exe ; Get-Content input.txt | ./L3--Q1.exe

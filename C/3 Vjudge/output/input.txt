@@ -1,13 +1,2 @@
-1
-11
-ADD:marsz
-ADD:marsz
-ADD:Dabrowski
-ADD:z
-ADD:ziemii
-ADD:wloskiej
-ADD:do
-ADD:Polski
-DEL:od
-DEL:do
-DEL:wloskiej
+7
+5 3 7 2 4 6 8

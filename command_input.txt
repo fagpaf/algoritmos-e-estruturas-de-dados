@@ -1,13 +1,1 @@
-gcc B.c -o B.exe ; Get-Content input.txt | ./B.exe
-
-
-3 5
-0 -3
-6 1
-2 -2
-5 2
-1 -4
--1
-4 50
-3 5
--1
+// gcc B.c -o B.exe ; Get-Content input.txt | ./B.exe

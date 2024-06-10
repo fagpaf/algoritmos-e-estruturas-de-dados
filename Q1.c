@@ -46,17 +46,16 @@ int main() {
     
     int test, n1;
     scanf("%d", &test);
+
+    char input[20];
+    char command[4];
+    char str[16];
     
     for(int i = 0; i < test; i++){
         scanf("%d", &n1);
         for(int j = 0; j < n1; j++){
-            char* input = (char*)malloc(20);
             scanf("%s", input);
-            
-            char* command = (char*)malloc(4);
-            char* str = (char*)malloc(16);
             sscanf(input, "%3s:%15s", command, str);
-
             if (strcmp(command, "ADD") == 0){
                 int h = hash(str);
                 insertDict(d, str, h);
@@ -64,20 +63,15 @@ int main() {
             else if (strcmp(command, "DEL") == 0){
                 remove_key(d, str);
             }
-            free(str);
-            free(command);
-            free(input);
         }
-        printf("%d\n", d->cnt);
-    
-        for(int i = 0; i < TAM; i++){
-            if (d->H[i]->head->next != NULL){
-                Node* current = d->H[i]->head->next;
-                while(current != NULL){
-                    printf("%d:%s\n", current->value, current->key);
-                    current = current -> next;
-                }
-            }
+    }
+    printf("%d\n", d->cnt);
+
+    for(int i = 0; i < TAM; i++){
+        Node* current = d->H[i]->head->next;
+        while(current != NULL){
+            printf("%d:%s\n", current->value, current->key);
+            current = current -> next;
         }
     }
     clearDict(d);
@@ -209,5 +203,6 @@ void clearDict(Dictionary* d){
         }
         free(d->H[i]);
     }
+    free(d->H);
     free(d);
 }

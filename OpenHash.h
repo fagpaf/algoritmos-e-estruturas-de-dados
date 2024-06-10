@@ -8,7 +8,7 @@ typedef int (*HashFunction)(char* key); //  podemos usar HashFunction como qualq
 
 typedef struct Dictionary{
     int m;                // Tamanho da tabela
-    int cnt;              // Números de keyos na tabela
+    int cnt;              // Números de chaves na tabela
     HashFunction hashFun; // 'hashFun' é uma variável do tipo "HashFunction", ou seja, é um ponteiro para uma função
     List** H;         // É um ponteiro para um array de ponteiros para "struct List" 
     // Cada keyo do array H é um ponteiro para o início de uma lista encadeada.
@@ -20,8 +20,7 @@ Dictionary* createDict(int size, int(*hash)(char*)){
     Dictionary* d = (Dictionary*)malloc(sizeof(Dictionary));
     d->m = size;
     d->cnt = 0;
-    d->H = (List**)malloc(d->m * sizeof(List*)); // 'sizeof(struct List*)' retorna o tamanho em bytes de um ponteiro para struct List
-    // Multiplicando esse tamanho por 'd->m', q é o tamanho da tabela temos reservado o tamanho necessário para armazenar nossa tabela
+    d->H = (List**)malloc(size * sizeof(List*)); // 'sizeof(struct List*)' retorna o tamanho em bytes de um ponteiro para struct List
     for(int i = 0; i < size; i++){
         d->H[i] = create_list(); // 'H[i]' é um bucket que pode conter uma lista encadeada de nós
     }
@@ -56,10 +55,6 @@ void insertDict(Dictionary* d, char* key, int value){
     }
 }
 
-int size(Dictionary* d){
-    return d->cnt;
-}
-
 void remove_key(Dictionary* d, char* key){ // mexer aq
     int search = find(d, key);
     if(search != -1){
@@ -81,18 +76,18 @@ void clearDict(Dictionary* d){
     free(d);
 }
 
-void printDict(Dictionary* d){
-    Node** arr = (Node**)malloc(d->m * sizeof(Node*)); // criando um array de ponteiros para fazer o quicksort nele
-    for(int i = 0; i < d->m; i++){
-        if (d->H[i]->head->next != NULL){
-            Node* current = d->H[i]->head->next;
-            while(current != NULL){
-                arr = current;
-                current = current -> next;
-            }
-        }
-    }
-    // Quicksort para organizar o array e imprimir
-}
+// void printDict(Dictionary* d){
+//     List* arr = (Node*)malloc(d->m * sizeof(Node*)); // criando um array de ponteiros para fazer o quicksort nele
+//     for(int i = 0; i < d->m; i++){
+//         if (d->H[i]->head->next != NULL){
+//             Node* current = d->H[i]->head->next;
+//             while(current != NULL){
+//                 arr = current;
+//                 current = current -> next;
+//             }
+//         }
+//     }
+//     // Quicksort para organizar o array e imprimir
+// }
 
 #endif
