@@ -142,7 +142,7 @@ BSTNode* deletemin(BSTNode* root){
 
 void preorder(BSTNode* root){
     if(root != NULL){
-        // do something with rt
+        printf(" %d", root->key);
         preorder(root->left);
         preorder(root->right);
     }
@@ -151,7 +151,7 @@ void preorder(BSTNode* root){
 void inorder(BSTNode* root){
     if(root != NULL){
         inorder(root->left);
-        // do something with rt
+        printf(" %d", root->key);
         inorder(root->right);
     }
 }
@@ -160,6 +160,6 @@ void posorder(BSTNode* root){
     if(root != NULL){
         posorder(root->left);
         posorder(root->right);
-        // do something with rt
+        printf(" %d", root->key);
     }
 }
