@@ -126,6 +126,9 @@ void remove_key(Dictionary* d, char* key){
 }
 
 void printDict(Dictionary* d){
+    if(d->cnt == 0){
+        return;
+    }
     Entry* entries = (Entry*)malloc((d->cnt) * sizeof(Entry));
     int j = 0;
     for(int i =0; i < d->m; i++){
