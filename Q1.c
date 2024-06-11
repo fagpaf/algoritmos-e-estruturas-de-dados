@@ -105,8 +105,8 @@ Node* create_header(Node* nextval){
 
 List* create_list(){
     List* l = (List*) malloc(sizeof(List));
-    l -> curr = l -> tail = l -> head = create_header(NULL); // Inicializa a lista como NULL
-    l -> count = 0;   // Inicializa o contador de nós como 0
+    l -> curr = l -> tail = l -> head = create_header(NULL); 
+    l -> count = 0;
     return l;
 }
 
@@ -149,10 +149,9 @@ Dictionary* createDict(int size, int(*hash)(char*)){
     Dictionary* d = (Dictionary*)malloc(sizeof(Dictionary));
     d->m = size;
     d->cnt = 0;
-    d->H = (List**)malloc(d->m * sizeof(List*)); // 'sizeof(struct List*)' retorna o tamanho em bytes de um ponteiro para struct List
-    // Multiplicando esse tamanho por 'd->m', q é o tamanho da tabela temos reservado o tamanho necessário para armazenar nossa tabela
+    d->H = (List**)malloc(d->m * sizeof(List*)); 
     for(int i = 0; i < size; i++){
-        d->H[i] = create_list(); // 'H[i]' é um bucket que pode conter uma lista encadeada de nós
+        d->H[i] = create_list();
     }
     d->hashFun = hash;
     return d;
@@ -174,8 +173,8 @@ int find(Dictionary* d, char* key) {
 void insertDict(Dictionary* d, char* key, int value){
     if (find(d, key) == -1){
         for (int j = 1; j < 20; j++){
-            int pos = (value + (int)pow(j, 2) + 23*j) % 101; // Type cast para int pq pow() é real
-            if (d->H[pos]->head->next == NULL){ // mt burro
+            int pos = (value + (int)pow(j, 2) + 23*j) % 101; 
+            if (d->H[pos]->head->next == NULL){
                 List* l = d->H[pos];
                 append(l, key, value);
                 d->cnt++;
@@ -185,7 +184,7 @@ void insertDict(Dictionary* d, char* key, int value){
     }
 }
 
-void remove_key(Dictionary* d, char* key){ // mexer aq
+void remove_key(Dictionary* d, char* key){
     int search = find(d, key);
     if(search != -1){
         del(d->H[search]);

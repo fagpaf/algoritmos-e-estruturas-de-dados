@@ -63,7 +63,8 @@
       "type_traits": "c",
       "utility": "c",
       "binarysearchtree.h": "c",
-      "l3linkedlist.h": "c"
+      "l3linkedlist.h": "c",
+      "cstdlib": "c"
     },
     
 }

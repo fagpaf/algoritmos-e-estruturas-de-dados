@@ -5,19 +5,6 @@
 
 typedef int(*HashFunction)(int key, int mod);
 
-typedef struct Entry{
-    int key;
-    int value;
-    int occupied;
-} Entry;
-
-typedef struct Dictionary{
-    int m;
-    int cnt;
-    int* Perm;
-    Entry* H;
-    HashFunction hashFun;
-} Dictionary;
 
 int h(int key, int mod);
 Entry* create_entry(int key, int value);
@@ -63,10 +50,7 @@ int main(){ // Erro no case 3
         }
     }   
     scanf("%d", &m);
-    if(m != 0){
-        clearDict(d);
-        goto new_dict;
-    }
+    clearDict(d);
     return 0;
 }
 // gcc EP-3.c -o EP-3.exe ; Get-Content input3.txt | ./EP-3.exe
