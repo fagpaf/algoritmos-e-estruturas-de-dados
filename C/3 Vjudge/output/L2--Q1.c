@@ -5,7 +5,7 @@ const int MAXLEN = 100001;
 int main() {
     char str[MAXLEN];
     
-    while(scanf(" %s", str) != EOF) { // É bom dar esse espaço no " %s" para evitar problema
+    while(scanf(" %s", str) != EOF) { // É bom dar esse espaço no " %s" para evitar problema no buffer
         List* l = create_list();
         
         for (int i = 0; str[i] != '\0'; i++) {
