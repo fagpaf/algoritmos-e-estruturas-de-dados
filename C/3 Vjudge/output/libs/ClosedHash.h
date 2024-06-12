@@ -38,7 +38,7 @@ int hash(char* key){ // ok
         value += (key[i] *(i + 1));   
     }
     value *= 19;
-    return value % TAM; // teste
+    return value % TAM;
 }
 
 Entry* create_entry(char* key){ // *
@@ -100,7 +100,7 @@ void remove_key(Dictionary* d, char* key, int value){
     int idx = search(d, key, value);
     if(idx != -1){
         d->H[idx].key = "";
-        d->H[idx].occupied = 0;
+        d->H[idx].occupied = -1;
         d->cnt--;
     }
 }
@@ -115,7 +115,7 @@ void printDict(Dictionary* d){
     }
 }
 
-void clearDict(Dictionary* d){ // ok
+void clearDict(Dictionary* d){// ok
     free(d->H);
     free(d);
 }
