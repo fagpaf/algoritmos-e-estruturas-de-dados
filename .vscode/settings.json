@@ -64,7 +64,12 @@
       "utility": "c",
       "binarysearchtree.h": "c",
       "l3linkedlist.h": "c",
-      "cstdlib": "c"
+      "cstdlib": "c",
+      "closedhash.h": "c",
+      "bit": "c",
+      "random": "c",
+      "limits": "c",
+      "numeric": "c"
     },
     
 }
