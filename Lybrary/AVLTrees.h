@@ -27,11 +27,22 @@ void preorder(BSTNode* root);
 void inorder(BSTNode* root);
 void postorder(BSTNode* root);
 //-----------------------------------------------------
-BSTNode* rightRotate(BSTNode* root);
+BSTNode* rightRotate(BST* bst);
 BSTNode* leftRotate(BSTNode* root);
+void free_bst(BSTNode* root);
 int max(int l, int r);
 int getBalance(BSTNode* root);
 int h(BSTNode* root);
+
+
+void free_bst(BST* bst){
+    BSTNode* root = bst->root;
+    if (root != NULL) {
+        free_bst(root->left);
+        free_bst(root->right);
+        free(root);
+    }
+}
 
 int max(int l, int r){
     if(l > r){

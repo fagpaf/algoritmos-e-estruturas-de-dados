@@ -28,7 +28,7 @@ void bogosort(int *a, int n)
  
 int main()
 {
-  int numbers[] = { 1, 10, 9,  7, 3, 0 };
+  int numbers[6] = { 1, 10, 9,  7, 3, 0 };
   int i;
  
   bogosort(numbers, 6);

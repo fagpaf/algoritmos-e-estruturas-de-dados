@@ -26,6 +26,7 @@ void posorder(BSTNode* root);
 //-----------------------------------------------------
 BSTNode* rightRotate(BSTNode* root);
 BSTNode* leftRotate(BSTNode* root);
+void free_bst(BST* bst);
 int max(int l, int r);
 int getbalance(BSTNode* root);
 int h(BSTNode* root);
@@ -54,7 +55,8 @@ int main() {
 
 // gcc q.c -o q.exe ; Get-Content input.txt | ./q.exe
 
-void free_bst(BSTNode* root) {
+void free_bst(BST* bst){
+    BSTNode* root = bst->root;
     if (root != NULL) {
         free_bst(root->left);
         free_bst(root->right);
