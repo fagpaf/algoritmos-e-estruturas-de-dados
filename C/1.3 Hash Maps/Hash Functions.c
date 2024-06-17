@@ -15,6 +15,16 @@ int main() {
 
 }
 
+int hash(char* key){ // ok
+    int value = 0;
+    int length = strlen(key);
+    for (int i = 0; i < length; i++){
+        value += (key[i] *(i + 1));   
+    }
+    value *= 19;
+    return value % TAM;
+}
+
 int hashTable(int x, int size){
     int value = x % size;
     if(value < 0){

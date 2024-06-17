@@ -28,7 +28,7 @@ BSTNode* getmin(BSTNode* root);
 BSTNode* deletemin(BSTNode* root);
 void preorder(BSTNode* root);
 void inorder(BSTNode* root);
-void posorder(BSTNode* root);
+void postorder(BSTNode* root);
 
 
 BSTNode* create_bstnode(int k, int value){
@@ -151,10 +151,10 @@ void inorder(BSTNode* root){
     }
 }
 
-void posorder(BSTNode* root){
+void postorder(BSTNode* root){
     if(root != NULL){
-        posorder(root->left);
-        posorder(root->right);
+        postorder(root->left);
+        postorder(root->right);
         printf(" %d", root->key);
     }
 }

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 typedef struct BSTNode{
     int key;
@@ -23,12 +22,12 @@ int find(BST* bst ,int k);
 int findhelp(BSTNode* root, int k);
 void preorder(BSTNode* root);
 void inorder(BSTNode* root);
-void posorder(BSTNode* root);
+void postorder(BSTNode* root);
 //-----------------------------------------------------
 BSTNode* rightRotate(BSTNode* root);
 BSTNode* leftRotate(BSTNode* root);
 int max(int l, int r);
-int getbalance(BSTNode* root);
+int getBalance(BSTNode* root);
 int h(BSTNode* root);
 
 int main() {
@@ -41,15 +40,12 @@ int max(int l, int r){
     if(l > r){
         return l;
     }
-    else if(r > l){
-        return r;
-    }
     else{
-        return 0;
+        return r;
     }
 }
 
-int getbalance(BSTNode* root){ // fator de balanceamento da árvore
+int getBalance(BSTNode* root){ // fator de balanceamento da árvore
     if (root == NULL){
         return 0;
     }
@@ -67,6 +63,7 @@ BSTNode* create_bstnode(int key, int value){
     BSTNode* n = (BSTNode*)malloc(sizeof(BSTNode));
     n->key = key;
     n->value = value;
+    n->height = 0;
     n->left = n->right = NULL;
     return n;
 }
@@ -75,7 +72,6 @@ BST* create_bst(){
     BST* bst = (BST*)malloc(sizeof(BST));
     bst->root = NULL;
     bst->nodecnt = 0;
-    bst->root->height = 0;
     return bst;
 }
 
@@ -116,7 +112,7 @@ BSTNode* inserthelp(BSTNode* root, int key, int value){ // Chaves repetidas vão
     }
     // PARAR PARA LER ISSO
     root->height = 1 + max(h(root->left), h(root->right));
-    int balance = getbalance(root);
+    int balance = getBalance(root);
     
     if(balance < -1 && key >= root->right->key){
         return leftRotate(root);
@@ -173,10 +169,10 @@ void inorder(BSTNode* root){
     }
 }
 
-void posorder(BSTNode* root){
+void postorder(BSTNode* root){
     if(root != NULL){
-        posorder(root->left);
-        posorder(root->right);
+        postorder(root->left);
+        postorder(root->right);
         printf(" %d", root->key);
     }
 }

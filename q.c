@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 typedef struct BSTNode{
     int key;
@@ -15,7 +14,6 @@ typedef struct BST{
     int nodecnt;
 } BST;
 
-// FIZ CAGADA NO CÓDIGO
 BSTNode* create_bstnode(int key, int value);
 BST* create_bst();
 void insertNode(BST* bst, int key, int value);
@@ -33,41 +31,43 @@ int getbalance(BSTNode* root);
 int h(BSTNode* root);
 
 int main() {
-
     BST* tree = create_bst();
-    int n, pi;
-    scanf("%d", &n);
-    
-    for(int i = 0; i < n; i++){
-        scanf("%d", &pi);
-        insertNode(tree, pi, i);
-    }
-    
-    printf("Pre order :");
-    preorder(tree->root);
-    printf("\n");
 
-    printf("In order  :");
-    inorder(tree->root);
-    printf("\n");
+    // int c;
+    // scanf("%d", &c);
 
-    printf("Post order:");
-    posorder(tree->root);
-    
+    // int operations = c;
+    // int n, pi;
+
+    // while(operations-- > 0){
+    //     scanf("%d", &n);
+    //     for(int i = 0; i < n; i++){
+    //         scanf("%d", &pi);
+    //         insertNode(tree, pi, i);
+    //     }
+    //     printf("Pre order :");
+    //     preorder(tree->root);
+    //     printf("\n");
+    // }
     return 0;
 }
 
 // gcc q.c -o q.exe ; Get-Content input.txt | ./q.exe
 
+void free_bst(BSTNode* root) {
+    if (root != NULL) {
+        free_bst(root->left);
+        free_bst(root->right);
+        free(root);
+    }
+}
+
 int max(int l, int r){
     if(l > r){
         return l;
     }
-    else if(r > l){
-        return r;
-    }
     else{
-        return 0;
+        return r;
     }
 }
 
@@ -89,6 +89,7 @@ BSTNode* create_bstnode(int key, int value){
     BSTNode* n = (BSTNode*)malloc(sizeof(BSTNode));
     n->key = key;
     n->value = value;
+    n->height = 0;
     n->left = n->right = NULL;
     return n;
 }
@@ -97,7 +98,6 @@ BST* create_bst(){
     BST* bst = (BST*)malloc(sizeof(BST));
     bst->root = NULL;
     bst->nodecnt = 0;
-    bst->root->height = 0;
     return bst;
 }
 
@@ -164,8 +164,8 @@ BSTNode* rightRotate(BSTNode* root){
     BSTNode* lr = l->right; // é a subarvore direita do nó esquerdo
     l->right = root;
     root->left = lr;
-    root->height = max(h(root->left), h(root->right)) + 1;
-    l->height = max(h(l->left), h(l->right)) + 1;
+    root->height = 1 + max(h(root->left), h(root->right));
+    l->height = 1 + max(h(l->left), h(l->right));
     return l;
 }
 
@@ -174,8 +174,8 @@ BSTNode* leftRotate(BSTNode* root){
     BSTNode* rl = r->left;
     r->left = root;
     root->right = rl;
-    root->height = max(h(root->left), h(root->right)) + 1;
-    r->height = max(h(root->left), h(root->right)) + 1;
+    root->height = 1 + max(h(root->left), h(root->right));
+    r->height = 1 + max(h(root->left), h(root->right));
     return r;
 }
 
