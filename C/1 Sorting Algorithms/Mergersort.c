@@ -39,6 +39,7 @@ void Merge(int A[], int l, int r){
     //  void *memcpy(void *dest, const void *src, size_t count);
 
     memcpy(temp, A, (r+1) * sizeof(int)); // Precisa da biblbioteca <string.h>
+    // 'sizeof(int)' dá o número total de bytes que você precisa copiar. 
 
     int meio = (l + r) / 2;
 

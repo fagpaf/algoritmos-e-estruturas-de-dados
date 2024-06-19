@@ -18,7 +18,7 @@ int main() {
 
 // Define a função após a main
 
-int soma(x, y){
+int soma(x, y){ // se fizer sizeof em um array em um função ele n fuciona pq o array vira um ponteiro 
 
     return x + y;
 }

@@ -5,6 +5,19 @@
 
 typedef int(*HashFunction)(int key, int mod);
 
+typedef struct Entry{
+    int key;
+    int value;
+    int occupied;
+} Entry;
+
+typedef struct Dictionary{
+    int m;
+    int cnt;
+    // Perm* perm; Falta o perm
+    Entry* H;
+    HashFunction hashFun;
+} Dictionary;
 
 int h(int key, int mod);
 Entry* create_entry(int key, int value);
@@ -18,7 +31,6 @@ int main(){ // Erro no case 3
     int m;
     scanf("%d", &m);
 
-    new_dict: // Etiqueta para retornar a esta linha
     Dictionary* d = create_dict(m, h);
     for(int i = 0; i < m - 1; i++){
         scanf("%d", &d->Perm[i]);

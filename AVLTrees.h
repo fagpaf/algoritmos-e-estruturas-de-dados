@@ -1,3 +1,6 @@
+#ifndef AVLTREES_H
+#define AVLTREES_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,11 +35,6 @@ int max(int l, int r);
 int getBalance(BSTNode* root);
 int h(BSTNode* root);
 
-int main(){
-
-    
-    return 0;
-}
 
 void clear_bst(BST* bst){
     clear_root(bst->root);
@@ -118,26 +116,31 @@ BSTNode* inserthelp(BSTNode* root, int key, int value){ // Chaves repetidas vão
     if(root == NULL){
         return create_bstnode(key, value); // Retornando areferência para o novo nó
     }
+    
     if(root->key > key){
         root->left = inserthelp(root->left, key, value); // Retornando a referência ao nó atual
     }
+   
     else{
         root->right = inserthelp(root->right, key, value);
     }
-    // PARAR PARA LER ISSO
+    
     root->height = 1 + max(h(root->left), h(root->right));
     int balance = getBalance(root);
     
     if(balance < -1 && key >= root->right->key){
         return leftRotate(root);
     }
+    
     if(balance > 1 && key < root->left->key){
         return rightRotate(root);
     }
+    
     if(balance > 1 && key >= root->left->key){
         root->left = leftRotate(root->left);
         return rightRotate(root);
     }
+    
     if(balance < -1 && key < root->right->key){
         root->right = rightRotate(root->right);
         return leftRotate(root);
@@ -189,3 +192,5 @@ void postorder(BSTNode* root){
         printf(" %d", root->key);
     }
 }
+
+#endif

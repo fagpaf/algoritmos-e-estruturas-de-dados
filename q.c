@@ -26,7 +26,8 @@ void posorder(BSTNode* root);
 //-----------------------------------------------------
 BSTNode* rightRotate(BSTNode* root);
 BSTNode* leftRotate(BSTNode* root);
-void free_bst(BST* bst);
+void clear_bst(BST* bst);
+void clear_root(BSTNode* root);
 int max(int l, int r);
 int getbalance(BSTNode* root);
 int h(BSTNode* root);
@@ -34,32 +35,37 @@ int h(BSTNode* root);
 int main() {
     BST* tree = create_bst();
 
-    // int c;
-    // scanf("%d", &c);
+    int operations;
+    scanf("%d", &operations);
 
-    // int operations = c;
-    // int n, pi;
+    int command, pi;
 
-    // while(operations-- > 0){
-    //     scanf("%d", &n);
-    //     for(int i = 0; i < n; i++){
-    //         scanf("%d", &pi);
-    //         insertNode(tree, pi, i);
-    //     }
-    //     printf("Pre order :");
-    //     preorder(tree->root);
-    //     printf("\n");
-    // }
+    for(int i = 0; i < operations; i++){
+        scanf("%d", &command);
+        scanf("%d", &pi);
+        
+        if(command == 1){
+            insertNode(tree, pi, 0);
+        }
+        else{
+            find(tree, pi);
+        }
+    }
+    clear_bst(tree);
     return 0;
 }
 
 // gcc q.c -o q.exe ; Get-Content input.txt | ./q.exe
 
-void free_bst(BST* bst){
-    BSTNode* root = bst->root;
+void clear_bst(BST* bst){
+    clear_root(bst->root);
+    free(bst);
+}
+
+void clear_root(BSTNode* root){
     if (root != NULL) {
-        free_bst(root->left);
-        free_bst(root->right);
+        clear_root(root->left);
+        clear_root(root->right);
         free(root);
     }
 }

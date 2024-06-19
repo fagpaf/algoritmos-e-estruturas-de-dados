@@ -29,16 +29,20 @@
 
 
 
-text1 = """Pre order : 5 3 2 4 7 6 8
-In order  : 2 3 4 5 6 7 8
-Post order: 2 4 3 6 8 7 5
-"""
+# text1 = """Pre order : 5 3 2 4 7 6 8
+# In order  : 2 3 4 5 6 7 8
+# Post order: 2 4 3 6 8 7 5
+# """
 
-text2 = """Pre order : 5 3 2 4 7 6 8
-In order  : 2 3 4 5 6 7 8
-Post order: 2 4 3 6 8 7 5"""
+# text2 = """Pre order : 5 3 2 4 7 6 8
+# In order  : 2 3 4 5 6 7 8
+# Post order: 2 4 3 6 8 7 5"""
 
-if text1 == text2:
-    print("Os textos são idênticos")
-else:
-    print("Os textos são diferentes")
+# if text1 == text2:
+#     print("Os textos são idênticos")
+# else:
+#     print("Os textos são diferentes")
+
+
+# while True:
+#     print(f"FLAVINHO GOSTOSO")
