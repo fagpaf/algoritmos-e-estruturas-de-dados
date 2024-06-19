@@ -1,7 +1,6 @@
 // gcc B.c -o B.exe ; Get-Content input.txt | ./B.exe
 
 Output
-
 144
 3400000
 26

@@ -27,14 +27,22 @@ int main() {
         bottomUp(arr, length); // Deixando a min heap pronta para resolver a questão
 
         // Tô errando a soma
-        int cost = 0;
+        int cost = 0, current = 0;
         int add = arr[1]; // 'add' recebe a raiz da min heap, pois ela já está pronta
+        del(arr, length); // deletando para quando entrar no loop formar a min heap
         for(int i = 1; i < length - 1; i++){
-            del(arr, length);
             bottomUp(arr, length);
-            int current = add + arr[1]; // Soma o valor atual de 'add' com o primeiro elemento de 'arrcpy' e armazena em 'current'
-            add = current;              // Atualiza 'add' com o valor de 'current' para fazer a soma do custo correto
-            cost += current;
+            if(add > arr[2]){
+                current = arr[1] + arr[2];
+                cost += current;
+                del(arr, length);
+            }
+            else{
+                current = arr[1] + add; // Soma o valor atual de 'add' com o primeiro elemento de 'arrcpy' e armazena em 'current'
+                add = current;          // Atualiza 'add' com o valor de 'current' para fazer a soma do custo correto
+                cost += current;
+                del(arr, length);
+            }
         }   
         printf("%d\n", cost);
         scanf("%d", &operations);
@@ -45,6 +53,11 @@ int main() {
     return 0;
 }
 // gcc heap.c -o heap.exe ; Get-Content input.txt | ./heap.exe
+
+void del(int H[], int length){
+    H[1] = H[length -1]; // O primeiro recebe o último
+    length--; //e decresce o tamanho do array
+}
 
 void heapify(int H[], int length){  // MIN HEAP
     int n = length - 1;
@@ -75,7 +88,3 @@ void bottomUp(int H[], int length){
     heapify(H, length);
 }
 
-void del(int H[], int length){
-    H[1] = H[length -1]; // O primeiro recebe o último
-    length--; //e decresce o tamanho do array
-}
