@@ -21,9 +21,6 @@ BSTNode* inserthelp(BSTNode* root, int key, int value);
 int find(BST* bst ,int k);
 int findhelp(BSTNode* root, int k);
 void preorder(BSTNode* root);
-void inorder(BSTNode* root);
-void posorder(BSTNode* root);
-//-----------------------------------------------------
 BSTNode* rightRotate(BSTNode* root);
 BSTNode* leftRotate(BSTNode* root);
 void clear_bst(BST* bst);
@@ -37,27 +34,22 @@ int main(){
     int cases;
     scanf("%d", &cases);
     
-    while (cases-- > 0){
-        BST* tree = create_bst()
+    while (cases--){
+        BST* tree = create_bst();
         int operations;
         scanf("%d", &operations);
-
         int input;
         for (int i = 0; i < operations; i++){
+            scanf("%d", &input);
             insertNode(tree, input, i);
         }
-        preorder(tree);
+        preorder(tree->root);
         printf("END\n");
 
         clear_bst(tree);
     }
-    
-
-    
     return 0;
 }
-
-// gcc q.c -o q.exe ; Get-Content input.txt | ./q.exe
 
 void clear_bst(BST* bst){
     clear_root(bst->root);
@@ -81,7 +73,7 @@ int max(int l, int r){
     }
 }
 
-int getbalance(BSTNode* root){ // fator de balanceamento da árvore
+int getbalance(BSTNode* root){
     if (root == NULL){
         return 0;
     }
@@ -135,18 +127,17 @@ void insertNode(BST* bst, int key, int value){
     bst->nodecnt++;
 }
 
-// PARTE MAIS IMPORTANTE
-BSTNode* inserthelp(BSTNode* root, int key, int value){ // Chaves repetidas vão para a posição certa
+BSTNode* inserthelp(BSTNode* root, int key, int value){
     if(root == NULL){
-        return create_bstnode(key, value); // Retornando areferência para o novo nó
+        return create_bstnode(key, value);
     }
     if(root->key > key){
-        root->left = inserthelp(root->left, key, value); // Retornando a referência ao nó atual
+        root->left = inserthelp(root->left, key, value);
     }
     else{
         root->right = inserthelp(root->right, key, value);
     }
-    // PARAR PARA LER ISSO
+
     root->height = 1 + max(h(root->left), h(root->right));
     int balance = getbalance(root);
     
@@ -167,11 +158,9 @@ BSTNode* inserthelp(BSTNode* root, int key, int value){ // Chaves repetidas vão
     return root;
 }
 
-// ***PRECISO ENTENDER AS ROTAÇÕES***
-
 BSTNode* rightRotate(BSTNode* root){
     BSTNode* l = root->left;
-    BSTNode* lr = l->right; // é a subarvore direita do nó esquerdo
+    BSTNode* lr = l->right;
     l->right = root;
     root->left = lr;
     root->height = 1 + max(h(root->left), h(root->right));
@@ -185,30 +174,14 @@ BSTNode* leftRotate(BSTNode* root){
     r->left = root;
     root->right = rl;
     root->height = 1 + max(h(root->left), h(root->right));
-    r->height = 1 + max(h(root->left), h(root->right));
+    r->height = 1 + max(h(r->left), h(r->right));
     return r;
 }
 
 void preorder(BSTNode* root){
     if(root != NULL){
-        printf(" %d", root->key);
+        printf("%d\n", root->key);
         preorder(root->left);
         preorder(root->right);
-    }
-}
-
-void inorder(BSTNode* root){
-    if(root != NULL){
-        inorder(root->left);
-        printf(" %d", root->key);
-        inorder(root->right);
-    }
-}
-
-void posorder(BSTNode* root){
-    if(root != NULL){
-        posorder(root->left);
-        posorder(root->right);
-        printf(" %d", root->key);
     }
 }
