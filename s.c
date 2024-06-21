@@ -14,7 +14,6 @@ int main() {
         
         if(command == 1){
             insertNode(tree, pi, i);
-            printf("obla di\n");
         }
         else{
             int x = find(tree, pi);

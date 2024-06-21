@@ -1,6 +1,14 @@
 // gcc B.c -o B.exe ; Get-Content input.txt | ./B.exe
 
-Output
+Output Q1:
+2
+Data tidak ada
+4
+1
+Data tidak ada
+-------------------
+Output Q2:
 144
 3400000
 26
+
