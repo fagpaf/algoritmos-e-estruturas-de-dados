@@ -6,19 +6,27 @@ enum bool{
     True
 };
 
-void bottomUp(int H[], int length);
 void heapify(int H[], int length);
+void del(int H[], int* length);
 
 int main() {
 
-    int H[8] = {-999, 2, 9, 7, 6, 5, 8, 10};
-    // int H[5] = {-1, 10, 40, 50, 5};
+    // int H[8] = {-999, 2, 9, 7, 6, 5, 8, 10};
+    int H[7] = {-1, 10, 40, 50, 5, 3, 90};
     int length = sizeof(H)/sizeof(H[0]);
-    bottomUp(H, length);
+    heapify(H, length);
     for (int i = 1; i < length; i++){
         printf("%d ", H[i]);
     }
-    
+    int n = length;
+    while(n > 0){
+        printf("\n");
+        del(H, &length);
+        for (int i = 1; i < length; i++){
+            printf("%d ", H[i]);
+        }
+        n--;
+    }
     return 0;
 }
 
@@ -47,8 +55,11 @@ void heapify(int H[], int length){  // MIN HEAP
     }
 }
 
-void bottomUp(int H[], int length){
-    heapify(H, length);
+void del(int H[], int* length){
+    H[1] = H[*length -1]; // O primeiro recebe o último
+    (*length)--; // O tamanho do array é decrementado diretamente através do ponteiro, isso garante que a variável 'length' no 'main' seja atualizada
+    // Os parênteses servem para desreferenciar o ponteiro antes de decrementar
+    heapify(H, *length); 
 }
 
 // void heapify(int H[], int length){  // MAX HEAP

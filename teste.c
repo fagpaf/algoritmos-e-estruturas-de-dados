@@ -7,98 +7,61 @@ enum Boolean{
     True
 };
 
-void bottomUp(int H[], int length);
 void heapify(int H[], int length);
-void del(int H[], int length);
-
-
-// int main() {
-//     int operations;
-//     scanf("%d", &operations);
-
-//     enum Boolean loop = True;
-//     while(loop){
-//         int length = operations + 1;
-//         int arr[length];
-//         arr[0] = -1;
-
-//         for(int j = 1; j < length; j++){
-//             scanf("%d", &arr[j]);
-//         }
-//         bottomUp(arr, length); // Deixando a min heap pronta para resolver a questão
-
-//         int cost = 0;
-//         int add = arr[1]; // 'add' recebe a raiz da min heap, pois ela já está pronta
-//         int temp = length - 1; // Define 'temp' como a quantidade de elementos menos um (ignora o índice 0).
-
-//         for(int i = 1; i < length - 1; i++){
-//             // Declara um array cópia 'arrcpy' com tamanho 'temp'
-//             int arrcpy[temp];
-
-//             // Copia 'temp' elementos do array 'arr' começando do índice 'i' para 'arrcpy'
-//             memcpy(arrcpy, arr + i, temp * sizeof(int));
-            
-//             // Soma o valor atual de 'add' com o primeiro elemento de 'arrcpy' e armazena em 'current'
-//             int current = add + arrcpy[1];
-            
-//             // Atualiza 'add' com o valor de 'current' para fazer a soma do custo correto
-//             add = current;
-            
-//             cost += current;
-//              // Constrói uma heap a partir do array 'arrcpy' com 'temp' elementos
-//             bottomUp(arrcpy, temp);
-            
-//             temp--;// Reduz o valor de 'temp' para diminuir o tamanho do array a ser copiado na próxima iteração
-//         }   
-//         printf("%d\n", cost);
-//         scanf("%d", &operations);
-//         if(operations == 0){
-//             loop = False;
-//         }
-//     }
-//     return 0;
-// }
-// gcc heap.c -o heap.exe ; Get-Content input.txt | ./heap.exe
-
-
-
+void del(int H[], int* length);
 
 
 int main() {
+    int operations;
+    scanf("%d", &operations);
+
     enum Boolean loop = True;
     while(loop){
+        int length = operations + 1;
+        int arr[length];
+        arr[0] = -1;
 
-        
-        int arr[6] = {-1, 2, 2, 2, 2, 3};
-        int length = 6;
-        bottomUp(arr, length); // Deixando a min heap pronta para resolver a questão
+        for(int j = 1; j < length; j++){
+            scanf("%d", &arr[j]);
+        }
+        heapify(arr, length); // Deixando a min heap pronta para resolver a questão
 
-        // Tô errando a soma
-        int cost = 0, current = 0;
-        int add = arr[1]; // 'add' recebe a raiz da min heap, pois ela já está pronta
-        del(arr, length); // deletando para quando entrar no loop formar a min heap
-        for(int i = 1; i < length - 1; i++){
-            // Posso passar o valor do custo para um array
-            if(add > arr[2]){
+        int cost = 0, current = 0, idx = 0;
+        int add [length/2]; 
+        int count = length;
+        while(count > 0){
+
+            if(cost == 0){ // ok
+                current = arr[1] + arr[2];
+                add[idx] = current;
+                cost += current;
+                del(arr, &length); // passando o endereço da variável 'length'
+            }
+            
+            else if(add[idx] < arr[2]){
+                current = arr[1] + add[idx]; 
+                add[idx] = 0;
+                idx++;        
+                cost += current;
+                del(arr, &length);
+            }
+            else{
+                del(arr, &length);
                 current = arr[1] + arr[2];
                 cost += current;
             }
-            else{
-                current = arr[1] + add; // Soma o valor atual de 'add' com o primeiro elemento de 'arrcpy' e armazena em 'current'
-                add = current;          // Atualiza 'add' com o valor de 'current' para fazer a soma do custo correto
-                cost += current;
-            }
-        }   
+            count--;
+        }
+
         printf("%d\n", cost);
+        scanf("%d", &operations);
+        if(operations == 0){
+            loop = False;
+        }
     }
     return 0;
 }
-
-void del(int H[], int *length){
-    H[1] = H[*length -1]; // O primeiro recebe o último
-    (*length)--; // Os parênteses servem para desreferenciar o ponteiro antes de decrementar
-    bottomUp(arr, *length)
-}
+// gcc teste.c -o teste.exe ; Get-Content input.txt | ./teste.exe
 
 void heapify(int H[], int length){  // MIN HEAP
     int n = length - 1;
@@ -125,6 +88,9 @@ void heapify(int H[], int length){  // MIN HEAP
     }
 }
 
-void bottomUp(int H[], int length){
-    heapify(H, length);
+void del(int H[], int* length){
+    H[1] = H[*length -1]; // O primeiro recebe o último
+    (*length)--; // O tamanho do array é decrementado diretamente através do ponteiro, isso garante que a variável 'length' no 'main' seja atualizada
+    // Os parênteses servem para desreferenciar o ponteiro antes de decrementar
+    heapify(H, *length); 
 }

@@ -3,6 +3,11 @@
 #include <string.h>
 #include <math.h>
 
+enum Boolean{
+    False = 0,
+    True
+};
+
 typedef int(*HashFunction)(int key, int mod);
 
 typedef struct Entry{
@@ -14,7 +19,7 @@ typedef struct Entry{
 typedef struct Dictionary{
     int m;
     int cnt;
-    // Perm* perm; Falta o perm
+    int* Perm;
     Entry* H;
     HashFunction hashFun;
 } Dictionary;
@@ -24,25 +29,22 @@ Entry* create_entry(int key, int value);
 Dictionary* create_dict(int size, int(*hash)(int, int));
 int search(Dictionary* d, int key);
 void insert(Dictionary* d, int key, int value);
-void clearDict(Dictionary* d);
 
-int main(){ // Erro no case 3
+int main(){
 
-    int m;
+    int m, n;
     scanf("%d", &m);
-
     Dictionary* d = create_dict(m, h);
     for(int i = 0; i < m - 1; i++){
         scanf("%d", &d->Perm[i]);
     }
-    int n;
+
     scanf("%d", &n);
     char str[5];
     char add[4] = "add";
     char find[5] = "find";
     
-    int operations = n;
-    while (operations-- > 0){
+    while (n-- > 0){
         scanf("%s", str);
         if(strcmp(str, add) == 0){
             int key, value;
@@ -60,13 +62,12 @@ int main(){ // Erro no case 3
                 printf("-1\n");
             }
         }
+        scanf("%d", &m);
     }   
-    scanf("%d", &m);
-    clearDict(d);
+    
     return 0;
 }
 // gcc EP-3.c -o EP-3.exe ; Get-Content input3.txt | ./EP-3.exe
-
 
 int h(int key, int mod){
     int temp = (int) floor((((double) key) / ((double) mod)));
@@ -86,7 +87,7 @@ Dictionary* create_dict(int size, int(*hash)(int, int)){
     d->m = size;
     d->cnt = 0;
     d->H = (Entry*)malloc(size * sizeof(Entry));
-    d->Perm = (int*)malloc(size * sizeof(int));
+    d->Perm = (int*)malloc((size-1) * sizeof(int));
     d->hashFun = hash;
     for(int i = 0; i < size; i++){
         d->H[i].occupied = 0;
@@ -124,9 +125,4 @@ void insert(Dictionary* d, int key, int value){
         // Como 'entry' é um ponteiro para struct "Entry" é preciso desreferenciar ele, para acessar apenas o valor dele q é do tipo 'struct'
         d->cnt++;
     }
-}
-void clearDict(Dictionary* d){
-    free(d->H);
-    free(d->Perm);
-    free(d);
 }

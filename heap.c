@@ -7,9 +7,8 @@ enum Boolean{
     True
 };
 
-void bottomUp(int H[], int length);
 void heapify(int H[], int length);
-void del(int H[], int length);
+void del(int H[], int* length);
 
 int main() {
     int operations;
@@ -54,9 +53,10 @@ int main() {
 }
 // gcc heap.c -o heap.exe ; Get-Content input.txt | ./heap.exe
 
-void del(int H[], int length){
+void del(int H[], int* length){
     H[1] = H[length -1]; // O primeiro recebe o último
     length--; //e decresce o tamanho do array
+    heapify(H[], length);
 }
 
 void heapify(int H[], int length){  // MIN HEAP
@@ -84,7 +84,50 @@ void heapify(int H[], int length){  // MIN HEAP
     }
 }
 
-void bottomUp(int H[], int length){
-    heapify(H, length);
-}
 
+// int main() {
+//     int operations;
+//     scanf("%d", &operations);
+
+//     enum Boolean loop = True;
+//     while(loop){
+//         int length = operations + 1;
+//         int arr[length];
+//         arr[0] = -1;
+
+//         for(int j = 1; j < length; j++){
+//             scanf("%d", &arr[j]);
+//         }
+//         bottomUp(arr, length); // Deixando a min heap pronta para resolver a questão
+
+//         int cost = 0;
+//         int add = arr[1]; // 'add' recebe a raiz da min heap, pois ela já está pronta
+//         int temp = length - 1; // Define 'temp' como a quantidade de elementos menos um (ignora o índice 0).
+
+        // for(int i = 1; i < length - 1; i++){
+        //     // Declara um array cópia 'arrcpy' com tamanho 'temp'
+        //     int arrcpy[temp];
+
+        //     // Copia 'temp' elementos do array 'arr' começando do índice 'i' para 'arrcpy'
+        //     memcpy(arrcpy, arr + i, temp * sizeof(int));
+            
+        //     // Soma o valor atual de 'add' com o primeiro elemento de 'arrcpy' e armazena em 'current'
+        //     int current = add + arrcpy[1];
+            
+        //     // Atualiza 'add' com o valor de 'current' para fazer a soma do custo correto
+        //     add = current;
+            
+        //     cost += current;
+        //      // Constrói uma heap a partir do array 'arrcpy' com 'temp' elementos
+        //     bottomUp(arrcpy, temp);
+            
+        //     temp--;// Reduz o valor de 'temp' para diminuir o tamanho do array a ser copiado na próxima iteração
+        // }   
+//         printf("%d\n", cost);
+//         scanf("%d", &operations);
+//         if(operations == 0){
+//             loop = False;
+//         }
+//     }
+//     return 0;
+// }
