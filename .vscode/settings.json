@@ -70,7 +70,9 @@
       "random": "c",
       "limits": "c",
       "numeric": "c",
-      "avltrees.h": "c"
+      "avltrees.h": "c",
+      "heap.h": "c",
+      "binarysearch.h": "c"
     },
     
 }
