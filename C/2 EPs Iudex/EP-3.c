@@ -64,7 +64,6 @@ int main(){
         }
         scanf("%d", &m);
     }   
-    
     return 0;
 }
 // gcc EP-3.c -o EP-3.exe ; Get-Content input3.txt | ./EP-3.exe

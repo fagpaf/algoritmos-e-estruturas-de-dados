@@ -15,16 +15,18 @@ int main() {
     int H[7] = {-1, 10, 40, 50, 5, 3, 90};
     int length = sizeof(H)/sizeof(H[0]);
     heapify(H, length);
-    for (int i = 1; i < length; i++){
-        printf("%d ", H[i]);
-    }
+    // for (int i = 1; i < length; i++){
+    //     printf("%d ", H[i]);
+    // }
     int n = length;
-    while(n > 0){
-        printf("\n");
+    while(n > 1){
+        printf("%d ", H[1]);
         del(H, &length);
         for (int i = 1; i < length; i++){
             printf("%d ", H[i]);
+            
         }
+        printf("\n");
         n--;
     }
     return 0;

@@ -69,7 +69,8 @@
       "bit": "c",
       "random": "c",
       "limits": "c",
-      "numeric": "c"
+      "numeric": "c",
+      "avltrees.h": "c"
     },
     
 }

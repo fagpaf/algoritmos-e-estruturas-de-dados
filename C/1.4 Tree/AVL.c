@@ -162,7 +162,7 @@ BSTNode* leftRotate(BSTNode* root){
     r->left = root;
     root->right = rl;
     root->height = max(h(root->left), h(root->right)) + 1;
-    r->height = max(h(root->left), h(root->right)) + 1;
+    r->height = max(h(r->left), h(r->right)) + 1;
     return r;
 }
 
