@@ -7,4 +7,4 @@ int main() {
 
     return 0;
 }
-// gcc teste.c -o teste.exe ; Get-Content input.txt | ./teste.exe
+// gcc q.c -o q.exe ; Get-Content input.txt | ./q.exe
