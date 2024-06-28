@@ -6,7 +6,7 @@
 int main(){
 
     bool booleana = true;
-    const float PI = 3.14159; // Constante se declara com o valor e em caixa alta
+    // const float PI = 3.14159; // Constante se declara com o valor e em caixa alta
     int num = 7;
     int num2 = 2;
     float result = (int) num / num2; // Convertendo uma divisão de inteiros em float, é assim q faz um conversão
@@ -20,7 +20,7 @@ int main(){
 
     // Caso não declarado o tamanho do array podemos usar esse artifício
     //1
-    printf("%lu\n", sizeof(numbers)); // Retorna o tamanho do array em bytes ocupados na memória
+    //printf("%lu\n", sizeof(numbers)); // Retorna o tamanho do array em bytes ocupados na memória
     
     //2
     int length = sizeof(numbers) / sizeof(numbers[0]); // Funciona como o "len()" de listas em .py, em "char" ele conta o \0 o caracter nulo do array
