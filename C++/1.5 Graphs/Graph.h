@@ -12,7 +12,7 @@ typedef struct Graph{
     int n;          // Número de Vértices
 } Graph;
 
-Graph* create_graph(int n);
+Graph* createGraph(int n);
 int first(Graph* g, int v);
 int next(Graph* g, int v, int w);
 void setEdge(Graph* g, int i, int j);
@@ -27,7 +27,7 @@ void BFS(Graph* g, int start);
 void toposort(Graph* g, int v, stack<int>& s);
 void clear_graph(Graph* g);
 
-Graph* create_graph(int n){
+Graph* createGraph(int n){
     Graph* g = (Graph*)malloc(sizeof(Graph));
     g->Mark = (int*)malloc(n * sizeof(int*));
     g->matrix = (int**)malloc(n * sizeof(int*));
