@@ -1,4 +1,4 @@
-#include "LinkedList.h"   // tipo 'char*'
+#include "LinkedListSTR.h"
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -10,12 +10,14 @@ typedef struct Graph{
 } Graph;
 
 Graph* createGraph(int n);
-
+void setEdge(Graph* g, char* str);
 void clearGraph(Graph* g);
 
 int main() {
 
     Graph* g = createGraph(4);
+
+
 
     clearGraph(g);
     return 0;
@@ -33,9 +35,11 @@ Graph* createGraph(int n){
     return g;
 }
 
-// void setEdge(Graph* g, char* str){
+void setEdge(Graph* g, char* str){
 
-// }
+
+
+}
 
 void clearGraph(Graph* g){ // testar
     for (int i = 0; i < g->n; i++){ // Itera sobre todas as listas na tabela

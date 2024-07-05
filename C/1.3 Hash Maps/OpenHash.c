@@ -7,28 +7,36 @@ typedef struct Dictionary{
     int cnt;              // Números de elementos na tabela
     HashFunction hashFun; // 'hashFun' é uma variável do tipo "HashFunction", ou seja, é um ponteiro para uma função
     List** H;         // É um ponteiro para um array de ponteiros para "struct List" 
-    // Cada elemento do array H é um ponteiro para o início de uma lista encadeada.
+    // Cada elemento do array H é um ponteiro para o início de uma l encadeada.
 } Dictionary;
 
 Dictionary* createDict(int size, int(*hash)(int, int));
-Node* create_entry(Node* n, int num);
 int find(Dictionary* d, int key);
 void insertDict(Dictionary* d, int key, int num);
 int hash(int key, int m);
 int size(Dictionary* d);
-void print_list_elements(List* lista);
+void print_list_elements(List* l);
 void clearDict(Dictionary* d);
 
 int main() {
 
     Dictionary* d = createDict(3, hash); // Cria um dicionário com uma tabela hash de tamanho 10
     insertDict(d, 0, 10); // Insere a chave 1 com o valor 10 no dicionário
+    insertDict(d, 0, 9);
+    insertDict(d, 0, 8);
+    insertDict(d, 1, 7);
+    insertDict(d, 1, 6);
+    insertDict(d, 1, 5);
+    insertDict(d, 1, 4);
+    insertDict(d, 1, 3);
+    insertDict(d, 1, 2);
     insertDict(d, 2, 20); // Insere a chave 2 com o valor 20 no dicionário
+    insertDict(d, 2, 30);
+    insertDict(d, 2, 40);
+    insertDict(d, 2, 50);
     for(int i = 0; i < d->m; i++){
         print_list_elements(d->H[i]);
     }
-    int x = find(d, 0);
-    printf("%d\n", x);
     clearDict(d);
     return 0;
 }
@@ -50,28 +58,21 @@ Dictionary* createDict(int size, int(*hash)(int, int)){
     d->H = (List**)malloc(d->m * sizeof(List*)); // 'sizeof(struct List*)' retorna o tamanho em bytes de um ponteiro para struct List
     // Multiplicando esse tamanho por 'd->m', q é o tamanho da tabela temos reservado o tamanho necessário para armazenar nossa tabela
     
-    for(int i = 0; i <= size - 1; i++){
-        d->H[i] = create_list(); // 'H[i]' é um bucket que pode conter uma lista encadeada de nós
+    for(int i = 0; i < size; i++){
+        d->H[i] = create_list(); // 'H[i]' é um bucket que pode conter uma l encadeada de nós
     }
     d->hashFun = hash;
     return d;
 }
 
-Node* create_entry(Node* n, int num){
-    n->element = num;
-    n->next = NULL; // Define o próximo como NULL, pois este será o último nó já q só será inserido via "append"
-    return n; 
-}
-
 int find(Dictionary* d, int key) {
-    for (int i = 0; i <= d->m - 1; i++) {
-        Node* temp = d->H[i]->head->next;
-        for(int j = 0; j < d->H[i]->count; j++){
-            if (temp->element == key) {         // Verifica se a 'key' do nó atual (d->H[i]->key) é igual ao valor 'key' que estamos procurando.
-                return i;                          // Retorna o ponteiro se a chave for encontrada, usando o '&' para ter o endereço de memória do bucket
-            }
-            temp = temp->next;
+    int pos = d->hashFun(key, d->m);
+    Node* temp = d->H[pos]->head->next;
+    for(int j = 0; j < d->H[pos]->count; j++){
+        if (temp->element == key) {         // Verifica se a 'key' do nó atual (d->H[i]->key) é igual ao valor 'key' que estamos procurando.
+            return pos;                          // Retorna o ponteiro se a chave for encontrada, usando o '&' para ter o endereço de memória do bucket
         }
+        temp = temp->next;
     }
     return -1; // Retorna NULL se a chave não for encontrada
 }
@@ -80,8 +81,7 @@ void insertDict(Dictionary* d, int key, int num){
     if (find(d, key) == -1){
         int pos = d->hashFun(key, d->m);
         List* l = d->H[pos];
-        Node* entry = create_entry(l->tail, num);
-        append(l, entry->element);
+        append(l, num);
     }
 }
 
@@ -89,8 +89,8 @@ int size(Dictionary* d){
     return d->cnt;
 }
 
-void print_list_elements(List* lista){
-    Node* temporario = lista->head->next;
+void print_list_elements(List* l){
+    Node* temporario = l->head->next;
     while (temporario != NULL)
     {
         printf("%d ",temporario->element);
@@ -104,11 +104,11 @@ void print_list_elements(List* lista){
 // }
 
 void clearDict(Dictionary* d){
-    for (int i = 0; i <= d->m - 1; i++){ // Itera sobre todas as listas na tabela hash
+    for (int i = 0; i < d->m; i++){ // Itera sobre todas as ls na tabela hash
          
-        Node* node = d->H[i]->head; // ' d->H[i]->head' é a minha lista da tabela e sendo assim o bucket da lista encadeada
+        Node* node = d->H[i]->head; // ' d->H[i]->head' é a minha l da tabela e sendo assim o bucket da l encadeada
         while(node!=NULL){
-            Node* next_node = node->next; // Próximo nó da lista recebendo o elemento seguinte ao "head" da lista
+            Node* next_node = node->next; // Próximo nó da l recebendo o elemento seguinte ao "head" da l
             free(node);
             node = next_node; // atualizando o nó atual para o seguinte
         }

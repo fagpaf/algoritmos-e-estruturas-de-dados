@@ -1,11 +1,13 @@
-#ifndef LINKEDLIST_H
-#define LINKEDLIST_H
+#ifndef LINKEDLISTSTR_H
+#define LINKEDLISTSTR_H
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 // Definição do nó da linked list
+
 typedef struct Node {
-    int element;
+    char* vertex;
     struct Node* next;
 } Node;
 
@@ -18,13 +20,14 @@ typedef struct List {
 } List;
 
 // Declarações das funções
-Node* create_node(Node* n, int num){ 
-    Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
-    // Usando o operador "->": 
-    // Atribui o valor 'num' ao campo 'element' da struct "Node"
-    
-    new_node -> element = num; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
-    new_node -> next = n; // Atribui o ponteiro 'next_val' ao campo 'next' do Node
+Node* create_node(Node* n, char* str){ 
+    if(str == NULL || strlen(str) == 0){ // verifica se a strig é vazia
+        return NULL;
+    }
+    Node* new_node = (Node*) malloc(sizeof(Node));
+    new_node->vertex = (char*)malloc(strlen(str) + 1); // Aloca espaço para a string
+    strcpy(new_node->vertex, str);                     // Copia a string para o campo vertex
+    new_node -> next = n;
     return new_node;
 }
 
@@ -41,8 +44,8 @@ List* create_list(){
     return l;
 }
 
-void insert(List* l, int num){
-    l->curr->next = create_node(l->curr->next ,num);
+void insert(List* l, char* str){
+    l->curr->next = create_node(l->curr->next ,str);
     if (l->tail == l->curr){
         l->tail = l->curr->next;
     }
@@ -58,9 +61,9 @@ void move_to_end(List* l){
     l -> curr = l ->tail; // Move o cursor para o final da lista
 }
 
-void append(List* l, int num){
+void append(List* l, char* str){
     move_to_end(l);
-    insert(l, num);
+    insert(l, str);
 }
 
 void movecurr(List* l){
@@ -84,19 +87,19 @@ void next(List* l){
     } 
 }
 
-int del(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro ou referência para o tipo incompleto 'struct Node' não é permitida" 
+char* del(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro ou referência para o tipo incompleto 'struct Node' não é permitida" 
     if (l -> curr -> next == NULL){
-        return -1; // Porque função "int" ñ permite retornar "NULL", pq ele é usado para funções de retorno para ponteiros, '-1' indica um erro 
+        return NULL; // Porque função "int" ñ permite retornar "NULL", pq ele é usado para funções de retorno para ponteiros, '-1' indica um erro 
     }
     Node* temp = l->curr->next;
-    int num = temp -> element;
+    char* str = temp -> vertex;
     if (l -> tail == temp){
         l->tail = l->curr;
     }
     l -> curr -> next = temp -> next;
     free(temp);   
     l -> count--;
-    return num;
+    return str;
 }
 
 int curr_pos(List* l){
@@ -116,7 +119,7 @@ int length(List* l){
     return l->count;
 }
 
-void clear_List(List* l) {
+void clearList(List* l) {
     Node* current = l->head;
     Node* next;
     while (current != NULL) {
@@ -130,10 +133,10 @@ void clear_List(List* l) {
 void printlist(List* l){
     Node* current = l -> head->next;
     while(current != NULL){
-        printf("%d ", current -> element);
+        printf("%s ", current -> vertex);
         current = current -> next;
     }
     printf("\n");
 }
 
-#endif // List_h
+#endif

@@ -18,13 +18,13 @@ typedef struct List {
 } List;
 
 // Declarações das funções
-Node* create_node(Node* n, int num){ 
+Node* create_node(int num){ 
     Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
     // Usando o operador "->": 
     // Atribui o valor 'num' ao campo 'element' da struct "Node"
     
     new_node -> element = num; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
-    new_node -> next = n; // Atribui o ponteiro 'next_val' ao campo 'next' do Node
+    new_node -> next = NULL; // Atribui o ponteiro 'next_val' ao campo 'next' do Node
     return new_node;
 }
 
@@ -42,7 +42,7 @@ List* create_list(){
 }
 
 void insert(List* l, int num){
-    l->curr->next = create_node(l->curr->next ,num);
+    l->curr->next = create_node(num);
     if (l->tail == l->curr){
         l->tail = l->curr->next;
     }

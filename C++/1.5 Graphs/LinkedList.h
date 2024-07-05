@@ -3,11 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 // Definição do nó da linked list
-
 typedef struct Node {
-    char* vertex;
+    int vertex;
     struct Node* next;
 } Node;
 
@@ -20,14 +18,13 @@ typedef struct List {
 } List;
 
 // Declarações das funções
-Node* create_node(Node* n, char* str){ 
-    if(str == NULL || strlen(str) == 0){ // verifica se a strig é vazia
-        return NULL;
-    }
-    Node* new_node = (Node*) malloc(sizeof(Node));
-    new_node->vertex = (char*)malloc(strlen(str) + 1); // Aloca espaço para a string
-    strcpy(new_node->vertex, str);                     // Copia a string para o campo vertex
-    new_node -> next = n;
+Node* create_node(int num){ 
+    Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
+    // Usando o operador "->": 
+    // Atribui o valor 'num' ao campo 'vertex' da struct "Node"
+    
+    new_node -> vertex = num; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
+    new_node -> next = NULL; // Atribui 'NULL' ao próximo pq estou adicionando via 'append'
     return new_node;
 }
 
@@ -44,8 +41,8 @@ List* create_list(){
     return l;
 }
 
-void insert(List* l, char* str){
-    l->curr->next = create_node(l->curr->next ,str);
+void insert(List* l, int num){
+    l->curr->next = create_node(num);
     if (l->tail == l->curr){
         l->tail = l->curr->next;
     }
@@ -61,9 +58,9 @@ void move_to_end(List* l){
     l -> curr = l ->tail; // Move o cursor para o final da lista
 }
 
-void append(List* l, char* str){
+void append(List* l, int num){
     move_to_end(l);
-    insert(l, str);
+    insert(l, num);
 }
 
 void movecurr(List* l){
@@ -87,19 +84,40 @@ void next(List* l){
     } 
 }
 
-char* del(List* l){ // Ecrever "typedef struct Node" fez sumir o erro: "ponteiro ou referência para o tipo incompleto 'struct Node' não é permitida" 
-    if (l -> curr -> next == NULL){
-        return NULL; // Porque função "int" ñ permite retornar "NULL", pq ele é usado para funções de retorno para ponteiros, '-1' indica um erro 
+void del(List* l, int j){
+    move_to_start(l);
+    if (l->curr->next == NULL){
+        return; 
     }
-    Node* temp = l->curr->next;
-    char* str = temp -> vertex;
-    if (l -> tail == temp){
-        l->tail = l->curr;
+    Node* temp = l->head;
+    Node* prev = NULL;
+    // Se o nó a ser removido é o primeiro nó
+    if (temp != NULL && temp->vertex == j) {
+        l->head = temp->next;
+        if (l->head == NULL) {
+            l->tail = NULL; // A lista ficou vazia
+        }
+        free(temp);
+        l->count--;
+        return;
     }
-    l -> curr -> next = temp -> next;
-    free(temp);   
-    l -> count--;
-    return str;
+    // Procura pelo nó a ser removido, mantendo o nó anterior
+    while (temp != NULL && temp->vertex != j) {
+        prev = temp;
+        temp = temp->next;
+    }
+    // Se o nó não está na lista
+    if (temp == NULL) {
+        return;
+    }
+    // Desvincula o nó da lista
+    prev->next = temp->next;
+    // Se o nó a ser removido é o último nó
+    if (temp == l->tail) {
+        l->tail = prev;
+    }
+    free(temp);
+    l->count--;
 }
 
 int curr_pos(List* l){
@@ -119,7 +137,7 @@ int length(List* l){
     return l->count;
 }
 
-void clearList(List* l) {
+void clear_List(List* l) {
     Node* current = l->head;
     Node* next;
     while (current != NULL) {
@@ -133,10 +151,10 @@ void clearList(List* l) {
 void printlist(List* l){
     Node* current = l -> head->next;
     while(current != NULL){
-        printf("%s ", current -> vertex);
+        printf("%d ", current -> vertex);
         current = current -> next;
     }
     printf("\n");
 }
 
-#endif
+#endif // List_h

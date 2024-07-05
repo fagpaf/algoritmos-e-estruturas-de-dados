@@ -49,11 +49,11 @@ int main(){
     
     move_to_end(l);
     insert(l, 50); // Inserir 50 no final da lista
-    
+    del(l);
     printf("Lista: ");
     printlist(l); // Deveria imprimir: 10 30 40 20 50
     
-    clear_List(l);
+    clearList(l);
     return 0;
 }
 
@@ -150,7 +150,7 @@ int length(List* l){
     return l->count;
 }
 
-void clear_List(List* l) {
+void clearList(List* l) {
     Node* current = l->head;
     Node* next;
     while (current != NULL) {
