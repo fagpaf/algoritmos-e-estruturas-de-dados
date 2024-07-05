@@ -54,7 +54,12 @@ int main(){
 
     // printf("%d\n", g->n);
 
-    // stack<int> s;
+    stack<int> s;
+    toposort(g, 0, s);
+    while (!s.empty()) {
+        cout << s.top() << " ";
+        s.pop();
+    }
     clearGraph(g);
     return 0;
 }
