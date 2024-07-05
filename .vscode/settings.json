@@ -3,7 +3,7 @@
 
     "window.zoomLevel": 0.4,
     "symbols.hidesExplorerArrows": false,
-    "editor.fontFamily": "JetBrains Mono",
+    // "editor.fontFamily": "JetBrains Mono",
     "editor.fontSize": 14,
     "editor.lineHeight": 1.5,
     "workbench.startupEditor": "newUntitledFile",
@@ -14,7 +14,7 @@
     "workbench.activityBar.location": "hidden",
     "workbench.statusBar.visible": false,
     "terminal.integrated.fontSize": 14,
-    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Regular", 
+    // "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Regular", 
     "apc.font.family": "Inter",
     "apc.stylesheet": {
         ".title-label > h2": "display: none",

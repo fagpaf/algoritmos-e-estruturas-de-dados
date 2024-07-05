@@ -36,12 +36,12 @@ int main(){
         print_list_vertex(g->ldj[i]);
     }
     
-    // int x = first(g, 1);
-    // printf("%d\n", x);
-    // int y = next_vertex(g, 1);
-    // printf("%d\n", y);
-    // int z = next_vertex(g, 1);
-    // printf("%d\n", z);
+    int x = first(g, 1);
+    printf("%d\n", x);
+    int y = next_vertex(g, 1);
+    printf("%d\n", y);
+    int z = next_vertex(g, 1);
+    printf("%d\n", z);
 
     // delEdge(g, 0, 2);
     // delEdge(g, 0, 1);
@@ -54,27 +54,21 @@ int main(){
 
     // printf("%d\n", g->n);
 
-    stack<int> s;
-    toposort(g, 0, s);
-    while (!s.empty()) {
-        cout << s.top() << " ";
-        s.pop();
-    }
+    // stack<int> s;
+    // toposort(g, 0, s);
+    // while (!s.empty()) {
+    //     cout << s.top() << " ";
+    //     s.pop();
+    // }
     clearGraph(g);
     return 0;
 }
 
-Graph* createGraph(int n){
-    Graph* g = (Graph*)malloc(sizeof(Graph));
-    g->n = n;
-    g->Mark = (int*)malloc(g->n * sizeof(int));
-    g->ldj = (List**)malloc(g->n * sizeof(List*));
-    for(int i = 0; i < g->n; i++){
-        g->ldj[i] = create_list();
-    }
-    return g;
-}
-
+typedef struct Graph{
+    int n;
+    int* Mark;
+    List** ldj;
+} Graph;
 int first(Graph* g, int v){
     List* l =  g->ldj[v];
     int num = l->head->next->vertex;
