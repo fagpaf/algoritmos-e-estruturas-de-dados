@@ -25,7 +25,7 @@ void print_list_vertex(List* l);
 
 int main(){
 
-    Graph* g = createGraph(2);
+    Graph* g = createGraph(4);
     setEdge(g, 0, 1);
     setEdge(g, 0, 2);
     setEdge(g, 1, 2);
@@ -54,21 +54,31 @@ int main(){
 
     // printf("%d\n", g->n);
 
-    // stack<int> s;
-    // toposort(g, 0, s);
-    // while (!s.empty()) {
-    //     cout << s.top() << " ";
-    //     s.pop();
-    // }
+    stack<int> s;
+    toposort(g, 0, s);
+    while (!s.empty()) {
+        printf("%d ", s.top());
+        s.pop();
+    }
     clearGraph(g);
     return 0;
 }
 
-typedef struct Graph{
-    int n;
-    int* Mark;
-    List** ldj;
-} Graph;
+Graph* createGraph(int n){
+    Graph* g = (Graph*)malloc(sizeof(Graph));
+    g->n = n;
+    g->Mark = (int*)malloc(g->n * sizeof(int));
+    // for (int i = 0; i < g->n; i++){
+        
+    // }
+    
+    g->ldj = (List**)malloc(g->n * sizeof(List*));
+    for(int i = 0; i < g->n; i++){
+        g->ldj[i] = create_list();
+    }
+    return g;
+}
+
 int first(Graph* g, int v){
     List* l =  g->ldj[v];
     int num = l->head->next->vertex;
