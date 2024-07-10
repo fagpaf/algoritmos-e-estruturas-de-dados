@@ -1,211 +1,163 @@
+#include "LinkedList.h"
 #include <bits/stdc++.h>
-
 
 using namespace std;
 
+const int VISITED = 1;
+const int UNVISITED = 0;
 
-const bool VISITED = true;
-const bool UNVISITED = false;
-
-
-typedef struct Graph {
-    int* Mark;    // Array de marcação dos vértices
-    int** matrix; // Matriz de adjacência
-    int numEdge;  // Número de arestas
-    int n;        // Número de vértices
+typedef struct Graph{
+    int n;
+    int* Mark;
+    List** ldj;
 } Graph;
 
-
 Graph* createGraph(int n);
-void setMark(Graph* g, int v, bool state);
-bool getMark(Graph* g, int v);
 int first(Graph* g, int v);
-int next(Graph* g, int v, int w);
-void setEdge(Graph* g, int i, int j, int wt);
+int next_vertex(Graph* g, int v);
+void setEdge(Graph* g, int i, int j);
 void delEdge(Graph* g, int i, int j);
-void graphTraverse(Graph* g);
-void DFS(Graph* g, int v);
-void BFS(Graph* g, int start);
-void preVisit(Graph* g, int v);
-void postVisit(Graph* g, int v);
-void toposort(Graph* g, int v, stack<int>& s);
+bool isEdge(Graph* g, int i, int j);
+void setMark(Graph* g, int v, int state);
+int getMark(Graph* g, int v);
+void toposort(Graph* g, int v, stack<int>& s, bool& ward);
+void clearGraph(Graph* g);
+void printVertex(List* l);
 
-
-int main() {
-    cout << "Obladi Blada" << endl;
-
-
-    Graph* g = createGraph(5);
-
-
-    setEdge(g, 0, 1);
-    setEdge(g, 0, 2);
-    setEdge(g, 1, 3);
-    setEdge(g, 1, 4);
-
-
-    graphTraverse(g);
-
-
-    // Liberar a memória alocada
-    for (int i = 0; i < g->n; i++) {
-        free(g->matrix[i]);
+int main(){
+    int n, operations;
+    cin >> n >> operations;
+    Graph* g = createGraph(n + 1); // para satisfazer o range
+    int x, y;
+    for (int i = 0; i < operations; i++){
+        cin >> x >> y;
+        setEdge(g, x, y);
     }
-    free(g->matrix);
-    free(g->Mark);
-    free(g);
-
-
-    return 0;
-}
-
-
-// Função para criar um grafo com n vértices
-Graph* createGraph(int n) {
-    Graph* g = (Graph*)malloc(sizeof(Graph));
-    g->Mark = (int*)malloc(n * sizeof(int));
-    g->matrix = (int**)malloc(n * sizeof(int*));
-    for (int i = 0; i < n; i++) {
-        g->matrix[i] = (int*)malloc(n * sizeof(int));
+    stack<int> s;
+    bool ward = false;
+    for (int i = 1; i < g->n; i++){
+        if(getMark(g, i) == UNVISITED){
+            toposort(g, i, s, ward);
+        }
     }
-    g->numEdge = 0;
-    g->n = n;
-
-
-    // Inicializa a matriz de adjacência com 0
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            g->matrix[i][j] = 0;
+    if(ward == true){
+        cout << "Sandro fails.";
+    }
+    else{
+        while(!s.empty()){
+            cout << s.top() << " ";
+            s.pop();
         }
     }
 
+    clearGraph(g);
+    return 0;
+}
+// g++ teste.cpp -o teste.exe ; Get-Content input.txt | ./teste.exe
 
+Graph* createGraph(int n){ //ok
+    Graph* g = (Graph*)malloc(sizeof(Graph));
+    g->n = n;
+    g->Mark = (int*)malloc(g->n * sizeof(int));
+    for(int i = 1; i < g->n; i++){
+        g->Mark[i] = UNVISITED;
+    }
+    g->ldj = (List**)malloc(g->n * sizeof(List*));
+    for(int i = 1; i < g->n; i++){
+        g->ldj[i] = create_list();
+    }
     return g;
 }
 
+int first(Graph* g, int v){ //ok
+    List* l = g->ldj[v];
+    Node* temp =  l->head->next;
+    if(temp != NULL){
+        int num = temp->vertex;
+        return num;
+    }
+    return g->n;
+}
 
-void setMark(Graph* g, int v, bool state) {
-    if (v >= 0 && v < g->n) {
+int next_vertex(Graph* g, int v){ //ok
+    List* l = g->ldj[v];
+    if(l->curr == l->tail){
+        move_to_start(l);
+    }
+    l->curr = l->curr->next;
+    if(l->curr->next != NULL){
+        return l->curr->next->vertex;
+    }
+    return g->n;
+}
+
+void setEdge(Graph* g, int i, int j){ //ok
+    List* l = g->ldj[i];
+    append(l, j);
+}
+
+void delEdge(Graph* g, int i, int j){ //ok
+    if(g->ldj[i] == NULL || g == NULL){
+        return;
+    }
+    List* l = g->ldj[i];
+    del(l, j);
+    if(l->count == 0){
+        g->n--;
+    }
+}
+
+bool isEdge(Graph* g, int i, int j){ //ok
+    List* l = g->ldj[i];
+    Node* temp = l->head->next;
+    while(temp != NULL){
+        if(temp->vertex == j){
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+void setMark(Graph* g, int v, int state){ //ok
+    if (v >= 0 && v < g->n){
         g->Mark[v] = state;
     }
 }
 
-
-bool getMark(Graph* g, int v) {
-    if (v >= 0 && v < g->n) {
+int getMark(Graph* g, int v){ //ok
+    if (v >= 0 && v < g->n){
         return g->Mark[v];
     }
     return UNVISITED;
 }
 
-
-
-
-int first(Graph* g, int v){
-    for (int i = 0; i < g->n -1; i++){
-        if(g->matrix[v][i] != 0){
-           return i;
-        }
-    }
-    return g->n;
-}
-
-
-int next(Graph* g, int v, int w){
-    for (int i = w + 1; i < g->n - 1; i++){
-        if(g->matrix[v][i] != 0){
-            return i;
-        }
-    }
-    return g->n;
-}
-
-
-void setEdge(Graph* g, int i, int wt){
-    if (wt == 0) return;
-   
-    if(g->matrix[i][j] == 0){
-        g->numEdge++;
-    }
-    g->matrix[i][j] = wt;
-}
-
-
-void delEdge(Graph* g, int i, int j){
-    if(g->matrix[i][j] != 0){
-        g->numEdge--;
-    }
-    g->matrix[i][j] = 0;
-}
-
-
-// Cuidado com grafos n conectados
-void graphTraverse(Graph* g){
-    for (int v = 0; v < g->n - 1; v++){
-        setMark(g, v, UNVISITED);
-    }
-    for (int v = 0; v < g->n - 1; v++){
-        if(getMark(g, v) == UNVISITED){
-            DFS(g,v);
-        }
-    }
-}
-
-
-void DFS(Graph* g, int v){
-    preVisit(g, v);
-    setMark(g, v, VISITED);
-    int w = first(g, v);
+void toposort(Graph* g, int v, stack<int>& s, bool& ward){
+    setMark(g, v, VISITED); // Marca o vértice como visitado
+    int w = first(g, v);    // Obtém o primeiro vizinho
     while(w < g->n){
-        if(getMark(g, w) == UNVISITED){
-            DFS(g ,w);
+        if(getMark(g, w) == UNVISITED){ // Se o vizinho não foi visitado
+            toposort(g, w, s, ward);     
         }
-        w = next(g, v, w);
+        // else{
+        //     ward = true;
+        //     return;
+        // }
+        w = next_vertex(g, v); // Obtém o próximo vizinho
+    }
+    s.push(v);              // Adiciona o vértice à pilha após visitar todos os vizinhos
+}
+
+void clearGraph(Graph* g){ //ok
+    for (int i = 1; i < g->n; i++){
+        clear_List(g->ldj[i]);
+    }
+    free(g);
+}
+
+void printVertex(List* l){ //ok
+    printlist(l);
+    if(l->count != 0){
+        cout << endl;
     }
 }
-
-
-void BFS(Graph* g, int start){
-    queue<int> q;
-    q.push(q, start);
-    setMark(g, start, VISITED);
-    while(q.size > 0){
-        int v = q.front();
-        q.pop();
-        preVisit(g, v);
-        int w = first(g, v);
-        while (w < g->n){
-            if (getMark(g, w) == UNVISITED){
-                setMark(g, w, VISITED);
-                q.push(q, w);
-            }
-            w = next(g, v, w);
-        }
-        posVisit(g, v);
-    }
-}
-
-
-void toposort(Graph* g, int v, stack<int> s){
-    setMark(g, v, VISITED);
-    int w = first(g, v);
-    while(w < g->n){
-        if(getMark(g, w) == UNVISITED){
-            toposort(g, v, w);
-        }
-    }
-    s.push(s, v);
-}
-// ------------------------------------------------------
-void preVisit(Graph* g, int v) {
-    // Implementar a ação desejada para pre-visitação
-    cout<<"PreVisit: " << v << endl;
-}
-
-
-void posVisit(Graph* g, int v) {
-    // Implementar a ação desejada para pós-visitação
-    cout<<"PostVisit: " << v << endl;
-}
-
-// g++ teste.cpp -o teste.exe ; Get-Content input.txt | ./teste.exe

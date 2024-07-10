@@ -149,12 +149,12 @@ void clear_List(List* l) {
 }
 
 void printlist(List* l){
-    Node* current = l -> head->next;
+    Node* current = l->head->next;
     while(current != NULL){
-        printf("%d ", current -> vertex);
-        current = current -> next;
+        printf("%d ", current->vertex);
+        current = current->next;
     }
-    printf("\n");
+    // printf("\n");
 }
 
-#endif // List_h
+#endif

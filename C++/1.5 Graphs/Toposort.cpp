@@ -17,31 +17,45 @@ int first(Graph* g, int v);
 int next_vertex(Graph* g, int v);
 void setEdge(Graph* g, int i, int j);
 void delEdge(Graph* g, int i, int j);
+bool isEdge(Graph* g, int i, int j);
 void setMark(Graph* g, int v, int state);
 int getMark(Graph* g, int v);
 void toposort(Graph* g, int v, stack<int>& s);
 void clearGraph(Graph* g);
-void print_list_vertex(List* l);
+void printVertex(List* l);
+
+// g++ sla.cpp -o sla.exe ; Get-Content input.txt | ./sla.exe
 
 int main(){
 
-    Graph* g = createGraph(4);
-    setEdge(g, 0, 1);
-    setEdge(g, 0, 2);
-    setEdge(g, 1, 2);
-    setEdge(g, 1, 3);
+    Graph* g = createGraph(9);
     setEdge(g, 1, 4);
-
+    setEdge(g, 1, 2);
+    setEdge(g, 4, 2);
+    setEdge(g, 4, 3);
+    setEdge(g, 3, 2);
+    setEdge(g, 5, 2);
+    setEdge(g, 3, 5);
+    setEdge(g, 8, 2);
+    setEdge(g, 8, 6);
+    
+    bool f = isEdge(g, 3, 2);
+    if(f == true){
+        cout << "True" << endl;
+    }
+    else{
+        cout << "False" << endl;
+    }
     for (int i = 0; i < g->n; i++){
-        print_list_vertex(g->ldj[i]);
+        printVertex(g->ldj[i]);
     }
     
-    int x = first(g, 1);
-    printf("%d\n", x);
-    int y = next_vertex(g, 1);
-    printf("%d\n", y);
-    int z = next_vertex(g, 1);
-    printf("%d\n", z);
+    // int x = first(g, 1);
+    // cout << x << endl;
+    // int y = next_vertex(g, 1);
+    // cout << y << endl;
+    // int z = next_vertex(g, 1);
+    // cout << z << endl;
 
     // delEdge(g, 0, 2);
     // delEdge(g, 0, 1);
@@ -49,17 +63,30 @@ int main(){
     // delEdge(g, 1, 3);
     // delEdge(g, 1, 4);
     // for (int i = 0; i < g->n; i++){
-    //     print_list_vertex(g->ldj[i]);
+    //     printVertex(g->ldj[i]);
+    // }
+    // cout << g->n << endl;
+
+    // stack<int> s;
+    // toposort(g, 1, s);
+    // while (!s.empty()) {
+    //     cout << s.top() << " ";
+    //     s.pop();
     // }
 
-    // printf("%d\n", g->n);
+    // stack<int> s;
+    // for (int i = 0; i < g->n; i++) {
+    //     if (getMark(g, i) == UNVISITED) {
+    //         toposort(g, i, s);
+    //     }
+    // }
+    
+    // while (!s.empty()) {
+    //     cout << s.top() << " ";
+    //     s.pop();
+    // }
+    // cout << endl;
 
-    stack<int> s;
-    toposort(g, 0, s);
-    while (!s.empty()) {
-        printf("%d ", s.top());
-        s.pop();
-    }
     clearGraph(g);
     return 0;
 }
@@ -68,10 +95,7 @@ Graph* createGraph(int n){
     Graph* g = (Graph*)malloc(sizeof(Graph));
     g->n = n;
     g->Mark = (int*)malloc(g->n * sizeof(int));
-    // for (int i = 0; i < g->n; i++){
-        
-    // }
-    
+    fill(g->Mark, g->Mark + g->n, UNVISITED);
     g->ldj = (List**)malloc(g->n * sizeof(List*));
     for(int i = 0; i < g->n; i++){
         g->ldj[i] = create_list();
@@ -80,9 +104,12 @@ Graph* createGraph(int n){
 }
 
 int first(Graph* g, int v){
-    List* l =  g->ldj[v];
-    int num = l->head->next->vertex;
-    return num;
+    List* l = g->ldj[v];
+    Node* temp =  l->head->next;
+    if(temp != NULL){
+        return temp->vertex;
+    }
+    return g->n;
 }
 
 int next_vertex(Graph* g, int v){
@@ -91,8 +118,10 @@ int next_vertex(Graph* g, int v){
         move_to_start(l);
     }
     l->curr = l->curr->next;
-    int num = l->curr->next->vertex;
-    return num;
+    if(l->curr->next != NULL){
+        return l->curr->next->vertex;
+    }
+    return g->n;
 }
 
 void setEdge(Graph* g, int i, int j){
@@ -106,6 +135,18 @@ void delEdge(Graph* g, int i, int j){
     if(l->count == 0){
         g->n--;
     }
+}
+
+bool isEdge(Graph* g, int i, int j){
+    List* l = g->ldj[i];
+    Node* temp = l->head->next;
+    while(temp != NULL){
+        if(temp->vertex == j){
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
 }
 
 void setMark(Graph* g, int v, int state){
@@ -122,38 +163,28 @@ int getMark(Graph* g, int v){
 }
 
 void toposort(Graph* g, int v, stack<int>& s){
-    setMark(g, v, VISITED);
-    int w = first(g, v);
+    setMark(g, v, VISITED); // Marca o vértice como visitado
+    int w = first(g, v);    // Obtém o primeiro vizinho
     while(w < g->n){
-        if(getMark(g, w) == UNVISITED){
-            toposort(g, v, s);
+        if(getMark(g, w) == UNVISITED){ // Se o vizinho não foi visitado
+            toposort(g, w, s);          // Chama recursivamente para o vizinho
         }
+        w = next_vertex(g, v); // Obtém o próximo vizinho
     }
-    s.push(v);
+    s.push(v);              // Adiciona o vértice à pilha após visitar todos os vizinhos
 }
 
-void clearGraph(Graph* g){ // testar
-    for (int i = 0; i < g->n; i++){ // Itera sobre todas as ls na tabela
-         
-        Node* node = g->ldj[i]->head; // ' g->H[i]->head' é a minha l da tabela e sendo assim o bucket da l encadeada
-        while(node!=NULL){
-            Node* next_node = node->next; // Próximo nó da l recebendo o elemento seguinte ao "head" da l
-            free(node);
-            node = next_node; // atualizando o nó atual para o seguinte
-        }
-    }
+void clearGraph(Graph* g){
     for (int i = 0; i < g->n; i++){
-        g->ldj[i] = NULL; // Iterando sobre a tabela e fazendo com q cada slot dela receba 'NULL' para esvaziar a tabela
+        clear_List(g->ldj[i]);
     }
+    free(g->Mark);
     free(g);
 }
 
-void print_list_vertex(List* l){ // adaptar
-    Node* temp = l->head->next;
-    while (temp != NULL)
-    {
-        printf("%d ",temp->vertex);
-        temp = temp->next;
+void printVertex(List* l){
+    printlist(l);
+    if(l->count != 0){
+        cout << endl;
     }
-    printf("\n");
 }
