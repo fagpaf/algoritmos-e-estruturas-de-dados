@@ -1,69 +1,32 @@
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
+
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct Node{ // Assim deixa mais explícito o nome da struct
-    int element; // O elemento armazenado no nó
-    struct Node* next; // Ponteiro para o próximo nó
+// Definição do nó da linked list
+typedef struct Node {
+    int vertex;
+    int weight;
+    struct Node* next;
 } Node;
 
-typedef struct List{ 
+// Definição da estrutura da lista ligada
+typedef struct List {
     Node* head;
     Node* tail;
     Node* curr;
-    int count;          // list size
+    int count;          // tamanho da lista
 } List;
 
-// Ponteiros:
-Node* create_node(Node* n, int num); // Função q retorna um ponteiro para a struct "Node"
-Node* create_header(Node* nextval);
-List* create_list();
-
-// Operações:
-void insert(List* l, int num);
-void move_to_start(List* l);
-void move_to_end(List* l);
-void movecurr(List* l);
-void prev(List* l);
-void next(List* l);
-void printlist(List* l);
-void clearList(List* l);
-void  del(List* l);
-int  length(List* l);
-int  curr_pos(List* l);
-
-int main(){
-
-    int x = 0;
-    List* l = create_list();
-    
-    insert(l, 10);
-    insert(l, 20);
-    printlist(l);
-    
-    move_to_start(l);
-    x = curr_pos(l);
-    printf("%d\n", x);
-    
-    insert(l, 30); // Inserir 30 após a posição do cursor (que está no início)
-    insert(l, 40); // Inserir 40 após a posição do cursor (que agora está após 30)
-    
-    move_to_end(l);
-    insert(l, 50); // Inserir 50 no final da lista
-    del(l);
-    printf("Lista: ");
-    printlist(l); // Deveria imprimir: 10 30 40 20 50
-    
-    clearList(l);
-    return 0;
-}
-
-Node* create_node(Node* n, int num){ 
-    Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
+// Declarações das funções
+Node* create_node(int num, int wt){ 
+    Node* new_node = (Node*)malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
     // Usando o operador "->": 
-    // Atribui o valor 'num' ao campo 'element' da struct "Node"
+    // Atribui o valor 'num' ao campo 'vertex' da struct "Node"
     
-    new_node -> element = num; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
-    new_node -> next = n; // Atribui o ponteiro 'next_val' ao campo 'next' do Node
+    new_node ->weight = wt;
+    new_node -> vertex = num; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
+    new_node -> next = NULL; // Atribui 'NULL' ao próximo pq estou adicionando via 'append'
     return new_node;
 }
 
@@ -80,8 +43,8 @@ List* create_list(){
     return l;
 }
 
-void insert(List* l, int num){
-    l->curr->next = create_node(l->curr->next ,num);
+void insert(List* l, int num , int wt){
+    l->curr->next = create_node(num, wt);
     if (l->tail == l->curr){
         l->tail = l->curr->next;
     }
@@ -95,6 +58,11 @@ void move_to_start(List* l){
 
 void move_to_end(List* l){
     l -> curr = l ->tail; // Move o cursor para o final da lista
+}
+
+void append(List* l, int num, int wt){
+    move_to_end(l);
+    insert(l, num, wt);
 }
 
 void movecurr(List* l){
@@ -118,15 +86,15 @@ void next(List* l){
     } 
 }
 
-void del(List* l){
+void del(List* l, int j){
     move_to_start(l);
     if (l->curr->next == NULL){
         return; 
     }
-    Node* temp = l->head;
+    Node* temp = l->head; // Talvez isso n esteja certo e seja l->head->next
     Node* prev = NULL;
     // Se o nó a ser removido é o primeiro nó
-    if (temp != NULL) {
+    if (temp != NULL && temp->vertex == j) {
         l->head = temp->next;
         if (l->head == NULL) {
             l->tail = NULL; // A lista ficou vazia
@@ -136,7 +104,7 @@ void del(List* l){
         return;
     }
     // Procura pelo nó a ser removido, mantendo o nó anterior
-    while (temp != NULL) {
+    while (temp != NULL && temp->vertex != j) {
         prev = temp;
         temp = temp->next;
     }
@@ -171,7 +139,7 @@ int length(List* l){
     return l->count;
 }
 
-void clearList(List* l) {
+void clear_List(List* l) {
     Node* current = l->head;
     Node* next;
     while (current != NULL) {
@@ -183,10 +151,12 @@ void clearList(List* l) {
 }
 
 void printlist(List* l){
-    Node* current = l -> head->next;
+    Node* current = l->head->next;
     while(current != NULL){
-        printf("%d ", current -> element);
-        current = current -> next;
+        printf("%d ", current->vertex);
+        current = current->next;
     }
-    printf("\n");
+    // printf("\n");
 }
+
+#endif

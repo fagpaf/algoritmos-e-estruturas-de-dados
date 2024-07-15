@@ -46,57 +46,44 @@
 
 # while True:
 #     print(f"FLAVINHO GOSTOSO")
+# ----------------------------------------------------------------------
+# import matplotlib.pyplot as plt
+# import networkx as nx
 
-def popo_x_bambam(vida_dolly, ataque_dolly, defesa_dolly, adversario, vida_inimigo, ataque_inimigo, defesa_inimigo):
-    
-    if vida_dolly <= 0:
-        return True
-    vida_inimigo -= ataque_dolly - defesa_inimigo
-    if vida_inimigo <= 0:
-        print(f"O {adversario} foi derrotado!")
-        print(f"STATUS DOLLY")
-        print(f"Vida: {vida_dolly}")
-        return False
-    else:
-        vida_dolly -= ataque_inimigo - defesa_dolly
-        if vida_dolly <= 0:
-            return True
-    if (vida_dolly > 0) and (vida_inimigo > 0):
-        return popo_x_bambam(vida_dolly, ataque_dolly, defesa_dolly, adversario, vida_inimigo, ataque_inimigo, defesa_inimigo)
+# # Cria um grafo dirigido
+# G = nx.DiGraph()
 
+# # Adiciona os nós
+# nodes = ["A", "B", "C", "D", "E", "F", "G"]
+# G.add_nodes_from(nodes)
 
-vida_dolly = int(input())
-ataque_dolly = int(input())
-defesa_dolly = int(input())
+# # Adiciona as arestas com os pesos
+# edges = [
+#     ("A", "B", 2), ("A", "C", 5), ("A", "D", 1),
+#     ("B", "E", 7), ("D", "B", 3), ("D", "E", 2), ("D", "F", 4),
+#     ("E", "G", 1), ("F", "G", 3), ("C", "F", 6)
+# ]
+# G.add_weighted_edges_from(edges)
 
-qtd_inimigos = int(input())
+# # Define as posições dos nós para a plotagem
+# pos = {
+#     "A": (0, 2), "B": (2, 2), "C": (0, 0), "D": (1, 1), "E": (3, 1), 
+#     "F": (1, 0), "G": (3, 0)
+# }
 
-dict_inimigos = {}
+# # Define as distâncias finais
+# distances = {"A": 0, "B": 2, "C": 5, "D": 1, "E": 3, "F": 5, "G": 4}
 
-for i in range(qtd_inimigos):
-    
-    nome_inimigo = input()
-    vida_inimigo = int(input())
-    ataque_inimigo = int(input())
-    defesa_inimigo = int(input())
-    dict_inimigos[nome_inimigo] = [vida_inimigo, ataque_inimigo, defesa_inimigo]
+# # Desenha o grafo
+# plt.figure(figsize=(10, 6))
+# nx.draw(G, pos, with_labels=True, node_color='skyblue', node_size=2000, font_size=16, font_weight='bold', edge_color='gray')
+# labels = nx.get_edge_attributes(G, 'weight')
+# nx.draw_networkx_edge_labels(G, pos, edge_labels=labels, font_size=14)
 
-if qtd_inimigos == 0:
-    print(f"Oba! Sem intercorrências pelo caminho! Podemos ir para o carnaval em paz!")
-else:
-    print(f"Oh não! Eles querem acabar com o meu Dollynho!")
+# # Adiciona as distâncias nos nós
+# distance_labels = {node: f"{node}\n({dist})" for node, dist in distances.items()}
+# nx.draw_networkx_labels(G, pos, labels=distance_labels, font_size=16, font_color='black', font_weight='bold')
 
-    qtd_inimigos_derrotados = 0
-    for adversario in dict_inimigos.keys():
-        vida_inimigo = dict_inimigos[adversario][0]
-        ataque_inimigo = dict_inimigos[adversario][1]
-        defesa_inimigo = dict_inimigos[adversario][2]
-        vencedor = popo_x_bambam(vida_dolly, ataque_dolly, defesa_dolly, adversario, vida_inimigo, ataque_inimigo, defesa_inimigo)
-        if vencedor == False:
-            qtd_inimigos_derrotados += 1
-    if vencedor == True:
-        print("Que tristeza! Dollynho se foi!")
-        print(f"Infelizmente Dollynho não conseguiu vencer todos os Barriguinhas Moles…")
-        print(f"Pelo menos levou {qtd_inimigos_derrotados} baderneiros com ele!")
-    else:
-        print(f"OBA! Dolly venceu todos os inimigos!")
+# plt.title("Algoritmo de Dijkstra - Exemplo de Caminho Mais Curto")
+# plt.show()
+
