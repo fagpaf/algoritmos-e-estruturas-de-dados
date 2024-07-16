@@ -1,11 +1,12 @@
-#ifndef LINKEDLIST_H
-#define LINKEDLIST_H
+#ifndef LINKEDLISTWEIGTH_H
+#define LINKEDLISTWEIGTH_H
 
 #include <stdio.h>
 #include <stdlib.h>
 // Definição do nó da linked list
 typedef struct Node {
     int vertex;
+    int weight;
     struct Node* next;
 } Node;
 
@@ -18,11 +19,12 @@ typedef struct List {
 } List;
 
 // Declarações das funções
-Node* create_node(int num){ 
-    Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
+Node* create_node(int num, int wt){ 
+    Node* new_node = (Node*)malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
     // Usando o operador "->": 
     // Atribui o valor 'num' ao campo 'vertex' da struct "Node"
     
+    new_node ->weight = wt;
     new_node -> vertex = num; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
     new_node -> next = NULL; // Atribui 'NULL' ao próximo pq estou adicionando via 'append'
     return new_node;
@@ -41,8 +43,8 @@ List* create_list(){
     return l;
 }
 
-void insert(List* l, int num){
-    l->curr->next = create_node(num);
+void insert(List* l, int num , int wt){
+    l->curr->next = create_node(num, wt);
     if (l->tail == l->curr){
         l->tail = l->curr->next;
     }
@@ -58,9 +60,9 @@ void move_to_end(List* l){
     l -> curr = l ->tail; // Move o cursor para o final da lista
 }
 
-void append(List* l, int num){
+void append(List* l, int num, int wt){
     move_to_end(l);
-    insert(l, num);
+    insert(l, num, wt);
 }
 
 void movecurr(List* l){
@@ -89,7 +91,7 @@ void del(List* l, int j){
     if (l->curr->next == NULL){
         return; 
     }
-    Node* temp = l->head;
+    Node* temp = l->head; // Talvez isso n esteja certo e seja l->head->next
     Node* prev = NULL;
     // Se o nó a ser removido é o primeiro nó
     if (temp != NULL && temp->vertex == j) {

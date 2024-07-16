@@ -1,4 +1,4 @@
-#include "LinkedList.h"
+#include "LinkedListWeigth.h"
 #include <bits/stdc++.h>
 
 const int VISITED = 1;
