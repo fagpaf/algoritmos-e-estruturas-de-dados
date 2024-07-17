@@ -76,7 +76,6 @@ void Merge(int A[], int l, int r){
 
         A[cursor] = temp[cursor];
     }
-    free(temp);
 }
 
 void print_list(int arr[], int length) {

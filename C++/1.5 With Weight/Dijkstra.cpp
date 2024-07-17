@@ -23,7 +23,7 @@ bool isEdge(Graph* g, int i, int j);
 int weight(Graph* g, int i, int j);
 void setMark(Graph* g, int v, int state);
 int getMark(Graph* g, int v);
-void Dijkstra(Graph* g, int s, int D[]);
+void Dijkstra(Graph* g, int s, int* sum, int D[]);
 void printDij(Graph* g, int D[]);
 void clearGraph(Graph* g);
 
@@ -40,8 +40,10 @@ int main() {
 
     int src = 0;
     int arr[g->n];
+    int sum = 0;
     cout << "Resultado do algoritmo de Dijkstra:" << endl;
-    Dijkstra(g, src, arr);
+    Dijkstra(g, src, &sum, arr);
+    cout << sum << endl;
     printDij(g, arr);
     
     return 0;
@@ -135,7 +137,7 @@ int getMark(Graph* g, int v){ //ok
     return UNVISITED;
 }
 
-void Dijkstra(Graph* g, int s, int D[]){
+void Dijkstra(Graph* g, int s, int* sum, int D[]){
     for (int i = 0; i < g->n; i++){
         D[i] = INFINITE;               // Array de distâncias, inicia-se com o maior valor possível
         g->Parent[i] = -1;             // Array de vértices predecessores 'parents'
@@ -148,19 +150,24 @@ void Dijkstra(Graph* g, int s, int D[]){
     >H;
     H.push({0, {s, s}}); // (distância, (vértice, predecessor))
     D[s] = 0;
-    
+    *sum = 0;
     for (int i = 0; i < g->n - 1; i++){
         pair<int, pair<int, int>> top;
-        int v;
+        int v, dist, parent;
         do{
             if(H.empty()) return;
             top = H.top();
             H.pop();
+            dist = top.first;
             v = top.second.first;   // Pegando o vértice atual, pois 'top.first' é o predecessor
+            parent = top.second.second;
         }while (!(getMark(g, v) == UNVISITED));// Nesse 'do while' removesse o menor elemento da heap até q ele não tenha sido visitado
         
         setMark(g, v, VISITED);
-        g->Parent[v] = top.first;               // Fazendo a marcação do predecessor de 'v', no array para indicar de qual vértice vc veio
+        g->Parent[v] = parent;               // Fazendo a marcação do predecessor de 'v', no array para indicar de qual vértice vc veio
+        if (v != s) {
+            *sum += dist;
+        }
         int w = first(g, v);
         while (w < g->n){
             if(getMark(g, w) != VISITED && D[w] > D[v] + weight(g, v, w)){ 
@@ -186,6 +193,7 @@ void clearGraph(Graph* g){ //ok
     for (int i = 1; i < g->n; i++){
         clear_List(g->ldj[i]);
     }
+    free(g->ldj);
     free(g->Parent);
     free(g->Mark);
     free(g);

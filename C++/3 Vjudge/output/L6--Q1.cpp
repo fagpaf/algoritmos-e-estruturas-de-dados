@@ -1,16 +1,4 @@
-// #include <bits/stdc++.h>
-
-// using namespace std;
-
-// int main() {
-    
-    
-    
-//     return 0;
-// }
-// g++ teste.cpp -o teste.exe ; Get-Content input.txt | ./teste.exe
-
-#include "LinkedListWeigth.h"
+#include "libs/LinkedListWeigth.h"
 #include <bits/stdc++.h>
 
 const int VISITED = 1;
@@ -39,41 +27,43 @@ int Dijkstra(Graph* g, int src, int dest);
 void clearGraph(Graph* g);
 
 int main() {
-    int cases;
+int cases;
     cin >> cases;
-    
-    for (int i = 0; i < cases; i++) {
-        int num_server, cables, serverS, serverT;
+
+    for (int i = 0; i < cases; i++){   
+        int num_server, cables, serverS, serverT;  
         cin >> num_server >> cables >> serverS >> serverT;
         
         Graph* g = createGraph(num_server);
         
-        if (cables == 0) {
-            cout << "Case #" << i + 1 << ": unreachable" << endl;
-            continue;
+        if (cables == 0){
+            cout << "Case #" << i+1 << ": unreachable" << endl;
+            continue; // Passa para a próxima iteração do loop
         }
-        
+
         int u, w, latency;
-        for (int j = 0; j < cables; j++) {
+        for (int j = 0; j < cables; j++){
             cin >> u >> w >> latency;
             setEdge(g, u, w, latency);
             setEdge(g, w, u, latency);
         }
-        
+
         int src = serverS;
         int dest = serverT;
         int ping = Dijkstra(g, src, dest);
         
-        if (ping == INFINITE) {
-            cout << "Case #" << i + 1 << ": unreachable" << endl;
-        } else {
-            cout << "Case #" << i + 1 << ": " << ping << endl;
+        if(ping == INFINITE){
+            cout << "Case #" << i+1 << ": unreachable" << endl;
         }
-        
+        else{
+            cout << "Case #" << i+1 << ": " << ping << endl;
+        }
+
         clearGraph(g);
     }
     return 0;
 }
+// g++ L6--Q1.cpp -o L6--Q1.exe ; Get-Content input.txt | ./L6--Q1.exe
 
 Graph* createGraph(int n) {
     Graph* g = (Graph*)malloc(sizeof(Graph));
@@ -171,29 +161,31 @@ int Dijkstra(Graph* g, int src, int dest) {
         setMark(g, i, UNVISITED);
     }
     priority_queue<
-        pair<int, int>,
-        vector<pair<int, int>>,
-        greater<pair<int, int>>
+        pair<int, pair<int, int>>,
+        vector<pair<int, pair<int, int>>>,
+        greater<pair<int, pair<int, int>>>
     > H;
-    H.push({0, src});
+    H.push({0, {src, src}});
     D[src] = 0;
     
     while (!H.empty()) {
-        pair<int, int> top = H.top();
+        pair<int, pair<int, int>> top = H.top();
         H.pop();
-        int v = top.second;
+        int v = top.second.first;
+        int parent = top.second.second;
 
         if (getMark(g, v) == VISITED) continue;
 
         setMark(g, v, VISITED);
+        g->Parent[v] = parent;
 
-        if (v == dest) return D[v];
+        if (v == dest) return D[v]; // Quando 'v' for igual a
 
         int w = first(g, v);
         while (w < g->n) {
             if (getMark(g, w) != VISITED && D[w] > D[v] + weight(g, v, w)) {
                 D[w] = D[v] + weight(g, v, w);
-                H.push({D[w], w});
+                H.push({D[w], {w, v}});
             }
             w = next_vertex(g, v);
         }

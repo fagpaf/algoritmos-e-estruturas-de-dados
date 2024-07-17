@@ -1,15 +1,3 @@
-// #include <bits/stdc++.h>
-
-// using namespace std;
-
-// int main() {
-    
-    
-    
-//     return 0;
-// }
-// g++ teste.cpp -o teste.exe ; Get-Content input.txt | ./teste.exe
-
 #include "LinkedListWeigth.h"
 #include <bits/stdc++.h>
 
@@ -39,39 +27,33 @@ int Dijkstra(Graph* g, int src, int dest);
 void clearGraph(Graph* g);
 
 int main() {
-    int cases;
-    cin >> cases;
-    
-    for (int i = 0; i < cases; i++) {
-        int num_server, cables, serverS, serverT;
-        cin >> num_server >> cables >> serverS >> serverT;
-        
-        Graph* g = createGraph(num_server);
-        
-        if (cables == 0) {
-            cout << "Case #" << i + 1 << ": unreachable" << endl;
-            continue;
-        }
-        
-        int u, w, latency;
-        for (int j = 0; j < cables; j++) {
-            cin >> u >> w >> latency;
-            setEdge(g, u, w, latency);
-            setEdge(g, w, u, latency);
-        }
-        
-        int src = serverS;
-        int dest = serverT;
-        int ping = Dijkstra(g, src, dest);
-        
-        if (ping == INFINITE) {
-            cout << "Case #" << i + 1 << ": unreachable" << endl;
-        } else {
-            cout << "Case #" << i + 1 << ": " << ping << endl;
-        }
-        
-        clearGraph(g);
-    }
+    Graph* g = createGraph(3);
+    // setEdge(g, 0, 1, 10);
+    // setEdge(g, 0, 2, 3);
+    // setEdge(g, 0, 3, 20);
+    // setEdge(g, 1, 3, 5);
+    // setEdge(g, 2, 1, 2);
+    // setEdge(g, 2, 4, 15);
+    // setEdge(g, 3, 4, 11);
+
+    const int A = 0;
+    const int B = 1;
+    const int C = 2;
+
+    setEdge(g, A, B, 100);
+    setEdge(g, A, C, 200);
+    setEdge(g, B, C, 50);
+    setEdge(g, B, A, 100);
+    setEdge(g, C, A, 200);
+    setEdge(g, C, B, 50);
+
+    int src = A;
+    int dest = C;
+    cout << "Resultado do algoritmo de Dijkstra:" << endl;
+    int ping = Dijkstra(g, src, dest);
+    cout << "Soma das distancias minimas: " << ping << endl;
+
+    clearGraph(g); // Libera memória alocada para o grafo
     return 0;
 }
 
@@ -171,21 +153,24 @@ int Dijkstra(Graph* g, int src, int dest) {
         setMark(g, i, UNVISITED);
     }
     priority_queue<
-        pair<int, int>,
-        vector<pair<int, int>>,
-        greater<pair<int, int>>
+        pair<int, pair<int, int>>,
+        vector<pair<int, pair<int, int>>>,
+        greater<pair<int, pair<int, int>>>
     > H;
-    H.push({0, src});
+    H.push({0, {src, src}});
     D[src] = 0;
-    
+
+    int v, parent; 
     while (!H.empty()) {
-        pair<int, int> top = H.top();
+        pair<int, pair<int, int>> top = H.top();
         H.pop();
-        int v = top.second;
-
+        v = top.second.first;
+        parent = top.second.second;
+        
         if (getMark(g, v) == VISITED) continue;
-
+        
         setMark(g, v, VISITED);
+        g->Parent[v] = parent;
 
         if (v == dest) return D[v];
 
@@ -193,12 +178,11 @@ int Dijkstra(Graph* g, int src, int dest) {
         while (w < g->n) {
             if (getMark(g, w) != VISITED && D[w] > D[v] + weight(g, v, w)) {
                 D[w] = D[v] + weight(g, v, w);
-                H.push({D[w], w});
+                H.push({D[w], {w, v}});
             }
             w = next_vertex(g, v);
         }
     }
-    return INFINITE;
 }
 
 void clearGraph(Graph* g) {

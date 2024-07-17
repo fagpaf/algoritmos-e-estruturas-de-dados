@@ -7,7 +7,7 @@ const int INFINITE = INT32_MAX;
 
 using namespace std;
 
-typedef struct Graph{
+typedef struct Graph {
     int n;
     int* Parent;
     int* Mark;
@@ -18,92 +18,122 @@ Graph* createGraph(int n);
 int first(Graph* g, int v);
 int next_vertex(Graph* g, int v);
 void setEdge(Graph* g, int i, int j, int wt);
+void delEdge(Graph* g, int i, int j);
+bool isEdge(Graph* g, int i, int j);
 int weight(Graph* g, int i, int j);
 void setMark(Graph* g, int v, int state);
 int getMark(Graph* g, int v);
-void Dijkstra(Graph* g, int s, int D[]);
+int Dijkstra(Graph* g, int src, int dest);
 void clearGraph(Graph* g);
 
 int main() {
-    int cases;
+int cases;
     cin >> cases;
     
-    int cables, serverS, serverT, latency;
-    for (int i = 1; i <= cases; i++){     // Satisfazendo os valores na hora de imprimir
-        cin >> cables >> serverS >> serverT >> latency;
-        int length = cables * 2;
-        Graph* g = createGraph(length);
+    
+    for (int i = 0; i < cases; i++){   
+        int num_server, cables, serverS, serverT;  
+        cin >> num_server >> cables >> serverS >> serverT;
+        
+        Graph* g = createGraph(num_server);
         
         if (cables == 0){
-            cout << "Case #" << i << ": unreachable" << endl;
+            cout << "Case #" << i+1 << ": unreachable" << endl;
             continue; // Passa para a próxima iteração do loop
         }
 
+        int u, w, latency;
         for (int j = 0; j < cables; j++){
-            cin >> serverS >> serverT >> latency;
-            setEdge(g, serverS, serverT, latency);
-            setEdge(g, serverT, serverS, latency);
+            cin >> u >> w >> latency;
+            setEdge(g, u, w, latency);
+            setEdge(g, w, u, latency);
         }
-        int src = 0;
-        int arr[length];
-        int sum = 0;
-        // passando a variável 'sum' por desreferência para evitar de fazer mais um loop para somar
-        Dijkstra(g, src, arr);
-        for (int i = 0; i < g->n; i++){
-            sum += arr[i];
+
+        int src = serverS;
+        int dest = serverT;
+        int ping = Dijkstra(g, src, dest);
+        
+        if(ping == INFINITE){
+            cout << "Case #" << i+1 << ": unreachable" << endl;
         }
-        cout << "Case #" << i << ": " << sum << endl;
+        else{
+            cout << "Case #" << i+1 << ": " << ping << endl;
+        }
+
         clearGraph(g);
     }
     return 0;
 }
 // g++ q.cpp -o q.exe ; Get-Content input.txt | ./q.exe
 
-Graph* createGraph(int n){ //ok
+Graph* createGraph(int n) {
     Graph* g = (Graph*)malloc(sizeof(Graph));
     g->n = n;
-    g->Parent = (int*)malloc(g->n * sizeof(int)); // É inicializado no Dijkstra
+    g->Parent = (int*)malloc(g->n * sizeof(int));
     g->Mark = (int*)malloc(g->n * sizeof(int));
     g->ldj = (List**)malloc(g->n * sizeof(List*));
-    for(int i = 0; i < g->n; i++){
+    for (int i = 0; i < g->n; i++) {
         g->Mark[i] = UNVISITED;
         g->ldj[i] = create_list();
     }
     return g;
 }
 
-int first(Graph* g, int v){ //ok
+int first(Graph* g, int v) {
     List* l = g->ldj[v];
-    Node* temp =  l->head->next;
-    if(temp != NULL){
+    Node* temp = l->head->next;
+    if (temp != NULL) {
         int num = temp->vertex;
         return num;
     }
     return g->n;
 }
 
-int next_vertex(Graph* g, int v){ //ok
+int next_vertex(Graph* g, int v) {
     List* l = g->ldj[v];
-    if(l->curr == l->tail){
+    if (l->curr == l->tail) {
         move_to_start(l);
     }
     l->curr = l->curr->next;
-    if(l->curr->next != NULL){
+    if (l->curr->next != NULL) {
         return l->curr->next->vertex;
     }
     return g->n;
 }
 
-void setEdge(Graph* g, int i, int j, int wt){ 
+void setEdge(Graph* g, int i, int j, int wt) {
     List* l = g->ldj[i];
     append(l, j, wt);
 }
 
-int weight(Graph* g, int i, int j){
+void delEdge(Graph* g, int i, int j) {
+    List* l = g->ldj[i];
+    if (l == NULL || g == NULL) {
+        return;
+    }
+    del(l, j);
+    if (l->count == 0) {
+        g->n--;
+    }
+}
+
+bool isEdge(Graph* g, int i, int j) {
     List* l = g->ldj[i];
     Node* temp = l->head->next;
-    while(temp != NULL){
-        if (temp->vertex == j){
+    while (temp != NULL) {
+        if (temp->vertex == j) {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
+int weight(Graph* g, int i, int j) {
+    List* l = g->ldj[i];
+    Node* temp = l->head->next;
+    while (temp != NULL) {
+        if (temp->vertex == j) {
             return temp->weight;
         }
         temp = temp->next;
@@ -111,60 +141,64 @@ int weight(Graph* g, int i, int j){
     return INFINITE;
 }
 
-void setMark(Graph* g, int v, int state){ //ok
-    if (v >= 0 && v < g->n){
+void setMark(Graph* g, int v, int state) {
+    if (v >= 0 && v < g->n) {
         g->Mark[v] = state;
     }
 }
 
-int getMark(Graph* g, int v){ //ok
-    if (v >= 0 && v < g->n){
+int getMark(Graph* g, int v) {
+    if (v >= 0 && v < g->n) {
         return g->Mark[v];
     }
     return UNVISITED;
 }
 
-void Dijkstra(Graph* g, int s, int D[]){
-    for (int i = 0; i < g->n; i++){
-        D[i] = INFINITE;               // Array de distâncias, inicia-se com o maior valor possível
-        g->Parent[i] = -1;             // Array de vértices predecessores 'parents'
+int Dijkstra(Graph* g, int src, int dest) {
+    int D[g->n];
+    for (int i = 0; i < g->n; i++) {
+        D[i] = INFINITE;
+        g->Parent[i] = -1;
         setMark(g, i, UNVISITED);
     }
     priority_queue<
         pair<int, pair<int, int>>,
         vector<pair<int, pair<int, int>>>,
         greater<pair<int, pair<int, int>>>
-    >H;
-    H.push({0, {s, s}}); // (distância, (vértice, predecessor))
-    D[s] = 0;
-    for (int i = 0; i < g->n - 1; i++){
-        pair<int, pair<int, int>> top;
-        int v;
-        do{
-            if(H.empty()) return;
-            top = H.top();
-            H.pop();
-            v = top.second.first;   // Pegando o vértice atual, pois 'top.first' é o predecessor
-        }while (!(getMark(g, v) == UNVISITED));// Nesse 'do while' removesse o menor elemento da heap até q ele não tenha sido visitado
-        
+    > H;
+    H.push({0, {src, src}});
+    D[src] = 0;
+    
+    while (!H.empty()) {
+        pair<int, pair<int, int>> top = H.top();
+        H.pop();
+        int v = top.second.first;
+        int parent = top.second.second;
+
+        if (getMark(g, v) == VISITED) continue;
+
         setMark(g, v, VISITED);
-        g->Parent[v] = top.first;               // Fazendo a marcação do predecessor de 'v', no array para indicar de qual vértice vc veio
+        g->Parent[v] = parent;
+
+        if (v == dest) return D[v]; // Quando 'v' for igual a
+
         int w = first(g, v);
-        while (w < g->n){
-            if(getMark(g, w) != VISITED && D[w] > D[v] + weight(g, v, w)){ 
-                // 'w' é 'UNVISITED' e a distância indo direto para 'w' for maior q passando por 'v' + o peso de 'v' para 'w'
+        while (w < g->n) {
+            if (getMark(g, w) != VISITED && D[w] > D[v] + weight(g, v, w)) {
                 D[w] = D[v] + weight(g, v, w);
-                H.push({D[w], {w, v}}); // Inserir na heap a nova tripla de valores para criar a min heap e refazer o loop
+                H.push({D[w], {w, v}});
             }
-            w = next_vertex(g, v);       // Como o algoritmo encontra uma família de menores caminhos, ele usa todos os vértices q tem ligação
+            w = next_vertex(g, v);
         }
     }
+    return INFINITE;
 }
 
-void clearGraph(Graph* g){ //ok
-    for (int i = 1; i < g->n; i++){
+void clearGraph(Graph* g) {
+    for (int i = 0; i < g->n; i++) {
         clear_List(g->ldj[i]);
     }
+    free(g->ldj);
     free(g->Parent);
     free(g->Mark);
     free(g);
