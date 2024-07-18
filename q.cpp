@@ -169,13 +169,17 @@ int Dijkstra(Graph* g, int src, int dest) {
     H.push({0, {src, src}});
     D[src] = 0;
     
-    while (!H.empty()) {
-        pair<int, pair<int, int>> top = H.top();
-        H.pop();
-        int v = top.second.first;
-        int parent = top.second.second;
 
-        if (getMark(g, v) == VISITED) continue;
+    for (int i = 0; i < g->n - 1; i++){
+        pair<int, pair<int, int>> top;
+        int v, parent;
+        do{
+            if(H.empty()) break;
+            top = H.top();
+            H.pop();
+            v = top.second.first;
+            parent = top.second.second;
+        }while (!(getMark(g, v) == UNVISITED));
 
         setMark(g, v, VISITED);
         g->Parent[v] = parent;
