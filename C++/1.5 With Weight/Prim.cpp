@@ -23,7 +23,7 @@ bool isEdge(Graph* g, int i, int j);
 int weight(Graph* g, int i, int j);
 void setMark(Graph* g, int v, int state);
 int getMark(Graph* g, int v);
-void Prim(Graph* g, int D[], int V[]);
+void Prim(Graph* g, int D[]);
 void printPrim(Graph* g, int D[]);
 void clearGraph(Graph* g);
 
@@ -39,9 +39,8 @@ int main() {
     setEdge(g, 3, 4, 11);
 
     int D[g->n];
-    int V[g->n];
     cout << "Resultado do algoritmo de Prim:" << endl;
-    Prim(g, D, V);
+    Prim(g, D);
     printPrim(g, D);
     
     return 0;
@@ -135,10 +134,10 @@ int getMark(Graph* g, int v){ //ok
     return UNVISITED;
 }
 
-void Prim(Graph* g, int V[], int D[]){
+void Prim(Graph* g, int D[]){
     for (int i = 0; i < g->n; i++){
         D[i] = INFINITE;               // Array de distâncias, inicia-se com o maior valor possível
-        g->Parent[i] = -1;                     // Array de vértices predecessores 'parents'
+        g->Parent[i] = -999;                     // Array de vértices predecessores 'parents'
         setMark(g, i, UNVISITED);
     }
     priority_queue<
@@ -146,6 +145,7 @@ void Prim(Graph* g, int V[], int D[]){
         vector<pair<int, pair<int, int>>>,
         greater<pair<int, pair<int, int>>>
     >H;
+    // Como o vértice é escolhido arbitrariamente é fácil de modificar
     H.push({0, {0, 0}}); // (distância, (vértice, predecessor))
     D[0] = 0;
     
@@ -160,18 +160,16 @@ void Prim(Graph* g, int V[], int D[]){
         }while (!(getMark(g, v) == UNVISITED));// Nesse 'do while' removesse o menor elemento da heap até q ele não tenha sido visitado
         
         setMark(g, v, VISITED);
-        V[v] = top.first;               // Fazendo a marcação do predecessor de 'v', no array para indicar de qual vértice vc veio
+        g->Parent[v] = top.first;               // Fazendo a marcação do predecessor de 'v', no array para indicar de qual vértice vc veio
         int w = first(g, v);
         while (w < g->n){
+            // Como em 'Prim' o foco é o menor custo das arestas só comparamos com a aresta atual
             if(getMark(g, w) != VISITED && D[w] > weight(g, v, w)){ 
-                // 'w' é 'UNVISITED' e a distância indo direto para 'w' for maior q passando por 'v' + o peso de 'v' para 'w'
-                
-                D[w] = weight(g, v, w);
-                H.push({D[w], {w, v}}); // Inserir na heap a nova tripla de valores para criar a min heap e refazer o loop
+                D[w] = weight(g, v, w); 
+                H.push({D[w], {w, v}}); 
             }
-            w = next_vertex(g, v);       // Como o algoritmo encontra uma família de menores caminhos, ele usa todos os vértices q tem ligação
+            w = next_vertex(g, v);      
         }
-        
     }
 }
 

@@ -27,9 +27,8 @@ int Dijkstra(Graph* g, int src, int dest);
 void clearGraph(Graph* g);
 
 int main() {
-int cases;
+    int cases;
     cin >> cases;
-    
     
     for (int i = 0; i < cases; i++){   
         int num_server, cables, serverS, serverT;  

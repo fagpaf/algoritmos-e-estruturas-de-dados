@@ -65,10 +65,8 @@ Graph* createGraph(int n){ //ok
 int first(Graph* g, int v){ //ok
     List* l = g->ldj[v];
     Node* temp =  l->head->next;
-    if(temp != NULL){
-        int num = temp->vertex;
-        return num;
-    }
+    if(temp != NULL) return temp->vertex;
+
     return g->n;
 }
 
@@ -78,9 +76,8 @@ int next_vertex(Graph* g, int v){ //ok
         move_to_start(l);
     }
     l->curr = l->curr->next;
-    if(l->curr->next != NULL){
-        return l->curr->next->vertex;
-    }
+    if(l->curr->next != NULL) return l->curr->next->vertex;
+    
     return g->n;
 }
 
@@ -91,9 +88,8 @@ void setEdge(Graph* g, int i, int j, int wt){
 
 void delEdge(Graph* g, int i, int j){ //ok
     List* l = g->ldj[i];
-    if(l == NULL || g == NULL){
-        return;
-    }
+    if(l == NULL || g == NULL) return;
+    
     del(l, j);
     if(l->count == 0){
         g->n--;
@@ -172,13 +168,11 @@ void Dijkstra(Graph* g, int s, int* sum, int D[]){
         while (w < g->n){
             if(getMark(g, w) != VISITED && D[w] > D[v] + weight(g, v, w)){ 
                 // 'w' é 'UNVISITED' e a distância indo direto para 'w' for maior q passando por 'v' + o peso de 'v' para 'w'
-                
                 D[w] = D[v] + weight(g, v, w);
                 H.push({D[w], {w, v}}); // Inserir na heap a nova tripla de valores para criar a min heap e refazer o loop
             }
             w = next_vertex(g, v);       // Como o algoritmo encontra uma família de menores caminhos, ele usa todos os vértices q tem ligação
         }
-        
     }
 }
 
