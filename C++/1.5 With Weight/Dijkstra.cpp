@@ -147,7 +147,7 @@ void Dijkstra(Graph* g, int s, int* sum, int D[]){
     H.push({0, {s, s}}); // (distância, (vértice, predecessor))
     D[s] = 0;
     *sum = 0;
-    for (int i = 0; i < g->n - 1; i++){
+    for (int i = 0; i < g->n; i++){
         pair<int, pair<int, int>> top;
         int v, dist, parent;
         do{
@@ -178,7 +178,7 @@ void Dijkstra(Graph* g, int s, int* sum, int D[]){
 
 void printDij(Graph* g, int D[]){
     for (int i = 0; i < g->n; i++){
-        cout << D[i] << " ";
+        cout << g->Parent[i] << " ";
     }
     cout << endl;
 }
