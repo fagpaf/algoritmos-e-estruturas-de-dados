@@ -1,11 +1,11 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
 
-    "window.zoomLevel": 0.6,
+    "window.zoomLevel": 0.8,
     "symbols.hidesExplorerArrows": false,
     "editor.fontFamily": "JetBrains Mono",
     "editor.fontSize": 14,
-    "editor.lineHeight": 1.6,
+    "editor.lineHeight": 1.8,
     "workbench.startupEditor": "newUntitledFile",
     "editor.renderLineHighlight": "gutter",
     "workbench.editor.labelFormat": "short",
@@ -13,7 +13,7 @@
     "editor.minimap.enabled": false,
     "workbench.activityBar.location": "hidden",
     "workbench.statusBar.visible": false,
-    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.fontSize": 18,
     "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Regular", 
     "apc.font.family": "Inter",
     "apc.stylesheet": {

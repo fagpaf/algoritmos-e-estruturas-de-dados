@@ -23,7 +23,7 @@ bool isEdge(Graph* g, int i, int j);
 int weight(Graph* g, int i, int j);
 void setMark(Graph* g, int v, int state);
 int getMark(Graph* g, int v);
-void Dijkstra(Graph* g, int s, int* sum, int D[]);
+void dijkstra(Graph* g, int s, int* sum, int D[]);
 void printDij(Graph* g, int D[]);
 void clearGraph(Graph* g);
 
@@ -41,8 +41,8 @@ int main() {
     int src = 0;
     int arr[g->n];
     int sum = 0;
-    cout << "Resultado do algoritmo de Dijkstra:" << endl;
-    Dijkstra(g, src, &sum, arr);
+    cout << "Resultado do algoritmo de dijkstra:" << endl;
+    dijkstra(g, src, &sum, arr);
     cout << sum << endl;
     printDij(g, arr);
     
@@ -52,7 +52,7 @@ int main() {
 Graph* createGraph(int n){ //ok
     Graph* g = (Graph*)malloc(sizeof(Graph));
     g->n = n;
-    g->Parent = (int*)malloc(g->n * sizeof(int)); // É inicializado no Dijkstra
+    g->Parent = (int*)malloc(g->n * sizeof(int)); // É inicializado no dijkstra
     g->Mark = (int*)malloc(g->n * sizeof(int));
     g->ldj = (List**)malloc(g->n * sizeof(List*));
     for(int i = 0; i < g->n; i++){
@@ -133,7 +133,7 @@ int getMark(Graph* g, int v){ //ok
     return UNVISITED;
 }
 
-void Dijkstra(Graph* g, int s, int* sum, int D[]){
+void dijkstra(Graph* g, int s, int* sum, int D[]){
     for (int i = 0; i < g->n; i++){
         D[i] = INFINITE;               // Array de distâncias, inicia-se com o maior valor possível
         g->Parent[i] = -1;             // Array de vértices predecessores 'parents'
