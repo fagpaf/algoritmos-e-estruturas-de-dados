@@ -45,34 +45,35 @@ void prim(Graph* g, int D[]);
 void clearGraph(Graph* g);
 
 int main(){
-    
-    int city, construc;
-    cin >> city >> construc;
-    int idx = 1;
+    int city, road;
     while(true){
-        
-        Graph* g = createGraph(city);
-        int cti, ctj, price;
-        for (int i = 0; i < construc; i++){
-            cin >> cti >> ctj >> price;
-            setEdge(g, cti, ctj, price);
-            setEdge(g, ctj, cti, price);
-        }
-        
-        int arr[g->n];
-        prim(g, arr);
-        int sum = 0;
-        for (int i = 0; i < g->n; i++){
-            sum += arr[i];
+        cin >> city >> road;
+        if(city == 0 && road == 0) break;
+
+        if(road == 0 || city >= road + 2){
+            cout << "IMPOSSIBLE" << endl;
+            continue;
         }
 
-        cout << "Caso " << idx << ": " << sum << endl; 
-        idx++;
-        clearGraph(g);
-        cin >> city >> construc;
-        if(city == 0 && construc == 0){
-            break;
+        Graph* g = createGraph(city);
+        int v, u, wt;
+        for (int i = 0; i < road; i++){
+            cin >> v >> u >> wt;
+            if(wt < weight(g, v, u)){
+                setEdge(g, v, u, wt);
+                setEdge(g, u, v, wt);
+            }
         }
+        int arr[g->n];
+        prim(g, arr);
+        int res = 0;
+        for (int i = 1; i < g->n; i++){ // pois os 'arr[0]' começa com '0'
+            if(res < arr[i]){
+                res = arr[i];
+            }
+        }
+        cout << res << endl;
+        clearGraph(g);
     }
     return 0;
 }
