@@ -27,7 +27,7 @@ int Dijkstra(Graph* g, int src, int dest);
 void clearGraph(Graph* g);
 
 int main() {
-int cases;
+    int cases;
     cin >> cases;
 
     for (int i = 0; i < cases; i++){   
@@ -50,25 +50,24 @@ int cases;
 
         int src = serverS;
         int dest = serverT;
-        int ping = Dijkstra(g, src, dest);
-        
+        int arr[g->n];
+        int ping;
+        dijkstra(g, src, dest, &ping, arr);
+
         if(ping == INFINITE){
             cout << "Case #" << i+1 << ": unreachable" << endl;
         }
         else{
             cout << "Case #" << i+1 << ": " << ping << endl;
         }
-
         clearGraph(g);
     }
     return 0;
 }
-// g++ L6--Q1.cpp -o L6--Q1.exe ; Get-Content input.txt | ./L6--Q1.exe
 
 Graph* createGraph(int n) {
     Graph* g = (Graph*)malloc(sizeof(Graph));
     g->n = n;
-    g->Parent = (int*)malloc(g->n * sizeof(int));
     g->Mark = (int*)malloc(g->n * sizeof(int));
     g->ldj = (List**)malloc(g->n * sizeof(List*));
     for (int i = 0; i < g->n; i++) {
@@ -105,29 +104,6 @@ void setEdge(Graph* g, int i, int j, int wt) {
     append(l, j, wt);
 }
 
-void delEdge(Graph* g, int i, int j) {
-    List* l = g->ldj[i];
-    if (l == NULL || g == NULL) {
-        return;
-    }
-    del(l, j);
-    if (l->count == 0) {
-        g->n--;
-    }
-}
-
-bool isEdge(Graph* g, int i, int j) {
-    List* l = g->ldj[i];
-    Node* temp = l->head->next;
-    while (temp != NULL) {
-        if (temp->vertex == j) {
-            return true;
-        }
-        temp = temp->next;
-    }
-    return false;
-}
-
 int weight(Graph* g, int i, int j) {
     List* l = g->ldj[i];
     Node* temp = l->head->next;
@@ -153,44 +129,48 @@ int getMark(Graph* g, int v) {
     return UNVISITED;
 }
 
-int Dijkstra(Graph* g, int src, int dest) {
-    int D[g->n];
-    for (int i = 0; i < g->n; i++) {
+void dijkstra(Graph* g, int src, int dest, int* sum, int D[]){
+    for (int i = 0; i < g->n; i++){
         D[i] = INFINITE;
-        g->Parent[i] = -1;
         setMark(g, i, UNVISITED);
     }
     priority_queue<
         pair<int, pair<int, int>>,
         vector<pair<int, pair<int, int>>>,
         greater<pair<int, pair<int, int>>>
-    > H;
-    H.push({0, {src, src}});
+    >H;
+    H.push({0, {src, src}}); // (distância, (vértice, predecessor))
     D[src] = 0;
-    
-    while (!H.empty()) {
-        pair<int, pair<int, int>> top = H.top();
-        H.pop();
-        int v = top.second.first;
-        int parent = top.second.second;
-
-        if (getMark(g, v) == VISITED) continue;
-
+    *sum = 0;
+    for (int i = 0; i < g->n; i++){
+        pair<int, pair<int, int>> top;
+        int v;
+        do{
+            if(H.empty()){
+                *sum = INFINITE;
+                return;
+            }
+            top = H.top();
+            H.pop();
+            v = top.second.first;
+        }while (!(getMark(g, v) == UNVISITED));
+        
         setMark(g, v, VISITED);
-        g->Parent[v] = parent;
-
-        if (v == dest) return D[v]; // Quando 'v' for igual a
+        if (v == dest){ // Quando 'v' for igual a {
+            *sum = D[v];
+            return;
+        }
 
         int w = first(g, v);
-        while (w < g->n) {
-            if (getMark(g, w) != VISITED && D[w] > D[v] + weight(g, v, w)) {
+        while (w < g->n){
+            if(getMark(g, w) != VISITED && D[w] > D[v] + weight(g, v, w)){ 
                 D[w] = D[v] + weight(g, v, w);
                 H.push({D[w], {w, v}});
             }
             w = next_vertex(g, v);
         }
     }
-    return INFINITE;
+    *sum = INFINITE;
 }
 
 void clearGraph(Graph* g) {
@@ -198,7 +178,6 @@ void clearGraph(Graph* g) {
         clear_List(g->ldj[i]);
     }
     free(g->ldj);
-    free(g->Parent);
     free(g->Mark);
     free(g);
 }
