@@ -1,4 +1,4 @@
-#include "Graph.h"
+#include "libs/Graph.h"
 
 void prim(Graph* g, int D[]);
 
