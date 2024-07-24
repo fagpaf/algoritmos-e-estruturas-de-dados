@@ -21,24 +21,22 @@ int main() {
         }
 
         Graph* g = createGraph(numVertex);
-        // utilizar a bfs para verificar o caminho do cavalo
 
 
 
-        // for (int i = 0; i < n; i++) {
-        //     for (int j = 0; j < N; j++) {
-        //         cout << board[i][j] << " ";
-        //     }
-        //     cout << endl;
-        // }
-        // cout << endl;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < N; j++) {
+                cout << board[i][j] << " ";
+            }
+            cout << endl;
+        }
+        cout << endl;
 
         
-        // int i = 1;
-        // int num = 3;
         // cout << "Case " << i << ", " << num << " squares can not be reached." << endl;
         // i++;
-        // num++;
+
     }
 
     return 0;
