@@ -1,0 +1,1 @@
+int ub = v + (W - w) * (v[i+1] / w[i+1]); // Upper Bound

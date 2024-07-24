@@ -3,28 +3,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-// Definição do nó da linked list
+
 typedef struct Node {
     int vertex;
     struct Node* next;
 } Node;
 
-// Definição da estrutura da lista ligada
 typedef struct List {
     Node* head;
     Node* tail;
     Node* curr;
-    int count;          // tamanho da lista
+    int count;
 } List;
 
-// Declarações das funções
 Node* create_node(int num){ 
-    Node* new_node = (Node*) malloc(sizeof(Node)); // Alocação dinâmica para o ponteiro da struct "Node"
-    // Usando o operador "->": 
-    // Atribui o valor 'num' ao campo 'vertex' da struct "Node"
-    
-    new_node -> vertex = num; // Pode-se acessar e modificar os membros da estrutura diretamente, sem a necessidade de desreferenciar o ponteiro explicitamente
-    new_node -> next = NULL; // Atribui 'NULL' ao próximo pq estou adicionando via 'append'
+    Node* new_node = (Node*) malloc(sizeof(Node));
+    new_node -> vertex = num;
+    new_node -> next = NULL;
     return new_node;
 }
 
@@ -36,8 +31,8 @@ Node* create_header(Node* nextval){
 
 List* create_list(){
     List* l = (List*) malloc(sizeof(List));
-    l -> curr = l -> tail = l -> head = create_header(NULL); // Inicializa a lista como NULL
-    l -> count = 0;   // Inicializa o contador de nós como 0
+    l -> curr = l -> tail = l -> head = create_header(NULL);
+    l -> count = 0;
     return l;
 }
 
@@ -51,11 +46,11 @@ void insert(List* l, int num){
 }
 
 void move_to_start(List* l){
-    l -> curr = l -> head; // Move o cursor para o início  da lista
+    l -> curr = l -> head;
 }
 
 void move_to_end(List* l){
-    l -> curr = l ->tail; // Move o cursor para o final da lista
+    l -> curr = l ->tail;
 }
 
 void append(List* l, int num){
@@ -69,7 +64,7 @@ void movecurr(List* l){
 
 void prev(List* l){
     if (l -> curr == l -> head){
-        return; // Em "void" você pode usar "return;" vazio para interromper a função prematuramente  
+        return;  
     }
     Node* temp = l -> head;
     while(temp -> next != l -> curr){

@@ -15,8 +15,9 @@ typedef struct Graph{
 Graph* createGraph(int n);
 int first(Graph* g, int v);
 int next(Graph* g, int v, int w);
-void setEdge(Graph* g, int i, int j);
+void setEdge(Graph* g, int i, int j, int wt);
 void delEdge(Graph* g, int i, int j);
+int weight(Graph* g, int i, int j);
 void setMark(Graph* g, int v, bool state);
 bool getMark(Graph* g, int v);
 void graphTraverse(Graph* g);
@@ -31,13 +32,11 @@ Graph* createGraph(int n){
     Graph* g = (Graph*)malloc(sizeof(Graph));
     g->Mark = (int*)malloc(n * sizeof(int*));
     g->matrix = (int**)malloc(n * sizeof(int*));
-    for (int i = 0; i < n; i++){
-        g->matrix[i] = (int*)malloc(n * sizeof(int)); // alocando os espaços para matriz
-    }
     g->numEdge = 0;
     g->n = n;
     // Inicializa a matriz de adjacência com 0
     for (int i = 0; i < n; i++){
+        g->matrix[i] = (int*)malloc(n * sizeof(int)); // alocando os espaços para matriz
         for (int j = 0; j < n; j++){
             g->matrix[i][j] = 0;
         }
@@ -63,13 +62,13 @@ int next(Graph* g, int v, int w){
     return g->n;
 }
 
-void setEdge(Graph* g, int i, int j){ //int wt, o peso da aresta
-    // if(wt == 0) return;
+void setEdge(Graph* g, int i, int j, int wt){ //int wt, o peso da aresta
+    if(wt == 0) return;
 
     if(g->matrix[i][j] == 0){
         g->numEdge++;
     }
-    // g->matrix[i][j] = wt;
+    g->matrix[i][j] = wt;
 }
 
 void delEdge(Graph* g, int i, int j){
@@ -78,6 +77,15 @@ void delEdge(Graph* g, int i, int j){
     }
     g->matrix[i][j] = 0;
 }
+
+int weight(Graph* g, int i, int j) {
+    // Verifica se os índices estão dentro dos limites do grafo
+    if (i < 0 || i >= g->n || j < 0 || j >= g->n) {
+        return -1; // Retorna -1 para indicar erro
+    }
+    return g->matrix[i][j];
+}
+
 
 void setMark(Graph* g, int v, bool state){
     if (v >= 0 && v < g->n){
@@ -92,7 +100,7 @@ bool getMark(Graph* g, int v){ // essa função é int, tenho q criar um enum
     return UNVISITED;
 }
 
-// Cuidado com grafos n conectados
+// Cuidado com grafos não conectados
 void graphTraverse(Graph* g){
     for (int v = 0; v < g->n - 1; v++){
         setMark(g, v, UNVISITED);

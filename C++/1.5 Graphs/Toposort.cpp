@@ -178,6 +178,7 @@ void clearGraph(Graph* g){
     for (int i = 0; i < g->n; i++){
         clear_List(g->ldj[i]);
     }
+    free(g->ldj);
     free(g->Mark);
     free(g);
 }

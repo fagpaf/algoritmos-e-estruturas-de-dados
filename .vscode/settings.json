@@ -13,7 +13,7 @@
     "editor.minimap.enabled": false,
     "workbench.activityBar.location": "hidden",
     "workbench.statusBar.visible": false,
-    "terminal.integrated.fontSize": 18,
+    "terminal.integrated.fontSize": 16,
     "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Regular", 
     "apc.font.family": "Inter",
     "apc.stylesheet": {

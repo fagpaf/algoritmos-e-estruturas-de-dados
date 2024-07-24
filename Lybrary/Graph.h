@@ -1,15 +1,16 @@
-#include "LinkedListWeigth.h"
-#include <bits/stdc++.h>
+#ifndef GRAPH_H
+#define GRAPH_H
 
-const int VISITED = 1;
-const int UNVISITED = 0;
-const int INFINITE = INT32_MAX;
+#include "LinkedListGraph.h"
+#include <bits/stdc++.h>
 
 using namespace std;
 
+const int VISITED = 1;
+const int UNVISITED = 0;
+
 typedef struct Graph{
     int n;
-    int* Parent;
     int* Mark;
     List** ldj;
 } Graph;
@@ -17,62 +18,61 @@ typedef struct Graph{
 Graph* createGraph(int n);
 int first(Graph* g, int v);
 int next_vertex(Graph* g, int v);
-void setEdge(Graph* g, int i, int j, int wt);
+void setEdge(Graph* g, int i, int j);
 void delEdge(Graph* g, int i, int j);
 bool isEdge(Graph* g, int i, int j);
-int weight(Graph* g, int i, int j);
 void setMark(Graph* g, int v, int state);
 int getMark(Graph* g, int v);
+void toposort(Graph* g, int v, stack<int>& s);
 void clearGraph(Graph* g);
 
-Graph* createGraph(int n){ //ok
+Graph* createGraph(int n){
     Graph* g = (Graph*)malloc(sizeof(Graph));
     g->n = n;
-    g->Parent = (int*)malloc(g->n * sizeof(int)); // É inicializado no Dijkstra
     g->Mark = (int*)malloc(g->n * sizeof(int));
+    fill(g->Mark, g->Mark + g->n, UNVISITED);
     g->ldj = (List**)malloc(g->n * sizeof(List*));
     for(int i = 0; i < g->n; i++){
-        g->Mark[i] = UNVISITED;
         g->ldj[i] = create_list();
     }
     return g;
 }
 
-int first(Graph* g, int v){ //ok
+int first(Graph* g, int v){
     List* l = g->ldj[v];
     Node* temp =  l->head->next;
-    if(temp != NULL) return temp->vertex;
-
+    if(temp != NULL){
+        return temp->vertex;
+    }
     return g->n;
 }
 
-int next_vertex(Graph* g, int v){ //ok
+int next_vertex(Graph* g, int v){
     List* l = g->ldj[v];
     if(l->curr == l->tail){
         move_to_start(l);
     }
     l->curr = l->curr->next;
-    if(l->curr->next != NULL) return l->curr->next->vertex;
-    
+    if(l->curr->next != NULL){
+        return l->curr->next->vertex;
+    }
     return g->n;
 }
 
-void setEdge(Graph* g, int i, int j, int wt){ 
+void setEdge(Graph* g, int i, int j){
     List* l = g->ldj[i];
-    append(l, j, wt);
+    append(l, j);
 }
 
-void delEdge(Graph* g, int i, int j){ //ok
+void delEdge(Graph* g, int i, int j){
     List* l = g->ldj[i];
-    if(l == NULL || g == NULL) return;
-    
     del(l, j);
     if(l->count == 0){
         g->n--;
     }
 }
 
-bool isEdge(Graph* g, int i, int j){ //ok
+bool isEdge(Graph* g, int i, int j){
     List* l = g->ldj[i];
     Node* temp = l->head->next;
     while(temp != NULL){
@@ -84,37 +84,37 @@ bool isEdge(Graph* g, int i, int j){ //ok
     return false;
 }
 
-int weight(Graph* g, int i, int j){
-    List* l = g->ldj[i];
-    Node* temp = l->head->next;
-    while(temp != NULL){
-        if (temp->vertex == j){
-            return temp->weight;
-        }
-        temp = temp->next;
-    }
-    return INFINITE;
-}
-
-void setMark(Graph* g, int v, int state){ //ok
+void setMark(Graph* g, int v, int state){
     if (v >= 0 && v < g->n){
         g->Mark[v] = state;
     }
 }
 
-int getMark(Graph* g, int v){ //ok
+int getMark(Graph* g, int v){
     if (v >= 0 && v < g->n){
         return g->Mark[v];
     }
     return UNVISITED;
 }
 
-void clearGraph(Graph* g){ //ok
-    for (int i = 1; i < g->n; i++){
+void toposort(Graph* g, int v, stack<int>& s){
+    setMark(g, v, VISITED); // Marca o vértice como visitado
+    int w = first(g, v);    // Obtém o primeiro vizinho
+    while(w < g->n){
+        if(getMark(g, w) == UNVISITED){ // Se o vizinho não foi visitado
+            toposort(g, w, s);          // Chama recursivamente para o vizinho
+        }
+        w = next_vertex(g, v); // Obtém o próximo vizinho
+    }
+    s.push(v);              // Adiciona o vértice à pilha após visitar todos os vizinhos
+}
+
+void clearGraph(Graph* g){
+    for (int i = 0; i < g->n; i++){
         clear_List(g->ldj[i]);
     }
     free(g->ldj);
-    free(g->Parent);
     free(g->Mark);
     free(g);
 }
+#endif
