@@ -2,39 +2,39 @@
 
 using namespace std;
 
-int max(int l, int r);
 int knapsack(int n, int W, int w[], int v[], int** F);
 int** createBoard(int n, int W);
-void clearBoard(int** board, int n);
 
 int main() {
-    int W; // Capacidade da mochila
-    int n; // Número de itens
-    cin >> W >> n;
+    
+    int n = 4; // Número de itens
+    int W = 7; // Capacidade da mochila
+    // int w[] = {1, 3, 4, 5}; // Pesos dos itens
+    // int v[] = {1, 4, 5, 7}; // Valores dos itens
+    int w[] = {2, 1, 3, 2}; // Pesos dos itens
+    int v[] = {12, 10, 20, 15}; // Valores dos itens
+    int** F; // Matriz de programação dinâmica (com um tamanho grande para evitar problemas de limite)
 
-    int w[n];// Pesos dos itens
-    int v[n];// Valores dos itens
-    for (int i = 0; i < n; i++){
-        cin >> w[i] >> v[i];
-    }
-
-    int** F;
     F = createBoard(n, W);
+    knapsack(n, W, w, v, F);
+
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= W; j++) {
+            cout << F[i][j] << " ";
+        }
+        cout << endl;
+    }
+
     int maxVal = knapsack(n, W, w, v, F);
-    cout << maxVal << endl;
+    cout << "O valor maximo que pode ser colocado na mochila e " << maxVal << endl;
+    
+    // Liberar a memória alocada
+    for (int i = 0; i <= n; i++) {
+        free(F[i]);
+    }
+    free(F);
 
-    clearBoard(F, n);
     return 0;
-}
-// g++ KnapsackBottomUP.cpp -o KnapsackBottomUP.exe ; Get-Content input.txt | ./KnapsackBottomUP.exe
-
-int max(int l, int r){
-    if(l > r){
-        return l;
-    }
-    else{
-        return r;
-    }
 }
 
 int knapsack(int n, int W, int w[], int v[], int** F) {
@@ -59,11 +59,4 @@ int** createBoard(int n, int W) {
         }
     }
     return matrix;
-}
-
-void clearBoard(int** board, int n){
-    for (int i = 0; i <= n; i++) {
-        free(board[i]);
-    }
-    free(board);
 }

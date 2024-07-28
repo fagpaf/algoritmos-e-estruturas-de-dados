@@ -70,7 +70,6 @@ int coinRow(int C[], int n, int arr_res[]) {
         F[i] = max(C[i] + F[i - 2], F[i - 1]);
         arr_res[i] = F[i];
     }
-
     return F[n];
 }
 

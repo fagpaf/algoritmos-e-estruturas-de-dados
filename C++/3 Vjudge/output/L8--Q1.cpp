@@ -26,7 +26,6 @@ int main() {
     clearBoard(F, n);
     return 0;
 }
-// g++ KnapsackBottomUP.cpp -o KnapsackBottomUP.exe ; Get-Content input.txt | ./KnapsackBottomUP.exe
 
 int max(int l, int r){
     if(l > r){

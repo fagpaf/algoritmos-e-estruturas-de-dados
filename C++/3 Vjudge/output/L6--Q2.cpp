@@ -17,18 +17,17 @@ int main() {
         int v, u, wt;
         for (int i = 0; i < road; i++){
             cin >> v >> u >> wt;
-            if(wt < weight(g, v, u)){ // falta a condicional
-                setEdge(g, v, u, wt);
-                setEdge(g, u, v, wt);
-            }
+            if(wt > weight(g, v, u)) continue;
+            setEdge(g, v, u, wt);
+            setEdge(g, u, v, wt);
         }
+
         int arr[g->n];
         prim(g, arr);
         int res = 0;
         for (int i = 1; i < g->n; i++){ // pois os 'arr[0]' começa com '0'
-            if(res < arr[i]){
-                res = arr[i];
-            }
+            if(res > arr[i]) continue;
+            res = arr[i];
         }
 
         if(res == INFINITE){
