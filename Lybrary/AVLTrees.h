@@ -32,6 +32,9 @@ int max(int l, int r);
 int rank(BSTNode* root);
 int getBalance(BSTNode* root);
 int h(BSTNode* root);
+void preorder(BSTNode* root);
+void inorder(BSTNode* root);
+void postorder(BSTNode* root);
 
 int rank(BSTNode* root){
     if(root == NULL){
@@ -190,6 +193,30 @@ BSTNode* leftRotate(BSTNode* root){
     root->size = 1 + rank(root->left) + rank(root->right);
     r->size = 1 + rank(r->left) + rank(r->right);
     return r;
+}
+
+void preorder(BSTNode* root){
+    if(root != NULL){
+        printf(" %d", root->key);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+void inorder(BSTNode* root){
+    if(root != NULL){
+        inorder(root->left);
+        printf(" %d", root->key);
+        inorder(root->right);
+    }
+}
+
+void postorder(BSTNode* root){
+    if(root != NULL){
+        postorder(root->left);
+        postorder(root->right);
+        printf(" %d", root->key);
+    }
 }
 
 #endif

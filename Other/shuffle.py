@@ -87,3 +87,55 @@
 # plt.title("Algoritmo de Dijkstra - Exemplo de Caminho Mais Curto")
 # plt.show()
 
+from collections import deque
+
+def can_jarmtin_reach_treasure(n, m, j, maze):
+    # Find all entrances
+    entrances = []
+    treasure_pos = None
+    for i in range(n):
+        for k in range(m):
+            if maze[i][k] == '@':
+                entrances.append((i, k))
+            elif maze[i][k] == 'x':
+                treasure_pos = (i, k)
+    
+    # Directions for moving in the maze (up, down, left, right)
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    
+    # BFS initialization
+    queue = deque()
+    visited = set()
+    for entrance in entrances:
+        queue.append((entrance[0], entrance[1], 0)) # (row, col, spikes_avoided)
+        visited.add((entrance[0], entrance[1], 0))
+    
+    while queue:
+        x, y, spikes_avoided = queue.popleft()
+        
+        if (x, y) == treasure_pos:
+            return True
+        
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < n and 0 <= ny < m:
+                if maze[nx][ny] == '#':
+                    continue
+                
+                new_spikes_avoided = spikes_avoided + (1 if maze[nx][ny] == 's' else 0)
+                if new_spikes_avoided <= j and (nx, ny, new_spikes_avoided) not in visited:
+                    queue.append((nx, ny, new_spikes_avoided))
+                    visited.add((nx, ny, new_spikes_avoided))
+    
+    return False
+
+# Exemplo de uso:
+n, m, j = 4, 4, 3
+maze = [
+    "####",
+    "@.s#",
+    "##.#",
+    "#xs#"
+]
+
+print(can_jarmtin_reach_treasure(n, m, j, maze))  # Saída esperada: True
