@@ -1,4 +1,4 @@
-#include "libs/BinarySearchTree.h"
+#include "Lybrary/BinarySearchTree.h"
 
 int main() {
 
@@ -24,4 +24,4 @@ int main() {
     
     return 0;
 }
-// gcc L3--Q2.c -o L3--Q2.exe ; Get-Content input.txt | ./L3--Q2.exe
+// g++ rotate.c -o rotate.exe ; Get-Content input.txt | ./rotate.exe

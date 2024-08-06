@@ -113,7 +113,6 @@ void graphTraverse(Graph* g){
 }
 
 void DFS(Graph* g, int v){
-    preVisit(g, v);
     setMark(g, v, VISITED);
     int w = first(g, v);
     while(w < g->n){
@@ -128,10 +127,9 @@ void BFS(Graph* g, int start){
     queue<int> q;
     q.push(start);
     setMark(g, start, VISITED);
-    while(!q.empty()){ // Enquanto a fila n estiver vazia faça
+    while(!q.empty()){
         int v = q.front();
         q.pop();
-        preVisit(g, v);
         int w = first(g, v);
         while (w < g->n){
             if (getMark(g, w) == UNVISITED){
@@ -140,7 +138,6 @@ void BFS(Graph* g, int start){
             }
             w = next(g, v, w);
         }
-        posVisit(g, v);
     }
 }
 

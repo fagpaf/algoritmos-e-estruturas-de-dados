@@ -67,3 +67,18 @@ void clearBoard(int** board, int n){
     }
     free(board);
 }
+
+// int knapsack(int n, int W, int weight_of[], int value_of[], int** F) {
+//     for (int i = 1; i <= n; i++) {
+//         for (int j = 1; j <= W; j++) {
+//             int current = F[i][j];
+//             int notInsert = F[i-1][j];
+//             int insert = value_of[i] + F[i-1][j-weight_of[i]];
+//             if (weight_of[i] <= j) {
+//                 current = max(notInsert, insert);
+//             } else {
+//                 current = notInsert;
+//             }
+//         }
+//     }
+//     return F[n][W];

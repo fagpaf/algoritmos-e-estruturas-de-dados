@@ -116,7 +116,6 @@ void graphTraverse(Graph* g){
 }
 
 void DFS(Graph* g, int v){
-    preVisit(g, v);
     setMark(g, v, VISITED);
     int w = first(g, v);
     while(w < g->n){
@@ -134,7 +133,6 @@ void BFS(Graph* g, int start){
     while(!q.empty()){ // Enquanto a fila n estiver vazia faça
         int v = q.front();
         q.pop();
-        preVisit(g, v);
         int w = first(g, v);
         while (w < g->n){
             if (getMark(g, w) == UNVISITED){
@@ -143,7 +141,6 @@ void BFS(Graph* g, int start){
             }
             w = next(g, v, w);
         }
-        posVisit(g, v);
     }
 }
 
@@ -158,15 +155,15 @@ void toposort(Graph* g, int v, stack<int>& s){
     s.push(v);
 }
 // ------------------------------------------------------
-void preVisit(Graph* g, int v){
-    // Implementar a ação desejada para pre-visitação
-    cout<<"PreVisit: " << v << endl;
-}
+// void preVisit(Graph* g, int v){
+//     // Implementar a ação desejada para pre-visitação
+//     cout<<"PreVisit: " << v << endl;
+// }
 
-void posVisit(Graph* g, int v){
-    // Implementar a ação desejada para pós-visitação
-    cout<<"PostVisit: " << v << endl;
-}
+// void posVisit(Graph* g, int v){
+//     // Implementar a ação desejada para pós-visitação
+//     cout<<"PostVisit: " << v << endl;
+// }
 
 void clear_graph(Graph* g){
     for (int i = 0; i < g->n; i++){

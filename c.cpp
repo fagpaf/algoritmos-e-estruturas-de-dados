@@ -62,5 +62,4 @@ int** createBoard(int n, int W) {
     }
     return matrix;
 }
-
 // g++ c.cpp -o c.exe ; Get-Content input.txt | ./c.exe
