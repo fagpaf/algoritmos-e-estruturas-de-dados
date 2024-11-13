@@ -1,20 +1,18 @@
-#include "Lybrary/Graph.h"
+#include <bits/stdc++.h>
 
 using namespace std;
 
-#define wall "#";
-#define enter "@";
-#define spike "s";
-#define treasure "x";
-#define safe ".";
+std::tuple<int, int> create_tuple(int x, int y) {
+    return std::make_tuple(x, y);
+}
 
 int main() {
-    int line; // Número de linhas
-    int length; // Largura de cada linha
-    int life;  // Número de vezes q pode evitar as armadilhas 
-    
-    cin >> line >> length >> life; 
+    // Chama a função para criar uma tupla
+    auto result = create_tuple(5, 10);
 
+    // Imprime os valores da tupla
+    std::cout << "Primeiro elemento: " << std::get<0>(result) << std::endl;
+    std::cout << "Segundo elemento: " << std::get<1>(result) << std::endl;
 
     return 0;
 }
