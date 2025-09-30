@@ -49,7 +49,7 @@ int main(){
     
     move_to_end(l);
     insert(l, 50); // Inserir 50 no final da lista
-    del(l);
+
     printf("Lista: ");
     printlist(l); // Deveria imprimir: 10 30 40 20 50
     
