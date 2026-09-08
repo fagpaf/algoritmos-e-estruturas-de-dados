@@ -1,8 +1,0 @@
-// Diretório do arquivo
-C:\Users\flavi\OneDrive\Documentos\GitHub\ALGORITMOS\C
-
-// Argumentos para compilação
-gcc -static-libgcc -static-libstdc++ -ggdb -o +(nome do arquivo.exe) +(nome do arquivo a ser compilado)
-
-// Chamada do aplicativo
-drmemory -ignore_kernel -- (nome do arquivo.exe)
