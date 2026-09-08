@@ -1,0 +1,13 @@
+# Arquivos compilados
+*.exe
+*.o
+*.out
+*.app
+
+# Pastas de output
+output/
+outputs/
+
+# Arquivos de IDE
+.vscode/
+*.swp
